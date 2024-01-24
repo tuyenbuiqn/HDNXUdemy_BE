@@ -92,7 +92,7 @@ namespace HDNXUdemyServices.Services
                 resultMapping.ListContentCourseDetails = await GetContentOfCourse((int)getData.Id);
                 resultMapping.ListCourseRate = resultCourse;
                 resultMapping.Author = resultAuthor;
-                resultMapping.FileUploadUrlStream = $"{ProjectConfig.APIUrlGetVideoStream}{resultMapping.KeyVideoUpload}.m3u8";
+                resultMapping.FileUploadUrlStream = $"{ProjectConfig.APIUrlGetVideoMp4}{resultMapping.FileUrl}";
             }
 
             return resultMapping ?? new GetCourseWithDetailsContent();

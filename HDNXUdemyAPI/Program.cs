@@ -68,7 +68,7 @@ namespace HDNXUdemyAPI
             {
                 x.AddDefaultPolicy(polocy =>
                 {
-                    polocy.WithOrigins("http://localhost:4200", "http://localhost:53373")
+                    polocy.WithOrigins("http://localhost:4200", "http://localhost:50295")
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials();

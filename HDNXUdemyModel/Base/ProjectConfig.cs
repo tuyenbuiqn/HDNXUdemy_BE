@@ -120,5 +120,7 @@
         public static string? BaseUrlAPI { get; set; }
 
         public static string? APIUrlGetVideoStream { get; set; }
+
+        public static string? APIUrlGetVideoMp4 { get; set; }
     }
 }

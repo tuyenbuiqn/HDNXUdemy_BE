@@ -34,7 +34,6 @@ namespace HDNXUdemyConvertVideoAPI.Controllers
         /// <summary>
         /// UploadVideoToServer
         /// </summary>
-        /// <param name="filePicture"></param>
         /// <returns></returns>
         [HttpPost("video-course")]
         public async Task<RepositoryModel<ReturnUploadFile>> UploadVideoToServer()
@@ -71,6 +70,27 @@ namespace HDNXUdemyConvertVideoAPI.Controllers
             var folderUpload = ProjectConfig.UploadSoftWareAndFile ?? string.Empty;
             var files = Request.Form.Files;
             result.Data = await _uploadFileVideoToServer.UploadVideoFileToServer(_hostingEnvironment, files[0], folderUpload, Request);
+            return result;
+        }
+
+        /// <summary>
+        /// UploadVideoMp4FileToServer
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("mp4-video-course")]
+        public async Task<RepositoryModel<ReturnUploadFile>> UploadVideoMp4FileToServer()
+        {
+            RepositoryModel<ReturnUploadFile> result = new()
+            {
+                PartnerCode = Messenger.SuccessFull,
+                RetCode = ERetCode.Successfull,
+                Data = new ReturnUploadFile(),
+                SystemMessage = string.Empty,
+                StatusCode = (int)HttpStatusCode.Created
+            };
+            var folderUpload = ProjectConfig.StorageMainVideo ?? string.Empty;
+            var files = Request.Form.Files;
+            result.Data = await _uploadFileVideoToServer.UploadVideoMp4FileToServer(_hostingEnvironment, files[0], folderUpload, Request);
             return result;
         }
     }

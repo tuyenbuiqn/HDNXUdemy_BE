@@ -7,7 +7,8 @@ namespace HDNXUdemyServices.IServices
 {
     public interface IUploadFileVideoToServer
     {
-        Task<ReturnUploadFile> UploadVideoFileToServer(IWebHostEnvironment _hostingEnvironment, IFormFile fileVideoUpload, string folderUpload, HttpRequest request);
+        Task<ReturnUploadFile> UploadVideoFileToServer(
+            IWebHostEnvironment _hostingEnvironment, IFormFile fileVideoUpload, string folderUpload, HttpRequest request);
 
         Task<bool> CreateFileSoftware(FileManagerModel model);
 
@@ -18,5 +19,8 @@ namespace HDNXUdemyServices.IServices
         Task<List<FileManagerModel>> GetListFileSoftware(HttpRequest request);
 
         Task<FileManagerModel> GetFileSoftware(int id);
+
+        Task<ReturnUploadFile> UploadVideoMp4FileToServer(
+            IWebHostEnvironment _hostingEnvironment, IFormFile fileVideoUpload, string folderUpload, HttpRequest request);
     }
 }

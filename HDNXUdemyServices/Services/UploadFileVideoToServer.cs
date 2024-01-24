@@ -33,7 +33,8 @@ namespace HDNXUdemyServices.Services
             _mapper = mapper ?? throw new ProjectException(nameof(_mapper));
         }
 
-        public async Task<ReturnUploadFile> UploadVideoFileToServer(IWebHostEnvironment _hostingEnvironment, IFormFile fileVideoUpload, string folderUpload, HttpRequest request)
+        public async Task<ReturnUploadFile> UploadVideoFileToServer(
+            IWebHostEnvironment _hostingEnvironment, IFormFile fileVideoUpload, string folderUpload, HttpRequest request)
         {
             var returnValue = new ReturnUploadFile();
             try
@@ -83,6 +84,57 @@ namespace HDNXUdemyServices.Services
             }
         }
 
+        public async Task<ReturnUploadFile> UploadVideoMp4FileToServer(
+            IWebHostEnvironment _hostingEnvironment, IFormFile fileVideoUpload, string folderUpload, HttpRequest request)
+        {
+            var returnValue = new ReturnUploadFile();
+            try
+            {
+                string fileName = string.Empty;
+                string keyValue = Guid.NewGuid().ToString();
+                string contentDispositionFileName = ContentDispositionHeaderValue.Parse(fileVideoUpload.ContentDisposition).FileName ?? string.Empty;
+                _logServices.LogInformation(ETypeAction.Get, $"Upload video file to server with start patch : {fileVideoUpload} file path {contentDispositionFileName}");
+
+                if (contentDispositionFileName?.LastIndexOf(".") != 0)
+                {
+                    string subStringContent = contentDispositionFileName!.Substring(contentDispositionFileName.LastIndexOf(".") + 1);
+                    fileName = $"{keyValue}.{subStringContent.Trim('"')}";
+                }
+                else
+                {
+                    fileName = $"{keyValue}.{contentDispositionFileName.Trim('"')}";
+                }
+
+                string folder = _hostingEnvironment.WebRootPath + $@"\{folderUpload}";
+                _logServices.LogInformation(ETypeAction.Get, $"Upload video file to server with start patch : {fileVideoUpload} file path {folder}");
+
+                if (!Directory.Exists(folder))
+                {
+                    Directory.CreateDirectory(folder);
+                }
+
+                string filePath = Path.Combine(folder, fileName);
+                using (FileStream fs = File.Create(filePath))
+                {
+                    await fileVideoUpload.CopyToAsync(fs);
+                    await fs.FlushAsync();
+                }
+                returnValue.FileName = fileName;
+                returnValue.IsUpload = true;
+                returnValue.KeyOfFile = keyValue;
+                returnValue.FileSize = $"{Math.Round(fileVideoUpload.Length / 1024.0 / 1024.0, 2)} MB";
+                returnValue.FileUploadUrlStream = $"{request.Scheme}://{request.Host}/api/v1/get-video-stream/stream/mp4/{fileName}";
+                return returnValue;
+            }
+            catch (Exception ex)
+            {
+                returnValue.FileName = string.Empty;
+                returnValue.IsUpload = false;
+                _logServices.LogError(ETypeAction.Get, $"Upload video file to server with start patch : {fileVideoUpload} with error {ex.Message.ToString()}");
+                return returnValue;
+            }
+        }
+
         private async Task<string> ConvertVideoToStreamFile(string fileNameUpload)
         {
             string folderUploadVideo = _hostingEnvironment.WebRootPath + $@"\{ProjectConfig.StorageMainVideo}";
@@ -113,7 +165,7 @@ namespace HDNXUdemyServices.Services
                     .UseMultiThread(true).
                     Start();
 
-                    File.Delete(fileVideo);
+                    //File.Delete(fileVideo);
                     return $"{returnFileName}.m3u8";
                 }
                 catch (Exception ex)

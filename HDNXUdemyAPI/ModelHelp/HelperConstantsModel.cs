@@ -53,6 +53,7 @@ namespace HDNXUdemyAPI.ModelHelp
             ProjectConfig.NumberLastPost = appConfig.GetValue<int>("NumberLastPost");
             ProjectConfig.BaseUrlAPI = appConfig.GetValue<string>("BaseUrlAPI");
             ProjectConfig.APIUrlGetVideoStream = appConfig.GetValue<string>("APIUrlGetVideoStream");
+            ProjectConfig.APIUrlGetVideoMp4 = appConfig.GetValue<string>("APIUrlGetVideoMp4");
 
             ProjectConfig.SenderEmail = emailConfig.GetValue<string>("SenderEmail");
             ProjectConfig.DisplayName = emailConfig.GetValue<string>("DisplayName");
