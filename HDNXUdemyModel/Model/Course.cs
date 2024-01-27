@@ -22,7 +22,7 @@ namespace HDNXUdemyModel.Model
 
         public bool? IsDiscount { get; set; }
 
-        public int? PercentDiscount { get; set; }
+        public int? PriceOfDiscount { get; set; }
 
         public bool? IsFree { get; set; }
 

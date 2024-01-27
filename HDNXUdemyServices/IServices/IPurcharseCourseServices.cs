@@ -7,5 +7,7 @@ namespace HDNXUdemyServices.IServices
         Task<bool> CreateRequestPurchase(PurcharseCourseModel model);
 
         Task<bool> UpdateStatusPurchase(int id, PurcharseCourseModel model);
+
+        string GeneraterOrderCode(int idCourse, int idStudent);
     }
 }

@@ -9,8 +9,14 @@ namespace HDNXUdemyModel.Model
 
         public string? ContentTranferBanking { get; set; }
 
-        public string? PriceOfCourse { get; set; }
+        public decimal? PriceOfCourse { get; set; }
 
         public int PurcharseStatus { get; set; }
+
+        public string? PurcharseCode { get; set; }
+
+        public decimal? PriceOfDiscount { get; set; }
+
+        public bool? IsDiscount { get; set; }
     }
 }

@@ -101,5 +101,20 @@ namespace HDNXUdemyServices.CommonFunction
 
             return returnValue;
         }
+
+        public static string GenerateRandomString(int idCourse, int idStudent)
+        {
+            Random random = new Random();
+            const string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            char[] result = new char[5];
+            for (int i = 0; i < result.Length; i++)
+            {
+                int randomIndex = random.Next(allowedChars.Length);
+                result[i] = allowedChars[randomIndex];
+            }
+            var returnValue = new string(result);
+            return $"{idCourse}{idStudent}{returnValue}";
+        }
     }
 }

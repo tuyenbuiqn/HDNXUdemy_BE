@@ -4,6 +4,7 @@ using HDNXUdemyData.IRepository;
 using HDNXUdemyModel.Constant;
 using HDNXUdemyModel.Model;
 using HDNXUdemyModel.SystemExceptions;
+using HDNXUdemyServices.CommonFunction;
 using HDNXUdemyServices.IServices;
 
 namespace HDNXUdemyServices.Services
@@ -19,9 +20,15 @@ namespace HDNXUdemyServices.Services
             _mapper = mapper ?? throw new ProjectException(nameof(_mapper));
         }
 
+        public string GeneraterOrderCode(int idCourse, int idStudent)
+        {
+            return Generator.GenerateRandomString(idCourse, idStudent);
+        }
+
         public async Task<bool> CreateRequestPurchase(PurcharseCourseModel model)
         {
             model.PurcharseStatus = (int)ETypeOfStatusOrder.Request;
+            model.PurcharseCode = Generator.GenerateRandomString(model.IdCourse, model.IdStudent);
             var dataInsert = _mapper.Map<PurcharseCourseEntities>(model);
             return await _purcharseCourseRepository.AddAsync(dataInsert);
         }

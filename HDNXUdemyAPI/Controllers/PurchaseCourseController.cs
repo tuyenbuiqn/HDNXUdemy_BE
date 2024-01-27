@@ -70,5 +70,27 @@ namespace HDNXUdemyAPI.Controllers
             result.Data = await _purcharseCourseServices.UpdateStatusPurchase(id, model);
             return result;
         }
+
+        /// <summary>
+        /// GeneraterOrderCode
+        /// </summary>
+        /// <param name="idCourse"></param>
+        /// <param name="idStudent"></param>
+        /// <returns></returns>
+        [HttpGet("gen-purchase-code/{idCourse}/{idStudent}")]
+        public RepositoryModel<string> GeneraterOrderCode(int idCourse, int idStudent)
+        {
+            RepositoryModel<string> result = new()
+            {
+                PartnerCode = Messenger.SuccessFull,
+                RetCode = ERetCode.Successfull,
+                Data = string.Empty,
+                SystemMessage = string.Empty,
+                StatusCode = (int)HttpStatusCode.Created
+            };
+
+            result.Data = _purcharseCourseServices.GeneraterOrderCode(idCourse, idStudent);
+            return result;
+        }
     }
 }

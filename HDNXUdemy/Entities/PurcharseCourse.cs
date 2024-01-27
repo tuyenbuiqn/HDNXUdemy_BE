@@ -10,5 +10,7 @@
         public string? PriceOfCourse { get; set; }
 
         public int PurcharseStatus { get; set; }
+
+        public string? PurcharseCode { get; set; }
     }
 }
