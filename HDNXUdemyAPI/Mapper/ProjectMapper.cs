@@ -17,7 +17,7 @@ namespace HDNXUdemyAPI.Mapper
         /// </summary>
         public ProjectMapper()
         {
-            CreateMap<AdminNotificationEntities, AdminNotificationModel>().ReverseMap();
+            CreateMap<NotificationEntities, NotificationModel>().ReverseMap();
 
             CreateMap<BookmarkCourseEntities, BookmarkCourseModel>().ReverseMap();
             CreateMap<CategoryEntities, CategoryModel>().ReverseMap();
@@ -41,6 +41,7 @@ namespace HDNXUdemyAPI.Mapper
             CreateMap<ListContentWithDetailCourse, ContentCourseEntities>().ReverseMap();
             CreateMap<GetCourseWithDetailsContent, CourseEntities>().ReverseMap();
             CreateMap<ContentAndContentDetail, ContentCourseEntities>().ReverseMap();
+            CreateMap<ResponeLogin, UserEntities>().ReverseMap();
         }
     }
 }

@@ -54,6 +54,9 @@ namespace HDNXUdemyAPI.ModelHelp
             ProjectConfig.BaseUrlAPI = appConfig.GetValue<string>("BaseUrlAPI");
             ProjectConfig.APIUrlGetVideoStream = appConfig.GetValue<string>("APIUrlGetVideoStream");
             ProjectConfig.APIUrlGetVideoMp4 = appConfig.GetValue<string>("APIUrlGetVideoMp4");
+            ProjectConfig.LinkCompletedRegister = appConfig.GetValue<string>("LinkCompletedRegister");
+            ProjectConfig.LinkRegisterError = appConfig.GetValue<string>("LinkRegisterError");
+            ProjectConfig.LinkRequestUrl = appConfig.GetValue<string>("LinkRequestUrl");
 
             ProjectConfig.SenderEmail = emailConfig.GetValue<string>("SenderEmail");
             ProjectConfig.DisplayName = emailConfig.GetValue<string>("DisplayName");
@@ -63,7 +66,6 @@ namespace HDNXUdemyAPI.ModelHelp
             ProjectConfig.ClientId = emailConfig.GetValue<string>("ClientId");
             ProjectConfig.ClientSecret = emailConfig.GetValue<string>("ClientSecret");
             ProjectConfig.RefreshToken = emailConfig.GetValue<string>("RefreshToken");
-            ProjectConfig.SenderSharebookSuccessSubject = emailConfig.GetValue<string>("SenderSharebookSuccessSubject");
 
             ProjectConfig.CloudName = configCloud.GetValue<string>("CloudName");
             ProjectConfig.APIKey = configCloud.GetValue<string>("APIKey");
@@ -74,13 +76,8 @@ namespace HDNXUdemyAPI.ModelHelp
             ProjectConfig.StorageStreamVideo = configFolder.GetValue<string>("StorageStreamVideo");
             ProjectConfig.UploadSoftWareAndFile = configFolder.GetValue<string>("UploadSoftWareAndFile");
 
-            ProjectConfig.SenderShareBookDonationInfo = configEmailTemplate.GetValue<string>("SenderShareBookDonationInfo");
-            ProjectConfig.LibraryShareBookDonationInfo = configEmailTemplate.GetValue<string>("LibraryShareBookDonationInfo");
-            ProjectConfig.SenderShareBookDonationSuccessfull = configEmailTemplate.GetValue<string>("SenderShareBookDonationSuccessfull");
-            ProjectConfig.SenderShareBookDonationReject = configEmailTemplate.GetValue<string>("SenderShareBookDonationReject");
-            ProjectConfig.MagicLinkForSignIn = configEmailTemplate.GetValue<string>("MagicLinkForSignIn");
-            ProjectConfig.MagicLinkForSignUp = configEmailTemplate.GetValue<string>("MagicLinkForSignUp");
-            ProjectConfig.SenderEmailInforRegisterHospital = configEmailTemplate.GetValue<string>("SenderEmailInforRegisterHospital");
+            ProjectConfig.SendEmailSigninTemplate = configEmailTemplate.GetValue<string>("SendEmailSigninTemplate");
+            ProjectConfig.SendEmailSignupTemplate = configEmailTemplate.GetValue<string>("SendEmailSignupTemplate");
 
             ProjectConfig.Secret = appSetting.GetValue<string>("Secret");
             ProjectConfig.ExpiresDate = appSetting.GetValue<int>("ExpiresDate");

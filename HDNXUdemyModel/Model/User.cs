@@ -25,5 +25,6 @@ namespace HDNXUdemyModel.Model
         public bool IsRequestTeacher { get; set; }
 
         public int TotalCourseRegister { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

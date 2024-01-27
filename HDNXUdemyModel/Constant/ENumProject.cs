@@ -219,4 +219,25 @@ namespace HDNXUdemyModel.Constant
         [Description("Inactive")]
         Inactive
     }
+
+    public enum TypeNotification
+    {
+        [Description("CommentOnCourse")]
+        CommentOnCourse,
+
+        [Description("TagOnCommentOnCourse")]
+        TagOnCommentOnCourse,
+
+        [Description("UpdateOnCourse")]
+        UpdateOnCourse,
+
+        [Description("DiscountOnCourse")]
+        DiscountOnCourse,
+
+        [Description("PromotionOnCourse")]
+        PromotionOnCourse,
+
+        [Description("UpgradeSystemOnCourse")]
+        UpgradeSystemOnCourse
+    }
 }

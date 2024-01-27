@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using HDNXUdemyModel.Base;
 using HDNXUdemyModel.Constant;
+using HDNXUdemyModel.RequestModel;
 using HDNXUdemyModel.ResponModel;
 using HDNXUdemyModel.SystemExceptions;
 using HDNXUdemyServices.IServices;
@@ -29,10 +30,10 @@ namespace HDNXUdemyAPI.Controllers
         /// <summary>
         /// LoginWithGoogle
         /// </summary>
-        /// <param name="credential"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost("login-google")]
-        public async Task<RepositoryModel<ResponeLogin>> LoginWithGoogle(string credential)
+        public async Task<RepositoryModel<ResponeLogin>> LoginWithGoogle(LoginWithGoogle model)
         {
             RepositoryModel<ResponeLogin> result = new()
             {
@@ -43,7 +44,7 @@ namespace HDNXUdemyAPI.Controllers
                 StatusCode = (int)HttpStatusCode.Created
             };
 
-            result.Data = await _authenticationServices.LoginWithGoogle(credential, HttpContext);
+            result.Data = await _authenticationServices.LoginWithGoogle(model, HttpContext);
             return result;
         }
 
@@ -53,7 +54,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="credential"></param>
         /// <returns></returns>
         [HttpPost("login-facebook")]
-        public async Task<RepositoryModel<ResponeLogin>> LoginWithFaceBook(string credential)
+        public async Task<RepositoryModel<ResponeLogin>> LoginWithFaceBook(LoginWithGoogle credential)
         {
             RepositoryModel<ResponeLogin> result = new()
             {
@@ -72,10 +73,12 @@ namespace HDNXUdemyAPI.Controllers
         /// RegisterUser
         /// </summary>
         /// <param name="email"></param>
+        /// /// <param name="name"></param>
+        /// /// <param name="phone"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        [HttpPost("register")]
-        public async Task<RepositoryModel<bool>> RegisterUser(string email, string password)
+        [HttpGet("register/{name}/{phone}/{email}/{password}")]
+        public async Task<RepositoryModel<bool>> RegisterUser(string name, string phone, string email, string password)
         {
             RepositoryModel<bool> result = new()
             {
@@ -86,7 +89,7 @@ namespace HDNXUdemyAPI.Controllers
                 StatusCode = (int)HttpStatusCode.Created
             };
 
-            result.Data = await _authenticationServices.RegisterNormalUser(email, password);
+            result.Data = await _authenticationServices.RegisterNormalUser(email, password, name, phone);
             return result;
         }
 
@@ -96,7 +99,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        [HttpPost("login")]
+        [HttpGet("login/{email}/{password}")]
         public async Task<RepositoryModel<ResponeLogin>> LoginNormalAccount(string email, string password)
         {
             RepositoryModel<ResponeLogin> result = new()
@@ -110,6 +113,26 @@ namespace HDNXUdemyAPI.Controllers
 
             result.Data = await _authenticationServices.LoginNormalAccount(email, password, HttpContext);
             return result;
+        }
+
+        /// <summary>
+        /// VerifyLinkRegister
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        [HttpGet("verify-account/{id}/{email}")]
+        public async Task<IActionResult> VerifyLinkRegister(int id, string email)
+        {
+            bool isUpdate = await _authenticationServices.IsActiveAccountAfterRegister(email, id);
+            if (isUpdate)
+            {
+                return Redirect(ProjectConfig.LinkCompletedRegister ?? string.Empty);
+            }
+            else
+            {
+                return Redirect(ProjectConfig.LinkRegisterError ?? string.Empty);
+            }
         }
     }
 }

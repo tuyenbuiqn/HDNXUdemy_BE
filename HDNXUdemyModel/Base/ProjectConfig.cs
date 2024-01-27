@@ -54,20 +54,6 @@
 
         public static string? EmailFolder { get; set; }
 
-        public static string? SenderShareBookDonationInfo { get; set; }
-
-        public static string? LibraryShareBookDonationInfo { get; set; }
-
-        public static string? SenderShareBookDonationSuccessfull { get; set; }
-
-        public static string? SenderShareBookDonationReject { get; set; }
-
-        public static string? MagicLinkForSignIn { get; set; }
-
-        public static string? MagicLinkForSignUp { get; set; }
-
-        public static string? SenderSharebookSuccessSubject { get; set; }
-
         public static string? Secret { get; set; }
 
         public static int ExpiresDate { get; set; }
@@ -98,7 +84,9 @@
 
         public static int NumberLastPost { get; set; }
 
-        public static string? SenderEmailInforRegisterHospital { get; set; }
+        public static string? SendEmailSignupTemplate { get; set; }
+
+        public static string? SendEmailSigninTemplate { get; set; }
 
         public static string? BizflycloudAccessKey { get; set; }
 
@@ -122,5 +110,11 @@
         public static string? APIUrlGetVideoStream { get; set; }
 
         public static string? APIUrlGetVideoMp4 { get; set; }
+
+        public static string? LinkCompletedRegister { get; set; }
+
+        public static string? LinkRegisterError { get; set; }
+
+        public static string? LinkRequestUrl { get; set; }
     }
 }

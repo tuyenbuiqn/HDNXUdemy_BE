@@ -19,7 +19,7 @@ namespace HDNXUdemyConvertVideoAPI.ProjectExtensisons
         public static void AddApplicationServicesExtension(this IServiceCollection services)
         {
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddTransient<IAdminNotificationRepository, AdminNotificationRepository>();
+            services.AddTransient<INotificationRepository, NotificationRepository>();
             services.AddTransient<IBannerRepository, BannerRepository>();
             services.AddTransient<IBookmarkCourseRepository, BookmarkCourseRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
@@ -36,6 +36,7 @@ namespace HDNXUdemyConvertVideoAPI.ProjectExtensisons
             services.AddTransient<ISubCategoryRepository, SubCategoryRepository>();
             services.AddTransient<IFileManagerRepository, FileManagerRepository>();
             services.AddTransient<ISystemConfigRepository, SystemConfigRepository>();
+            services.AddTransient<IRPPartnerRepository, RPPartnerRepository>();
 
             services.AddTransient(typeof(ILogServices<>), typeof(LogServices<>));
             services.AddHttpClient<IAuthenticationServices, AuthenticationServices>();
@@ -44,6 +45,9 @@ namespace HDNXUdemyConvertVideoAPI.ProjectExtensisons
             services.AddTransient<IUploadDataToCloud, UploadDataToCloud>();
             services.AddTransient<IUploadFileVideoToServer, UploadFileVideoToServer>();
             services.AddTransient<ICourseServices, CourseServices>();
+            services.AddTransient<IStudentServices, StudentServices>();
+            services.AddTransient<IHomeServices, HomeServices>();
+            services.AddTransient<IEmailServices, EmailServices>();
             services.AddAWSService<IAmazonS3>();
         }
     }

@@ -3,7 +3,7 @@ using HDNXUdemyData.GenericRepository;
 
 namespace HDNXUdemyData.IRepository
 {
-    public interface IAdminNotificationRepository : IGenericRepository<AdminNotificationEntities>
+    public interface INotificationRepository : IGenericRepository<NotificationEntities>
     {
     }
 }

@@ -4,7 +4,10 @@ using HDNXUdemyAPI.Middlewares;
 using HDNXUdemyAPI.ModelHelp;
 using HDNXUdemyAPI.ProjectExtensisons;
 using HDNXUdemyData.EntitiesContext;
+using HDNXUdemyServices.CommonFunction;
 using HDNXUdemyServices.Services;
+using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -68,12 +71,13 @@ namespace HDNXUdemyAPI
             {
                 x.AddDefaultPolicy(polocy =>
                 {
-                    polocy.WithOrigins("http://localhost:4200", "http://localhost:50295")
+                    polocy.WithOrigins("http://localhost:4200", "http://localhost:61560")
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials();
                 });
             });
+            builder.Services.AddSignalR();
 
             var app = builder.Build();
 
@@ -93,9 +97,24 @@ namespace HDNXUdemyAPI
             app.UseRouting().UseEndpoints(endpoint =>
             {
                 endpoint.MapControllers();
+                endpoint.MapHub<HubConfigProject>("/hub-notification");
             });
 
             app.UseAuthorization();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.WebRootPath)),
+                ServeUnknownFileTypes = true,
+                DefaultContentType = "application/octet-stream",
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append("Cache-Control", "public, max-age=600");
+                },
+                ContentTypeProvider = new FileExtensionContentTypeProvider
+                {
+                    Mappings = { [".m3u8"] = "application/x-mpegURL", [".ts"] = "video/mp2t" }
+                }
+            });
 
             app.Run();
         }

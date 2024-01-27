@@ -11,7 +11,7 @@
 
         public string? Phone { get; set; }
 
-        public int Genaral { get; set; }
+        public int General { get; set; }
 
         public string? PictureUrl { get; set; }
         public int RoleId { get; set; }

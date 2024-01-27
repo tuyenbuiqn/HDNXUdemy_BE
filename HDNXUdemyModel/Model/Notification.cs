@@ -2,11 +2,11 @@
 
 namespace HDNXUdemyModel.Model
 {
-    public class AdminNotificationModel : BaseModel
+    public class NotificationModel : BaseModel
     {
         public int IdComment { get; set; }
 
-        public int IdTypeComment { get; set; }
+        public int TypeNotification { get; set; }
 
         public int IdCourse { get; set; }
 

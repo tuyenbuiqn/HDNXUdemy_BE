@@ -16,7 +16,7 @@ namespace HDNXUdemyConvertVideoAPI.Mapper
         /// </summary>
         public ProjectMapper()
         {
-            CreateMap<AdminNotificationEntities, AdminNotificationModel>().ReverseMap();
+            CreateMap<NotificationEntities, NotificationModel>().ReverseMap();
 
             CreateMap<BookmarkCourseEntities, BookmarkCourseModel>().ReverseMap();
             CreateMap<CategoryEntities, CategoryModel>().ReverseMap();

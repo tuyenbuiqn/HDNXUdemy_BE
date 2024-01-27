@@ -60,7 +60,6 @@ namespace HDNXUdemyConvertVideoAPI.ModelHelp
             ProjectConfig.ClientId = emailConfig.GetValue<string>("ClientId");
             ProjectConfig.ClientSecret = emailConfig.GetValue<string>("ClientSecret");
             ProjectConfig.RefreshToken = emailConfig.GetValue<string>("RefreshToken");
-            ProjectConfig.SenderSharebookSuccessSubject = emailConfig.GetValue<string>("SenderSharebookSuccessSubject");
 
             ProjectConfig.CloudName = configCloud.GetValue<string>("CloudName");
             ProjectConfig.APIKey = configCloud.GetValue<string>("APIKey");
@@ -70,14 +69,6 @@ namespace HDNXUdemyConvertVideoAPI.ModelHelp
             ProjectConfig.StorageMainVideo = configFolder.GetValue<string>("StorageMainVideo");
             ProjectConfig.StorageStreamVideo = configFolder.GetValue<string>("StorageStreamVideo");
             ProjectConfig.UploadSoftWareAndFile = configFolder.GetValue<string>("UploadSoftWareAndFile");
-
-            ProjectConfig.SenderShareBookDonationInfo = configEmailTemplate.GetValue<string>("SenderShareBookDonationInfo");
-            ProjectConfig.LibraryShareBookDonationInfo = configEmailTemplate.GetValue<string>("LibraryShareBookDonationInfo");
-            ProjectConfig.SenderShareBookDonationSuccessfull = configEmailTemplate.GetValue<string>("SenderShareBookDonationSuccessfull");
-            ProjectConfig.SenderShareBookDonationReject = configEmailTemplate.GetValue<string>("SenderShareBookDonationReject");
-            ProjectConfig.MagicLinkForSignIn = configEmailTemplate.GetValue<string>("MagicLinkForSignIn");
-            ProjectConfig.MagicLinkForSignUp = configEmailTemplate.GetValue<string>("MagicLinkForSignUp");
-            ProjectConfig.SenderEmailInforRegisterHospital = configEmailTemplate.GetValue<string>("SenderEmailInforRegisterHospital");
 
             ProjectConfig.Secret = appSetting.GetValue<string>("Secret");
             ProjectConfig.ExpiresDate = appSetting.GetValue<int>("ExpiresDate");

@@ -27,7 +27,7 @@ namespace HDNXUdemyData.EntitiesContext
             optionsBuilder.EnableDetailedErrors();
         }
 
-        public virtual DbSet<AdminNotificationEntities>? AdminNotifications { get; set; }
+        public virtual DbSet<NotificationEntities>? Notifications { get; set; }
         public virtual DbSet<BookmarkCourseEntities>? BookmarkCourses { get; set; }
         public virtual DbSet<BannerEntities>? Banners { get; set; }
         public virtual DbSet<CategoryEntities>? Categories { get; set; }
@@ -49,7 +49,7 @@ namespace HDNXUdemyData.EntitiesContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema(ProjectConfig.DefaultSchema);
-            modelBuilder.Entity<AdminNotificationEntities>().ToTable("AdminNotifications").HasKey(x => x.Id);
+            modelBuilder.Entity<NotificationEntities>().ToTable("Notifications").HasKey(x => x.Id);
             modelBuilder.Entity<BookmarkCourseEntities>().ToTable("BookmarkCourses").HasKey(x => x.Id);
             modelBuilder.Entity<BannerEntities>().ToTable("Banners").HasKey(x => x.Id);
             modelBuilder.Entity<CategoryEntities>().ToTable("Categories").HasKey(x => x.Id);

@@ -36,7 +36,7 @@ namespace HDNXUdemyServices.Services
                                     ClientSecrets = _clientSecretsGmailOAuth,
                                 }), ProjectConfig.SenderEmail, refreshToken);
 
-                if (getUserCredential.Token.IsExpired(getUserCredential.Flow.Clock))
+                if (getUserCredential.Token.IsStale)
                 {
                     bool isRefreshEmailToken = await getUserCredential.RefreshTokenAsync(CancellationToken.None);
                     if (!isRefreshEmailToken)
@@ -81,7 +81,7 @@ namespace HDNXUdemyServices.Services
                                 {
                                     ClientSecrets = _clientSecretsGmailOAuth
                                 }), ProjectConfig.SenderEmail, refreshToken);
-                if (getUserCredential.Token.IsExpired(getUserCredential.Flow.Clock))
+                if (getUserCredential.Token.IsStale)
                 {
                     bool isRefreshEmailToken = await getUserCredential.RefreshTokenAsync(CancellationToken.None);
                     if (!isRefreshEmailToken)

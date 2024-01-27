@@ -20,6 +20,8 @@
 
         public int TypeLogin { get; set; }
 
-        public bool IsRequestTeacher { get; set; }
+        public bool? IsRequestTeacher { get; set; }
+
+        public bool? IsActive { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using HDNXUdemyData.IRepository;
 using HDNXUdemyModel.Base;
 using HDNXUdemyModel.Constant;
 using HDNXUdemyModel.Exception;
+using HDNXUdemyModel.RequestModel;
 using HDNXUdemyModel.ResponModel;
 using HDNXUdemyModel.SystemExceptions;
 using HDNXUdemyServices.CommonFunction;
@@ -22,32 +23,34 @@ namespace HDNXUdemyServices.Services
         private readonly IUserRepository _userRepository;
         private readonly ISystemConfigRepository _systemConfigRepository;
         private readonly HttpClient _httpClient;
+        private readonly IEmailServices _emailServices;
         private readonly IMapper _mapper;
 
-        public AuthenticationServices(IUserRepository userRepository, HttpClient httpClient, IMapper mapper, ISystemConfigRepository systemConfigRepository)
+        public AuthenticationServices(IUserRepository userRepository, HttpClient httpClient, IMapper mapper, ISystemConfigRepository systemConfigRepository,
+            IEmailServices emailServices)
         {
             _userRepository = userRepository ?? throw new ProjectException(nameof(_userRepository));
             _httpClient = httpClient ?? throw new ProjectException(nameof(_httpClient));
             _mapper = mapper ?? throw new ProjectException(nameof(_mapper));
             _systemConfigRepository = systemConfigRepository ?? throw new ProjectException(nameof(_systemConfigRepository));
+            _emailServices = emailServices ?? throw new ProjectException(nameof(_emailServices));
         }
 
-        public async Task<ResponeLogin> LoginWithGoogle(string credential, HttpContext httpContext)
+        public async Task<ResponeLogin> LoginWithGoogle(LoginWithGoogle model, HttpContext httpContext)
         {
             var returnData = new ResponeLogin();
-            string password = string.Empty;
             try
             {
                 var settings = new GoogleJsonWebSignature.ValidationSettings()
                 {
-                    Audience = new List<string> { string.Empty }
+                    Audience = new List<string> { ProjectConfig.ClientId ?? string.Empty }
                 };
 
-                var payload = await GoogleJsonWebSignature.ValidateAsync(credential, settings);
+                var payload = await GoogleJsonWebSignature.ValidateAsync(model.IdToken, settings);
                 if (payload != null)
                 {
                     var user = await _userRepository.GetObjectAsync(x => x.Email == payload.Email);
-                    returnData = await ConvertDataForLogin(user, payload.Email, payload.Picture, payload.Name, string.Empty, httpContext);
+                    returnData = await ConvertDataForLogin(user, payload.Email, payload.Picture, payload.Name, ETypeLogin.Google, httpContext);
                 }
                 else
                 {
@@ -62,24 +65,20 @@ namespace HDNXUdemyServices.Services
             return returnData;
         }
 
-        public async Task<ResponeLogin> LoginWithFacebook(string credential, HttpContext httpContext)
+        public async Task<ResponeLogin> LoginWithFacebook(LoginWithGoogle credential, HttpContext httpContext)
         {
             var returnData = new ResponeLogin();
             try
             {
-                HttpResponseMessage debugTokenResponse = await _httpClient.GetAsync($"https://graph.facebook.com/debug_token?input_token={credential}&access_token=1901603733551447|1901603733551447");
-
-                var stringThing = await debugTokenResponse.Content.ReadAsStringAsync();
-                var userOBJK = JsonConvert.DeserializeObject<FacebookUser>(stringThing);
-
-                HttpResponseMessage meResponse = await _httpClient.GetAsync($"https://graph.facebook.com/me?fields=first_name,last_name,email,id&access_token={credential}");
+                HttpResponseMessage meResponse = await _httpClient.GetAsync($"https://graph.facebook.com/me?fields=first_name,last_name,email,id&access_token={credential.AuthToken}");
                 var userContent = await meResponse.Content.ReadAsStringAsync();
                 var userContentObj = JsonConvert.DeserializeObject<FacebookUserInfo>(userContent);
 
                 if (userContentObj != null)
                 {
                     var user = await _userRepository.GetObjectAsync(x => x.Email == userContentObj.Email);
-                    returnData = await ConvertDataForLogin(user, userContentObj.Email ?? string.Empty, string.Empty, $"{userContentObj.FirstName}{userContentObj.LastName}", string.Empty, httpContext);
+                    returnData = await ConvertDataForLogin(user, userContentObj.Email ?? string.Empty,
+                        credential.PhotoUrl ?? string.Empty, userContentObj.Name ?? string.Empty, ETypeLogin.Facebook, httpContext);
                 }
                 else
                 {
@@ -94,14 +93,24 @@ namespace HDNXUdemyServices.Services
             return new ResponeLogin();
         }
 
-        public async Task<bool> RegisterNormalUser(string email, string password)
+        public async Task<bool> RegisterNormalUser(string email, string password, string name, string phone)
         {
             var dataInsert = new UserEntities()
             {
                 Email = email,
-                Password = password
+                Password = password,
+                Name = name,
+                Phone = phone,
+                RoleId = (int)ERoles.Student,
+                TypeLogin = (int)ETypeLogin.Email,
             };
-            return await _userRepository.AddAsync(dataInsert);
+            var dataInsertReturn = await _userRepository.AddReturnModelAsync(dataInsert);
+            if (dataInsertReturn.Id != 0)
+            {
+                string linkRequestUrl = $"{ProjectConfig.LinkRequestUrl}/{dataInsertReturn.Id}/{dataInsertReturn.Email}";
+                await _emailServices.SendEmailToSingUpEmail(email, linkRequestUrl);
+            }
+            return dataInsertReturn.Id != 0;
         }
 
         public async Task<ResponeLogin> LoginNormalAccount(string email, string password, HttpContext httpContext)
@@ -110,7 +119,8 @@ namespace HDNXUdemyServices.Services
             var returnData = new ResponeLogin();
             if (getData != null)
             {
-                returnData = await ConvertDataForLogin(getData, string.Empty, string.Empty, string.Empty, string.Empty, httpContext);
+                returnData = await ConvertDataForLogin(getData, getData.Email ?? string.Empty,
+                    getData.PictureUrl ?? string.Empty, getData.Name ?? string.Empty, ETypeLogin.Email, httpContext);
             }
             else
             {
@@ -125,7 +135,8 @@ namespace HDNXUdemyServices.Services
             var returnData = new ResponeLogin();
             if (getData != null)
             {
-                returnData = await ConvertDataForLogin(getData, string.Empty, string.Empty, string.Empty, string.Empty, httpContext);
+                returnData = await ConvertDataForLogin(getData, getData.Email ?? string.Empty, getData.PictureUrl ?? string.Empty,
+                    getData.Name ?? string.Empty, (ETypeLogin)getData.TypeLogin, httpContext);
                 var getDataConfig = await _systemConfigRepository.GetObjectAsync(x => x.KeyConfig == KeyConfig.KeyTokenUpload);
                 if (getDataConfig != null)
                 {
@@ -149,7 +160,19 @@ namespace HDNXUdemyServices.Services
             return returnData;
         }
 
-        private async Task<ResponeLogin> ConvertDataForLogin(UserEntities userData, string email, string pictureUrl, string name, string phone, HttpContext httpContext)
+        public async Task<bool> IsActiveAccountAfterRegister(string email, int id)
+        {
+            bool isUpdate = false;
+            var getData = await _userRepository.GetObjectAsync(x => x.Email == email && x.Id == id);
+            if (getData != null)
+            {
+                getData.IsActive = true;
+                isUpdate = await _userRepository.UpdateAsync(getData);
+            }
+            return isUpdate;
+        }
+
+        private async Task<ResponeLogin> ConvertDataForLogin(UserEntities userData, string email, string pictureUrl, string name, ETypeLogin typeLogin, HttpContext httpContext)
         {
             var returnData = new ResponeLogin();
             if (userData == null)
@@ -159,11 +182,11 @@ namespace HDNXUdemyServices.Services
                     IsRequestTeacher = false,
                     Email = email,
                     RoleId = (int)ERoles.Student,
-                    TypeLogin = (int)ETypeLogin.Google,
+                    TypeLogin = (int)typeLogin,
                     Password = Generator.GeneratePassword(10),
                     PictureUrl = pictureUrl,
                     Name = name,
-                    Phone = phone,
+                    IsActive = true,
                 };
                 var dataInsertReturn = await _userRepository.AddReturnModelAsync(userData);
 

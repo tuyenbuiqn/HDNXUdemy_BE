@@ -19,7 +19,7 @@ namespace HDNXUdemyAPI.ProjectExtensisons
         public static void AddApplicationServicesExtension(this IServiceCollection services)
         {
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddTransient<IAdminNotificationRepository, AdminNotificationRepository>();
+            services.AddTransient<INotificationRepository, NotificationRepository>();
             services.AddTransient<IBannerRepository, BannerRepository>();
             services.AddTransient<IBookmarkCourseRepository, BookmarkCourseRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
@@ -47,6 +47,7 @@ namespace HDNXUdemyAPI.ProjectExtensisons
             services.AddTransient<ICourseServices, CourseServices>();
             services.AddTransient<IStudentServices, StudentServices>();
             services.AddTransient<IHomeServices, HomeServices>();
+            services.AddTransient<IEmailServices, EmailServices>();
             services.AddAWSService<IAmazonS3>();
         }
     }
