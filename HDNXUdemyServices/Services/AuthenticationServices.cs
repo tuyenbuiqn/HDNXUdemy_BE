@@ -5,6 +5,7 @@ using HDNXUdemyData.IRepository;
 using HDNXUdemyModel.Base;
 using HDNXUdemyModel.Constant;
 using HDNXUdemyModel.Exception;
+using HDNXUdemyModel.Model;
 using HDNXUdemyModel.RequestModel;
 using HDNXUdemyModel.ResponModel;
 using HDNXUdemyModel.SystemExceptions;
@@ -50,6 +51,7 @@ namespace HDNXUdemyServices.Services
                 if (payload != null)
                 {
                     var user = await _userRepository.GetObjectAsync(x => x.Email == payload.Email);
+                    var userConvert = _mapper.Map<UserModel>(user);
                     returnData = await ConvertDataForLogin(user, payload.Email, payload.Picture, payload.Name, ETypeLogin.Google, httpContext);
                 }
                 else

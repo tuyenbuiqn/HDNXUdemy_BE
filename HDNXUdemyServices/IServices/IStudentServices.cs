@@ -38,7 +38,7 @@ namespace HDNXUdemyServices.IServices
 
         Task<bool> UpdateStatusStudentBookmarkCourse(int id, BookmarkCourseModel model);
 
-        Task<List<BookmarkCourseModel>> GetListStudentBookmarkCourse(int idUser);
+        Task<List<CourseModel>> GetListStudentBookmarkCourse(int idUser);
 
         Task<bool> DeleteStudentBookmarkCourse(int id);
 

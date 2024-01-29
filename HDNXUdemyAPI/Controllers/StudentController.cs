@@ -435,13 +435,13 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="idUser"></param>
         /// <returns></returns>
         [HttpGet("bookmark-course/{idUser}")]
-        public async Task<RepositoryModel<List<BookmarkCourseModel>>> GetListBookmarkCourse(int idUser)
+        public async Task<RepositoryModel<List<CourseModel>>> GetListBookmarkCourse(int idUser)
         {
-            RepositoryModel<List<BookmarkCourseModel>> result = new()
+            RepositoryModel<List<CourseModel>> result = new()
             {
                 PartnerCode = Messenger.SuccessFull,
                 RetCode = ERetCode.Successfull,
-                Data = new List<BookmarkCourseModel>(),
+                Data = new List<CourseModel>(),
                 SystemMessage = string.Empty,
                 StatusCode = (int)HttpStatusCode.Created
             };

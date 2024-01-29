@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HDNXUdemyData.Entities;
 using HDNXUdemyData.IRepository;
+using HDNXUdemyData.Repository;
 using HDNXUdemyModel.Constant;
 using HDNXUdemyModel.Model;
 using HDNXUdemyModel.SystemExceptions;
@@ -15,16 +16,19 @@ namespace HDNXUdemyServices.Services
         private readonly IStudentPromotionRepository _studentPromotionRepository;
         private readonly IStudentProcessRepository _studentProcessRepository;
         private readonly IBookmarkCourseRepository _bookmarkCourseRepository;
+        private readonly ICourseRepository _courseRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
         public StudentServices(IUserRepository userRepository, IMapper mapper, IStudentPromotionRepository studentPromotionRepository,
-            IStudentProcessRepository studentProcessRepository, IBookmarkCourseRepository bookmarkCourseRepository)
+            IStudentProcessRepository studentProcessRepository, IBookmarkCourseRepository bookmarkCourseRepository, ICategoryRepository categoryRepository)
         {
             _userRepository = userRepository ?? throw new ProjectException(nameof(_userRepository));
             _mapper = mapper ?? throw new ProjectException(nameof(_mapper));
             _studentPromotionRepository = studentPromotionRepository ?? throw new ProjectException(nameof(_studentPromotionRepository));
             _studentProcessRepository = studentProcessRepository ?? throw new ProjectException(nameof(_studentProcessRepository));
             _bookmarkCourseRepository = bookmarkCourseRepository ?? throw new ProjectException(nameof(_bookmarkCourseRepository));
+            _categoryRepository = categoryRepository ?? throw new ProjectException(nameof(_categoryRepository));
         }
 
         public async Task<bool> CreateStudent(UserModel model)
@@ -173,7 +177,16 @@ namespace HDNXUdemyServices.Services
         public async Task<bool> CreateStudentBookmarkCourse(BookmarkCourseModel model)
         {
             var dataInsert = _mapper.Map<BookmarkCourseEntities>(model);
-            return await _bookmarkCourseRepository.AddAsync(dataInsert);
+            var isCheckData = await _bookmarkCourseRepository.GetObjectAsync(x => x.IdCourse == model.IdCourse && x.IdStudent == model.IdStudent);
+            if (isCheckData == null)
+            {
+                return await _bookmarkCourseRepository.AddAsync(dataInsert);
+            }
+            else
+            {
+                return await _bookmarkCourseRepository.DeleteByKey((int)isCheckData.Id);
+            }
+
         }
 
         public async Task<bool> UpdateStatusStudentBookmarkCourse(int id, BookmarkCourseModel model)
@@ -183,10 +196,22 @@ namespace HDNXUdemyServices.Services
             return await _bookmarkCourseRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<List<BookmarkCourseModel>> GetListStudentBookmarkCourse(int idUser)
+        public async Task<List<CourseModel>> GetListStudentBookmarkCourse(int idUser)
         {
             var getData = await _bookmarkCourseRepository.GetAsync(x => x.IdStudent == idUser);
-            return _mapper.Map<List<BookmarkCourseModel>>(getData);
+            var listIdOfCoureBookmark = getData.Select(x => x.IdCourse).ToList();
+
+            var getDataOfCourse = await _courseRepository.GetAsync(x => listIdOfCoureBookmark.Contains((int)x.Id));
+            var getCategory = await _categoryRepository.GetAllAsync();
+            var resultMapping = _mapper.Map<List<CourseModel>>(getData);
+            foreach (var item in resultMapping)
+            {
+                item.TotalVoteOfCourse = HelperFunction.CalculatorToTalStartOfCourse(item.Vote1Star ?? 0, item.Vote2Star ?? 0, item.Vote3Star ?? 0, item.Vote4Star ?? 0, item.Vote5Star ?? 0);
+                item.CategoryName = getCategory.Where(x => x.Id == item.IdCategory).FirstOrDefault()?.Name;
+                item.UserName = "Admin";
+                item.ProcessCourseName = ((ProcessVideo)item.ProcessCourse).GetEnumDescription();
+            }
+            return resultMapping;
         }
 
         public async Task<bool> DeleteStudentBookmarkCourse(int id)
