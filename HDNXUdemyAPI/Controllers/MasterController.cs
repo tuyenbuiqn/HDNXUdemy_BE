@@ -24,6 +24,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <summary>
         /// MasterController
         /// </summary>
+        /// <param name="sendEmailServices"></param>
         /// <param name="masterDataServices"></param>
         /// <exception cref="ProjectException"></exception>
         public MasterController(IMasterDataServices masterDataServices, ISendEmailSMSServices sendEmailServices)
@@ -99,7 +100,6 @@ namespace HDNXUdemyAPI.Controllers
         /// <summary>
         /// UpdateInformationCategory
         /// </summary>
-        /// <param name="id"></param>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("category")]
@@ -291,21 +291,20 @@ namespace HDNXUdemyAPI.Controllers
         /// <summary>
         /// GetListInformationManualBanking
         /// </summary>
-        /// <param name="idUser"></param>
         /// <returns></returns>
         [HttpGet("banking-information")]
-        public async Task<RepositoryModel<List<InformationManualBankingModel>>> GetListInformationManualBanking(int idUser)
+        public async Task<RepositoryModel<InformationManualBankingModel>> GetListInformationManualBanking()
         {
-            RepositoryModel<List<InformationManualBankingModel>> result = new()
+            RepositoryModel<InformationManualBankingModel> result = new()
             {
                 PartnerCode = Messenger.SuccessFull,
                 RetCode = ERetCode.Successfull,
-                Data = new List<InformationManualBankingModel>(),
+                Data = new InformationManualBankingModel(),
                 SystemMessage = string.Empty,
                 StatusCode = (int)HttpStatusCode.Created
             };
 
-            result.Data = await _masterDataServices.GetListInformationManualBanking();
+            result.Data = await _masterDataServices.GetInformationManualBanking();
             return result;
         }
 

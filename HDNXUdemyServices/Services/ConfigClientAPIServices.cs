@@ -10,6 +10,7 @@ namespace HDNXUdemyServices.Services
     public class ConfigClientAPIServices : IConfigClientAPIServices
     {
         private readonly ISystemConfigRepository _systemConfigRepository;
+
         public ConfigClientAPIServices(ISystemConfigRepository systemConfigRepository)
         {
             _systemConfigRepository = systemConfigRepository ?? throw new ProjectException(nameof(_systemConfigRepository));

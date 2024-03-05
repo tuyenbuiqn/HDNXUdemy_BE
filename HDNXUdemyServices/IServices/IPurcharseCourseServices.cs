@@ -1,13 +1,14 @@
 ﻿using HDNXUdemyModel.Model;
+using HDNXUdemyModel.ResponModel;
 
 namespace HDNXUdemyServices.IServices
 {
     public interface IPurcharseCourseServices
     {
-        Task<bool> CreateRequestPurchase(PurcharseCourseModel model);
+        Task<PurcharseCourseModel> CreateRequestPurchase(PurcharseCourseModel model);
 
         Task<bool> UpdateStatusPurchase(int id, PurcharseCourseModel model);
 
-        string GeneraterOrderCode(int idCourse, int idStudent);
+        string GenPurchaseOrder(int idStudent);
     }
 }

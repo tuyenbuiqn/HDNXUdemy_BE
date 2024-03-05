@@ -14,32 +14,48 @@ namespace HDNXUdemyServices.Services
     public class PurcharseCourseServices : IPurcharseCourseServices
     {
         private readonly IPurcharseCourseRepository _purcharseCourseRepository;
+        private readonly IRPPurcharseCourseDetailsRepository _purcharseCourseDetailsRepository;
         private readonly IMapper _mapper;
         private readonly IHubContext<HubConfigProject> _hubConfigProject;
         private readonly ICourseRepository _courseRepository;
         private readonly INotificationRepository _notificationRepository;
+        private readonly IInformationManualBankingRepository _informationManualBankingRepository;
 
         public PurcharseCourseServices(IPurcharseCourseRepository purcharseCourseRepository, IMapper mapper, IHubContext<HubConfigProject> hubConfigProject,
-            ICourseRepository courseRepository, INotificationRepository notificationRepository)
+            ICourseRepository courseRepository, INotificationRepository notificationRepository, IInformationManualBankingRepository informationManualBankingRepository,
+            IRPPurcharseCourseDetailsRepository purcharseCourseDetailsRepository)
         {
             _purcharseCourseRepository = purcharseCourseRepository ?? throw new ProjectException(nameof(_purcharseCourseRepository));
             _mapper = mapper ?? throw new ProjectException(nameof(_mapper));
             _hubConfigProject = hubConfigProject ?? throw new ProjectException(nameof(_hubConfigProject));
             _courseRepository = courseRepository ?? throw new ProjectException(nameof(_courseRepository));
             _notificationRepository = notificationRepository ?? throw new ProjectException(nameof(_notificationRepository));
+            _informationManualBankingRepository = informationManualBankingRepository ?? throw new ProjectException(nameof(_informationManualBankingRepository));
+            _purcharseCourseDetailsRepository = purcharseCourseDetailsRepository ?? throw new ProjectException(nameof(_purcharseCourseDetailsRepository));
         }
 
-        public string GeneraterOrderCode(int idCourse, int idStudent)
+        public string GenPurchaseOrder(int idStudent)
         {
-            return Generator.GenerateRandomString(idCourse, idStudent);
+            return Generator.GenerateRandomString(idStudent);
         }
 
-        public async Task<bool> CreateRequestPurchase(PurcharseCourseModel model)
+        public async Task<PurcharseCourseModel> CreateRequestPurchase(PurcharseCourseModel model)
         {
+            var getValueOfInfoPurechase = _mapper.Map<InformationManualBankingModel>(
+                (await _informationManualBankingRepository.GetAsync(x => x.Status == (int)EStatus.Active)).FirstOrDefault());
+
             model.PurcharseStatus = (int)ETypeOfStatusOrder.Request;
-            model.PurcharseCode = Generator.GenerateRandomString(model.IdCourse, model.IdStudent);
             var dataInsert = _mapper.Map<PurcharseCourseEntities>(model);
-            return await _purcharseCourseRepository.AddAsync(dataInsert);
+            var addReturnModel = await _purcharseCourseRepository.AddReturnModelAsync(dataInsert);
+
+            model.ListPurchaseCourseDetails.ForEach(item =>
+            {
+                item.IdPurchaseOrder = (int)addReturnModel.Id;
+            });
+            var dataInsertDetail = _mapper.Map<List<PurcharseCourseDetailsEntities>>(model.ListPurchaseCourseDetails);
+            await _purcharseCourseDetailsRepository.AddManyAsync(dataInsertDetail);
+
+            return model;
         }
 
         public async Task<bool> UpdateStatusPurchase(int id, PurcharseCourseModel model)
@@ -50,7 +66,7 @@ namespace HDNXUdemyServices.Services
             bool returnValue = await _purcharseCourseRepository.UpdateAsync(getData);
             if (returnValue)
             {
-                var getDataOfCourse = await _courseRepository.GetObjectAsync(model.IdCourse);
+                var getDataOfCourse = await _courseRepository.GetObjectAsync(id);
                 var dataInsertNotification = new NotificationEntities()
                 {
                     IdCourse = (int)(getDataOfCourse?.Id ?? 0),

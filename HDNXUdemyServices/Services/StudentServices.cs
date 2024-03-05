@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using HDNXUdemyData.Entities;
 using HDNXUdemyData.IRepository;
-using HDNXUdemyData.Repository;
 using HDNXUdemyModel.Constant;
 using HDNXUdemyModel.Model;
 using HDNXUdemyModel.SystemExceptions;
 using HDNXUdemyServices.CommonFunction;
 using HDNXUdemyServices.IServices;
+using NetTopologySuite.Index.HPRtree;
 
 namespace HDNXUdemyServices.Services
 {
@@ -21,7 +21,8 @@ namespace HDNXUdemyServices.Services
         private readonly IMapper _mapper;
 
         public StudentServices(IUserRepository userRepository, IMapper mapper, IStudentPromotionRepository studentPromotionRepository,
-            IStudentProcessRepository studentProcessRepository, IBookmarkCourseRepository bookmarkCourseRepository, ICategoryRepository categoryRepository)
+            IStudentProcessRepository studentProcessRepository, IBookmarkCourseRepository bookmarkCourseRepository, ICategoryRepository categoryRepository,
+            ICourseRepository courseRepository)
         {
             _userRepository = userRepository ?? throw new ProjectException(nameof(_userRepository));
             _mapper = mapper ?? throw new ProjectException(nameof(_mapper));
@@ -29,6 +30,7 @@ namespace HDNXUdemyServices.Services
             _studentProcessRepository = studentProcessRepository ?? throw new ProjectException(nameof(_studentProcessRepository));
             _bookmarkCourseRepository = bookmarkCourseRepository ?? throw new ProjectException(nameof(_bookmarkCourseRepository));
             _categoryRepository = categoryRepository ?? throw new ProjectException(nameof(_categoryRepository));
+            _courseRepository = courseRepository ?? throw new ProjectException(nameof(_courseRepository));
         }
 
         public async Task<bool> CreateStudent(UserModel model)
@@ -186,7 +188,6 @@ namespace HDNXUdemyServices.Services
             {
                 return await _bookmarkCourseRepository.DeleteByKey((int)isCheckData.Id);
             }
-
         }
 
         public async Task<bool> UpdateStatusStudentBookmarkCourse(int id, BookmarkCourseModel model)
@@ -199,11 +200,11 @@ namespace HDNXUdemyServices.Services
         public async Task<List<CourseModel>> GetListStudentBookmarkCourse(int idUser)
         {
             var getData = await _bookmarkCourseRepository.GetAsync(x => x.IdStudent == idUser);
-            var listIdOfCoureBookmark = getData.Select(x => x.IdCourse).ToList();
+            var listIdOfCoureBookmark = getData.DistinctBy(x => x.IdCourse).Select(x => x.IdCourse).ToList();
 
             var getDataOfCourse = await _courseRepository.GetAsync(x => listIdOfCoureBookmark.Contains((int)x.Id));
             var getCategory = await _categoryRepository.GetAllAsync();
-            var resultMapping = _mapper.Map<List<CourseModel>>(getData);
+            var resultMapping = _mapper.Map<List<CourseModel>>(getDataOfCourse);
             foreach (var item in resultMapping)
             {
                 item.TotalVoteOfCourse = HelperFunction.CalculatorToTalStartOfCourse(item.Vote1Star ?? 0, item.Vote2Star ?? 0, item.Vote3Star ?? 0, item.Vote4Star ?? 0, item.Vote5Star ?? 0);

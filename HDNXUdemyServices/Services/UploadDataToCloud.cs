@@ -2,7 +2,6 @@
 using CloudinaryDotNet.Actions;
 using HDNXUdemyModel.Base;
 using HDNXUdemyModel.ResponModel;
-using HDNXUdemyServices.CommonFunction;
 using HDNXUdemyServices.IServices;
 using Microsoft.AspNetCore.Http;
 

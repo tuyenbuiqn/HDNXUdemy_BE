@@ -37,6 +37,7 @@ namespace HDNXUdemyConvertVideoAPI.ProjectExtensisons
             services.AddTransient<IFileManagerRepository, FileManagerRepository>();
             services.AddTransient<ISystemConfigRepository, SystemConfigRepository>();
             services.AddTransient<IRPPartnerRepository, RPPartnerRepository>();
+            services.AddTransient<IRPPurcharseCourseDetailsRepository, RPurcharseCourseDetailsRepository>();
 
             services.AddTransient(typeof(ILogServices<>), typeof(LogServices<>));
             services.AddHttpClient<IAuthenticationServices, AuthenticationServices>();

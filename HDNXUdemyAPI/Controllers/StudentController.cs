@@ -4,6 +4,7 @@ using HDNXUdemyModel.Constant;
 using HDNXUdemyModel.Model;
 using HDNXUdemyModel.SystemExceptions;
 using HDNXUdemyServices.IServices;
+using HDNXUdemyServices.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -17,15 +18,18 @@ namespace HDNXUdemyAPI.Controllers
     public class StudentController : BaseController
     {
         private readonly IStudentServices _studentServices;
+        private readonly ICourseServices _courseServices;
 
         /// <summary>
         /// StudentController
         /// </summary>
         /// <param name="studentServices"></param>
+        /// <param name="courseServices"></param>
         /// <exception cref="ProjectException"></exception>
-        public StudentController(IStudentServices studentServices)
+        public StudentController(IStudentServices studentServices, ICourseServices courseServices)
         {
             _studentServices = studentServices ?? throw new ProjectException(nameof(_studentServices));
+            _courseServices = courseServices ?? throw new ProjectException(nameof(_courseServices));
         }
 
         /// <summary>
@@ -468,6 +472,27 @@ namespace HDNXUdemyAPI.Controllers
             };
 
             result.Data = await _studentServices.DeleteStudentBookmarkCourse(id);
+            return result;
+        }
+
+        /// <summary>
+        /// GetCoursesOfStudent
+        /// </summary>
+        /// <param name="idStudent"></param>
+        /// <returns></returns>
+        [HttpGet("student-course/{idStudent}")]
+        public async Task<RepositoryModel<List<CourseModel>>> GetCoursesOfStudent(int idStudent)
+        {
+            RepositoryModel<List<CourseModel>> result = new()
+            {
+                PartnerCode = Messenger.SuccessFull,
+                RetCode = ERetCode.Successfull,
+                Data = new List<CourseModel>(),
+                SystemMessage = string.Empty,
+                StatusCode = (int)HttpStatusCode.Created
+            };
+
+            result.Data = await _courseServices.GetListCourseOfStudent(idStudent);
             return result;
         }
     }

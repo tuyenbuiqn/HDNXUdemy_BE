@@ -38,6 +38,7 @@ namespace HDNXUdemyData.EntitiesContext
         public virtual DbSet<CourseCommentEntities>? CourseComments { get; set; }
         public virtual DbSet<InformationManualBankingEntities>? InformationManualBankings { get; set; }
         public virtual DbSet<PurcharseCourseEntities>? PurcharseCourses { get; set; }
+        public virtual DbSet<PurcharseCourseDetailsEntities>? PurcharseCourseDetails { get; set; }
         public virtual DbSet<UserEntities>? Users { get; set; }
         public virtual DbSet<StudentProcessEntities>? StudentProcess { get; set; }
         public virtual DbSet<StudentPromotionEntities>? StudentPromotions { get; set; }
@@ -59,6 +60,7 @@ namespace HDNXUdemyData.EntitiesContext
             modelBuilder.Entity<CourseCommentEntities>().ToTable("CourseComments").HasKey(x => x.Id);
             modelBuilder.Entity<InformationManualBankingEntities>().ToTable("InformationManualBankings").HasKey(x => x.Id);
             modelBuilder.Entity<PurcharseCourseEntities>().ToTable("PurcharseCourses").HasKey(x => x.Id);
+            modelBuilder.Entity<PurcharseCourseDetailsEntities>().ToTable("PurcharseCourseDetails").HasKey(x => x.Id);
             modelBuilder.Entity<UserEntities>().ToTable("Users").HasKey(x => x.Id);
             modelBuilder.Entity<StudentProcessEntities>().ToTable("StudentProcess").HasKey(x => x.Id);
             modelBuilder.Entity<StudentPromotionEntities>().ToTable("StudentPromotions").HasKey(x => x.Id);

@@ -1,5 +1,5 @@
-﻿using NodaTime;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using NodaTime;
 
 namespace HDNXUdemyModel.Base
 {

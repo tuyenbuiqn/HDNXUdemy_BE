@@ -23,10 +23,12 @@ namespace HDNXUdemyServices.Services
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IPurcharseCourseRepository _pucharseCourseRepository;
+        private readonly IRPPurcharseCourseDetailsRepository _purcharseCourseDetailsRepository;
 
         public CourseServices(ICourseRepository courseRepository, IContentCourseRepository contentCourseRepository, IContentCourseDetailRepository contentCourseDetailRepository,
             ICourseCommentRepository courseCommentRepository, IChapterCommentRepository chapterCommentRepository, IMapper mapper, ICategoryRepository categoryRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository, IPurcharseCourseRepository pucharseCourseRepository, IRPPurcharseCourseDetailsRepository purcharseCourseDetailsRepository)
         {
             _courseRepository = courseRepository ?? throw new ProjectException(nameof(_courseRepository));
             _contentCourseRepository = contentCourseRepository ?? throw new ProjectException(nameof(_contentCourseRepository));
@@ -36,6 +38,9 @@ namespace HDNXUdemyServices.Services
             _categoryRepository = categoryRepository ?? throw new ProjectException(nameof(_categoryRepository));
             _userRepository = userRepository ?? throw new ProjectException(nameof(_userRepository));
             _mapper = mapper ?? throw new ProjectException(nameof(_mapper));
+            _pucharseCourseRepository = pucharseCourseRepository ?? throw new ProjectException(nameof(_pucharseCourseRepository));
+            _purcharseCourseDetailsRepository = purcharseCourseDetailsRepository ?? throw new ProjectException(nameof(_purcharseCourseDetailsRepository));
+
         }
 
         public async Task<bool> CreateCourse(CourseModel model)
@@ -75,7 +80,24 @@ namespace HDNXUdemyServices.Services
             return resultMapping;
         }
 
-        public async Task<GetCourseWithDetailsContent> GetDetailCourse(int id)
+        public async Task<List<CourseModel>> GetListCourseOfStudent(int idStudent)
+        {
+            var getIdOfPurchaseOrder = await _pucharseCourseRepository.
+                GetAsync(x => x.IdStudent == idStudent && x.PurcharseStatus == (int)ETypeOfStatusOrder.Payment && x.Status == (int)EStatus.Active);
+            var getIdOfCourseOfStudent = await _purcharseCourseDetailsRepository.GetAsync(item => getIdOfPurchaseOrder.Select(x => x.Id).Contains(item.IdPurchaseOrder));
+            var getData = await _courseRepository.GetAsync(item => getIdOfCourseOfStudent.Select(x => x.IdCourse).Contains((int)item.Id));
+            var getCategory = await _categoryRepository.GetAllAsync();
+            var resultMapping = _mapper.Map<List<CourseModel>>(getData);
+            foreach (var item in resultMapping)
+            {
+                item.TotalVoteOfCourse = HelperFunction.CalculatorToTalStartOfCourse(item.Vote1Star ?? 0, item.Vote2Star ?? 0, item.Vote3Star ?? 0, item.Vote4Star ?? 0, item.Vote5Star ?? 0);
+                item.CategoryName = getCategory.Where(x => x.Id == item.IdCategory).FirstOrDefault()?.Name;
+                item.UserName = "Admin";
+            }
+            return resultMapping;
+        }
+
+        public async Task<GetCourseWithDetailsContent> GetDetailCourse(int id, bool isAdmin)
         {
             var getData = await _courseRepository.GetByIdAsync(id);
             var resultMapping = _mapper.Map<GetCourseWithDetailsContent>(getData);
@@ -89,7 +111,7 @@ namespace HDNXUdemyServices.Services
                 resultMapping.CategoryName = getCategory.Where(x => x.Id == resultMapping.IdCategory).FirstOrDefault()?.Name;
                 resultMapping.UserName = "Admin";
                 resultMapping.ProcessCourseName = ((ProcessVideo)resultMapping?.ProcessCourse).GetEnumDescription();
-                resultMapping.ListContentCourseDetails = await GetContentOfCourse((int)getData.Id);
+                resultMapping.ListContentCourseDetails = await GetContentOfCourse((int)getData.Id, isAdmin);
                 resultMapping.ListCourseRate = resultCourse;
                 resultMapping.Author = resultAuthor;
                 resultMapping.FileUploadUrlStream = $"{ProjectConfig.APIUrlGetVideoMp4}{resultMapping.FileUrl}";
@@ -218,7 +240,7 @@ namespace HDNXUdemyServices.Services
             return resultMapping;
         }
 
-        public async Task<List<ContentAndContentDetail>> GetContentOfCourse(int idCourse)
+        public async Task<List<ContentAndContentDetail>> GetContentOfCourse(int idCourse, bool isAdmin)
         {
             var resultData = new List<ContentAndContentDetail>();
             var getDataCourseContent = await _contentCourseRepository.GetAsync(x => x.IdCourse == idCourse);
@@ -227,8 +249,21 @@ namespace HDNXUdemyServices.Services
             foreach (var item in resultData)
             {
                 item.ContentAndContentDetails = new List<ContentCourseDetailModel>();
-                var getDataCourseDetailContent = await _contentCourseDetailRepository.GetAsync(x => x.IdContent == item.Id);
-                item.ContentAndContentDetails = _mapper.Map<List<ContentCourseDetailModel>>(getDataCourseDetailContent);
+                if (isAdmin)
+                {
+                    item.ContentAndContentDetails = _mapper.Map<List<ContentCourseDetailModel>>(await _contentCourseDetailRepository.GetAsync(x => x.IdContent == item.Id));
+                }
+                else
+                {
+                    item.ContentAndContentDetails = _mapper.Map<List<ContentCourseDetailModel>>(await _contentCourseDetailRepository.GetAsync(x => x.IdContent == item.Id));
+                    item.ContentAndContentDetails.ForEach(item =>
+                    {
+                        if (!item.IsLearningFree)
+                        {
+                            item.FileUploadUrlStream = null;
+                        }
+                    });
+                }
             }
 
             return resultData;

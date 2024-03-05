@@ -58,8 +58,10 @@ namespace HDNXUdemyServices.IServices
 
         Task<List<CourseModel>> GetListCourseForAdmin();
 
-        Task<GetCourseWithDetailsContent> GetDetailCourse(int id);
+        Task<GetCourseWithDetailsContent> GetDetailCourse(int id, bool isAdmin);
 
         Task<List<CourseModel>> GetListCourseAsCategory(int idCategory);
+
+        Task<List<CourseModel>> GetListCourseOfStudent(int idStudent);
     }
 }

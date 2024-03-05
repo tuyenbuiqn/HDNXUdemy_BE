@@ -136,10 +136,10 @@ namespace HDNXUdemyServices.Services
             return await _informationManualBankingRepository.UpdateAsync(getData);
         }
 
-        public async Task<List<InformationManualBankingModel>> GetListInformationManualBanking()
+        public async Task<InformationManualBankingModel> GetInformationManualBanking()
         {
             var getData = await _informationManualBankingRepository.GetAllAsync();
-            return _mapper.Map<List<InformationManualBankingModel>>(getData);
+            return _mapper.Map<InformationManualBankingModel>(getData.FirstOrDefault());
         }
 
         public async Task<bool> CreateSubCategory(SubCategoryModel model)

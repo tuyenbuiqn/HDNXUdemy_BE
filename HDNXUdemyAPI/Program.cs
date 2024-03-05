@@ -5,7 +5,6 @@ using HDNXUdemyAPI.ModelHelp;
 using HDNXUdemyAPI.ProjectExtensisons;
 using HDNXUdemyData.EntitiesContext;
 using HDNXUdemyServices.CommonFunction;
-using HDNXUdemyServices.Services;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
@@ -13,7 +12,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
-using System.Text.Json.Serialization;
 using static HDNXUdemyAPI.ProjectExtensisons.ApplicationSwaggerExtension;
 
 namespace HDNXUdemyAPI
@@ -71,7 +69,7 @@ namespace HDNXUdemyAPI
             {
                 x.AddDefaultPolicy(polocy =>
                 {
-                    polocy.WithOrigins("http://localhost:4200", "http://localhost:61560")
+                    polocy.WithOrigins("http://localhost:4200", "http://localhost:65362")
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials();

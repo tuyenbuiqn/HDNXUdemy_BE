@@ -5,7 +5,6 @@ using HDNXUdemyModel.Constant;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.IdentityModel.Tokens;
-using NetTopologySuite.Noding;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
@@ -201,7 +200,7 @@ namespace HDNXUdemyServices.CommonFunction
         {
             decimal totalVoteOfCourse = vote1Star + vote2Star + vote3Star + vote4Star + vote5Star;
             decimal totalVoteWithStart = (vote1Star * 1) + (vote2Star * 2) + (vote3Star * 3) + (vote4Star * 4) + (vote5Star * 5);
-            if(totalVoteOfCourse == 0)
+            if (totalVoteOfCourse == 0)
             {
                 return 0;
             }

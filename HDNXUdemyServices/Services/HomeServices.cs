@@ -4,7 +4,6 @@ using HDNXUdemyModel.Model;
 using HDNXUdemyModel.ResponModel;
 using HDNXUdemyModel.SystemExceptions;
 using HDNXUdemyServices.IServices;
-using SQLitePCL;
 
 namespace HDNXUdemyServices.Services
 {

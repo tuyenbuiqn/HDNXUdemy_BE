@@ -30,7 +30,7 @@ namespace HDNXUdemyServices.IServices
 
         Task<bool> UpdateInformationManualBanking(int id, InformationManualBankingModel model);
 
-        Task<List<InformationManualBankingModel>> GetListInformationManualBanking();
+        Task<InformationManualBankingModel> GetInformationManualBanking();
 
         Task<bool> CreateSubCategory(SubCategoryModel model);
 

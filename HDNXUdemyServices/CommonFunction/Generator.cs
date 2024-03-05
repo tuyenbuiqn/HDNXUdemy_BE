@@ -102,7 +102,7 @@ namespace HDNXUdemyServices.CommonFunction
             return returnValue;
         }
 
-        public static string GenerateRandomString(int idCourse, int idStudent)
+        public static string GenerateRandomString(int idStudent)
         {
             Random random = new Random();
             const string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -114,7 +114,7 @@ namespace HDNXUdemyServices.CommonFunction
                 result[i] = allowedChars[randomIndex];
             }
             var returnValue = new string(result);
-            return $"{idCourse}{idStudent}{returnValue}";
+            return $"HDNX{idStudent}{returnValue}";
         }
     }
 }

@@ -18,15 +18,18 @@ namespace HDNXUdemyAPI.Controllers
     public class CourseController : BaseController
     {
         private readonly ICourseServices _courseServices;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         /// <summary>
         /// CourseController
         /// </summary>
         /// <param name="courseServices"></param>
+        /// <param name="httpContextAccessor"></param>
         /// <exception cref="ProjectException"></exception>
-        public CourseController(ICourseServices courseServices)
+        public CourseController(ICourseServices courseServices, IHttpContextAccessor httpContextAccessor)
         {
             _courseServices = courseServices ?? throw new ProjectException(nameof(_courseServices));
+            _httpContextAccessor = httpContextAccessor ?? throw new ProjectException(nameof(_httpContextAccessor));
         }
 
         /// <summary>
@@ -118,9 +121,10 @@ namespace HDNXUdemyAPI.Controllers
         /// GetCourses
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="isAdmin"></param>
         /// <returns></returns>
-        [HttpGet("course/{id}")]
-        public async Task<RepositoryModel<GetCourseWithDetailsContent>> GetCourses(int id)
+        [HttpGet("course/{id}/{isAdmin}")]
+        public async Task<RepositoryModel<GetCourseWithDetailsContent>> GetCourses(int id, bool isAdmin)
         {
             RepositoryModel<GetCourseWithDetailsContent> result = new()
             {
@@ -131,7 +135,7 @@ namespace HDNXUdemyAPI.Controllers
                 StatusCode = (int)HttpStatusCode.Created
             };
 
-            result.Data = await _courseServices.GetDetailCourse(id);
+            result.Data = await _courseServices.GetDetailCourse(id, isAdmin);
             return result;
         }
 
