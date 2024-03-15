@@ -91,5 +91,26 @@ namespace HDNXUdemyAPI.Controllers
             result.Data = await _purcharseCourseServices.UpdateStatusPurchase(id, model);
             return result;
         }
+
+        /// <summary>
+        /// IsCheckCoursePurchase
+        /// </summary>
+        /// <param name="idCourse"></param>
+        /// <returns></returns>
+        [HttpGet("check-purchase-course/{idCourse}")]
+        public async Task<RepositoryModel<bool>> IsCheckCoursePurchase(int idCourse)
+        {
+            RepositoryModel<bool> result = new()
+            {
+                PartnerCode = Messenger.SuccessFull,
+                RetCode = ERetCode.Successfull,
+                Data = false,
+                SystemMessage = string.Empty,
+                StatusCode = (int)HttpStatusCode.Created
+            };
+
+            result.Data = await _purcharseCourseServices.IsCheckCoursePurchase(idCourse);
+            return result;
+        }
     }
 }

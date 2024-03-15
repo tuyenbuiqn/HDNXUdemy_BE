@@ -10,6 +10,7 @@ using HDNXUdemyModel.SystemExceptions;
 using HDNXUdemyServices.CommonFunction;
 using HDNXUdemyServices.IServices;
 using Microsoft.AspNetCore.Http;
+using NetTopologySuite.Index.HPRtree;
 
 namespace HDNXUdemyServices.Services
 {
@@ -25,10 +26,12 @@ namespace HDNXUdemyServices.Services
         private readonly IMapper _mapper;
         private readonly IPurcharseCourseRepository _pucharseCourseRepository;
         private readonly IRPPurcharseCourseDetailsRepository _purcharseCourseDetailsRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public CourseServices(ICourseRepository courseRepository, IContentCourseRepository contentCourseRepository, IContentCourseDetailRepository contentCourseDetailRepository,
             ICourseCommentRepository courseCommentRepository, IChapterCommentRepository chapterCommentRepository, IMapper mapper, ICategoryRepository categoryRepository,
-            IUserRepository userRepository, IPurcharseCourseRepository pucharseCourseRepository, IRPPurcharseCourseDetailsRepository purcharseCourseDetailsRepository)
+            IUserRepository userRepository, IPurcharseCourseRepository pucharseCourseRepository, IRPPurcharseCourseDetailsRepository purcharseCourseDetailsRepository,
+            IHttpContextAccessor httpContextAccessor)
         {
             _courseRepository = courseRepository ?? throw new ProjectException(nameof(_courseRepository));
             _contentCourseRepository = contentCourseRepository ?? throw new ProjectException(nameof(_contentCourseRepository));
@@ -40,6 +43,7 @@ namespace HDNXUdemyServices.Services
             _mapper = mapper ?? throw new ProjectException(nameof(_mapper));
             _pucharseCourseRepository = pucharseCourseRepository ?? throw new ProjectException(nameof(_pucharseCourseRepository));
             _purcharseCourseDetailsRepository = purcharseCourseDetailsRepository ?? throw new ProjectException(nameof(_purcharseCourseDetailsRepository));
+            _httpContextAccessor = httpContextAccessor ?? throw new ProjectException(nameof(_httpContextAccessor));
 
         }
 
@@ -92,7 +96,7 @@ namespace HDNXUdemyServices.Services
             {
                 item.TotalVoteOfCourse = HelperFunction.CalculatorToTalStartOfCourse(item.Vote1Star ?? 0, item.Vote2Star ?? 0, item.Vote3Star ?? 0, item.Vote4Star ?? 0, item.Vote5Star ?? 0);
                 item.CategoryName = getCategory.Where(x => x.Id == item.IdCategory).FirstOrDefault()?.Name;
-                item.UserName = "Admin";
+                item.UserName = (await _userRepository.GetByIdAsync(item.CreateBy))?.Name;
             }
             return resultMapping;
         }
@@ -101,6 +105,26 @@ namespace HDNXUdemyServices.Services
         {
             var getData = await _courseRepository.GetByIdAsync(id);
             var resultMapping = _mapper.Map<GetCourseWithDetailsContent>(getData);
+            int idCurrentUser = _httpContextAccessor.HttpContext == null ? 1 : int.Parse(_httpContextAccessor.HttpContext.User.Claims
+                                .Where(x => x.Type == "user-id").FirstOrDefault()?.Value ?? "0");
+            idCurrentUser = 4;
+            bool isPurchase = false;
+            if (isAdmin)
+            {
+                isAdmin = true;
+            }
+            else
+            {
+                var isPurchaseCourseDetails = await _purcharseCourseDetailsRepository.GetAsync(x => x.IdCourse == id && x.IdStudent == idCurrentUser);
+
+                if (isPurchaseCourseDetails.Any())
+                {
+                    var isPurchaseCourse = await _pucharseCourseRepository.GetByIdAsync(isPurchaseCourseDetails.FirstOrDefault().IdPurchaseOrder);
+                    isPurchase = isAdmin = isPurchaseCourseDetails.Any() && isPurchaseCourse?.PurcharseStatus == (int)ETypeOfStatusOrder.Payment;
+                }
+
+
+            }
 
             if (getData != null && resultMapping != null)
             {
@@ -109,12 +133,13 @@ namespace HDNXUdemyServices.Services
                 var getCategory = await _categoryRepository.GetAllAsync();
                 resultMapping.TotalVoteOfCourse = HelperFunction.CalculatorToTalStartOfCourse(resultMapping.Vote1Star ?? 0, resultMapping.Vote2Star ?? 0, resultMapping.Vote3Star ?? 0, resultMapping.Vote4Star ?? 0, resultMapping.Vote5Star ?? 0);
                 resultMapping.CategoryName = getCategory.Where(x => x.Id == resultMapping.IdCategory).FirstOrDefault()?.Name;
-                resultMapping.UserName = "Admin";
+                resultMapping.UserName = (await _userRepository.GetByIdAsync(resultMapping.CreateBy))?.Name;
                 resultMapping.ProcessCourseName = ((ProcessVideo)resultMapping?.ProcessCourse).GetEnumDescription();
                 resultMapping.ListContentCourseDetails = await GetContentOfCourse((int)getData.Id, isAdmin);
                 resultMapping.ListCourseRate = resultCourse;
                 resultMapping.Author = resultAuthor;
                 resultMapping.FileUploadUrlStream = $"{ProjectConfig.APIUrlGetVideoMp4}{resultMapping.FileUrl}";
+                resultMapping.IsPurchase = isPurchase;
             }
 
             return resultMapping ?? new GetCourseWithDetailsContent();

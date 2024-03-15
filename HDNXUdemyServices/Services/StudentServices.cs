@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HDNXUdemyData.Entities;
 using HDNXUdemyData.IRepository;
+using HDNXUdemyData.Repository;
 using HDNXUdemyModel.Constant;
 using HDNXUdemyModel.Model;
 using HDNXUdemyModel.SystemExceptions;
@@ -19,10 +20,11 @@ namespace HDNXUdemyServices.Services
         private readonly ICourseRepository _courseRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
+        private readonly IRPPurcharseCourseDetailsRepository _purcharseCourseDetailsRepository;
 
         public StudentServices(IUserRepository userRepository, IMapper mapper, IStudentPromotionRepository studentPromotionRepository,
             IStudentProcessRepository studentProcessRepository, IBookmarkCourseRepository bookmarkCourseRepository, ICategoryRepository categoryRepository,
-            ICourseRepository courseRepository)
+            ICourseRepository courseRepository, IRPPurcharseCourseDetailsRepository purcharseCourseDetailsRepository)
         {
             _userRepository = userRepository ?? throw new ProjectException(nameof(_userRepository));
             _mapper = mapper ?? throw new ProjectException(nameof(_mapper));
@@ -31,6 +33,7 @@ namespace HDNXUdemyServices.Services
             _bookmarkCourseRepository = bookmarkCourseRepository ?? throw new ProjectException(nameof(_bookmarkCourseRepository));
             _categoryRepository = categoryRepository ?? throw new ProjectException(nameof(_categoryRepository));
             _courseRepository = courseRepository ?? throw new ProjectException(nameof(_courseRepository));
+            _purcharseCourseDetailsRepository = purcharseCourseDetailsRepository ?? throw new ProjectException(nameof(_purcharseCourseDetailsRepository));
         }
 
         public async Task<bool> CreateStudent(UserModel model)
@@ -205,12 +208,16 @@ namespace HDNXUdemyServices.Services
             var getDataOfCourse = await _courseRepository.GetAsync(x => listIdOfCoureBookmark.Contains((int)x.Id));
             var getCategory = await _categoryRepository.GetAllAsync();
             var resultMapping = _mapper.Map<List<CourseModel>>(getDataOfCourse);
+
             foreach (var item in resultMapping)
             {
+                var isPurchaseCourseDetails = await _purcharseCourseDetailsRepository.GetAsync(x => x.IdCourse == item.Id && x.IdStudent == idUser);
                 item.TotalVoteOfCourse = HelperFunction.CalculatorToTalStartOfCourse(item.Vote1Star ?? 0, item.Vote2Star ?? 0, item.Vote3Star ?? 0, item.Vote4Star ?? 0, item.Vote5Star ?? 0);
                 item.CategoryName = getCategory.Where(x => x.Id == item.IdCategory).FirstOrDefault()?.Name;
-                item.UserName = "Admin";
+                item.UserName = (await _userRepository.GetByIdAsync(idUser))?.Name;
                 item.ProcessCourseName = ((ProcessVideo)item.ProcessCourse).GetEnumDescription();
+                item.IsPurchase  = isPurchaseCourseDetails.Any();
+                item.IsBookMark = true;
             }
             return resultMapping;
         }

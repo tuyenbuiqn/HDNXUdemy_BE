@@ -61,5 +61,7 @@ namespace HDNXUdemyModel.Model
         public string? ProcessCourseName { get; set; }
 
         public bool? IsBookMark { get; set; }
+
+        public bool IsPurchase { get; set; }
     }
 }

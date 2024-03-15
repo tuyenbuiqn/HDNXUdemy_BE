@@ -10,5 +10,7 @@ namespace HDNXUdemyServices.IServices
         Task<bool> UpdateStatusPurchase(int id, PurcharseCourseModel model);
 
         string GenPurchaseOrder(int idStudent);
+
+        Task<bool> IsCheckCoursePurchase(int idCourse);
     }
 }

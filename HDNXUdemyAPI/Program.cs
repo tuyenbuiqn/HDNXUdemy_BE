@@ -69,7 +69,13 @@ namespace HDNXUdemyAPI
             {
                 x.AddDefaultPolicy(polocy =>
                 {
-                    polocy.WithOrigins("http://localhost:4200", "http://localhost:65362")
+                    polocy.WithOrigins(
+                        "http://localhost:4200",
+                        "http://localhost:65362",
+                        "https://web-hdnx.devproinsights.com",
+                        "http://web-hdnx.devproinsights.com",
+                        "http://hdnx-admin.devproinsights.com",
+                        "https://hdnx-admin.devproinsights.com")
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials();
@@ -84,11 +90,9 @@ namespace HDNXUdemyAPI
             var env = app.Environment;
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 app.UseSwashbuckleSwagger(apiVersionProvider);
             }
-
-            app.UseHttpsRedirection();
+            app.UseDeveloperExceptionPage();
             app.UseAuthentication();
             app.UseExceptionMiddleware();
             app.UseCors();
