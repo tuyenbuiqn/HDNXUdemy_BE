@@ -201,7 +201,6 @@ namespace HDNXUdemyAPI.Controllers
             return result;
         }
 
-
         /// <summary>
         /// AddCommentOfStudentForCourse
         /// </summary>
@@ -624,6 +623,48 @@ namespace HDNXUdemyAPI.Controllers
             };
 
             result.Data = await _courseServices.GetCommentChapter(id);
+            return result;
+        }
+
+        /// <summary>
+        /// LikeForCommentCourse
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPut("course-comment-like/{id}")]
+        public async Task<RepositoryModel<bool>> LikeForCommentCourse(int id)
+        {
+            RepositoryModel<bool> result = new()
+            {
+                PartnerCode = Messenger.SuccessFull,
+                RetCode = ERetCode.Successfull,
+                Data = false,
+                SystemMessage = string.Empty,
+                StatusCode = (int)HttpStatusCode.Created
+            };
+
+            result.Data = await _courseServices.LikeForCommentCourse(id);
+            return result;
+        }
+
+        /// <summary>
+        /// DisLikeForCommentCourse
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPut("course-comment-dislike/{id}")]
+        public async Task<RepositoryModel<bool>> DisLikeForCommentCourse(int id)
+        {
+            RepositoryModel<bool> result = new()
+            {
+                PartnerCode = Messenger.SuccessFull,
+                RetCode = ERetCode.Successfull,
+                Data = false,
+                SystemMessage = string.Empty,
+                StatusCode = (int)HttpStatusCode.Created
+            };
+
+            result.Data = await _courseServices.DisLikeForCommentCourse(id);
             return result;
         }
     }

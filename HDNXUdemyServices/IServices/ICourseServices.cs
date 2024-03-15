@@ -63,5 +63,9 @@ namespace HDNXUdemyServices.IServices
         Task<List<CourseModel>> GetListCourseAsCategory(int idCategory);
 
         Task<List<CourseModel>> GetListCourseOfStudent(int idStudent);
+
+        Task<bool> LikeForCommentCourse(int id);
+
+        Task<bool> DisLikeForCommentCourse(int id);
     }
 }

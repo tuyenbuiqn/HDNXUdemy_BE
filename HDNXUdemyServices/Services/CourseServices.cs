@@ -357,5 +357,19 @@ namespace HDNXUdemyServices.Services
             var getData = await _courseRepository.GetAsync(x => x.IdCategory == idCategory);
             return _mapper.Map<List<CourseModel>>(getData);
         }
+
+        public async Task<bool> LikeForCommentCourse(int id)
+        {
+            var getData = await _courseEvaluationRepository.GetByIdAsync(id);
+            getData.Like += 1;
+            return await _courseEvaluationRepository.UpdateAsync(getData);
+        }
+
+        public async Task<bool> DisLikeForCommentCourse(int id)
+        {
+            var getData = await _courseEvaluationRepository.GetByIdAsync(id);
+            getData.DisLike += 1;
+            return await _courseEvaluationRepository.UpdateAsync(getData);
+        }
     }
 }
