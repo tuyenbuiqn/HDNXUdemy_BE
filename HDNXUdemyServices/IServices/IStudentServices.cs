@@ -45,5 +45,7 @@ namespace HDNXUdemyServices.IServices
         Task<List<UserModel>> GetListUserManager();
 
         Task<List<UserModel>> GetListTeachers();
+
+        Task<List<string?>> GetListUserNameRegisterForCourse(int idCourse);
     }
 }

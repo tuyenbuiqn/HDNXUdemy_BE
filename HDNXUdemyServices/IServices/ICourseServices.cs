@@ -46,15 +46,15 @@ namespace HDNXUdemyServices.IServices
 
         Task<ContentCourseDetailModel> GetContentCourseDetails(int id, HttpRequest request);
 
-        Task<bool> CreateCommentChapter(ChapterCommentModel model);
+        Task<bool> CreateTheadQuestionCourse(TheadQuestionCourseModel model);
 
-        Task<bool> UpdateStatusCommentChapter(int id, ChapterCommentModel model);
+        Task<bool> UpdateStatusTheadQuestionCourse(int id, TheadQuestionCourseModel model);
 
-        Task<bool> UpdateInformationCommentChapter(int id, ChapterCommentModel model);
+        Task<bool> UpdateInformationTheadQuestionCourse(int id, TheadQuestionCourseModel model);
 
-        Task<List<ChapterCommentModel>> GetListCommentChapter(int idCourse);
+        Task<List<TheadQuestionCourseModel>> GetListTheadQuestionCourse(int idCourse);
 
-        Task<ChapterCommentModel> GetCommentChapter(int id);
+        Task<TheadQuestionCourseModel> GetTheadQuestionCourse(int id);
 
         Task<List<CourseModel>> GetListCourseForAdmin();
 
@@ -67,5 +67,13 @@ namespace HDNXUdemyServices.IServices
         Task<bool> LikeForCommentCourse(int id);
 
         Task<bool> DisLikeForCommentCourse(int id);
+
+        Task<bool> CreateDetailsTheadQuestionCourse(DetailTheadQuestionCourseModel model);
+
+        Task<bool> UpdateStatusDetailsTheadQuestionCourse(int id, DetailTheadQuestionCourseModel model);
+
+        Task<bool> UpdateInformationDetailsTheadQuestionCourse(int id, DetailTheadQuestionCourseModel model);
+
+        Task<List<DetailTheadQuestionCourseModel>> GetListDetailsTheadQuestionCourse(int idThear);
     }
 }

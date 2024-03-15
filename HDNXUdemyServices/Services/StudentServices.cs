@@ -235,6 +235,11 @@ namespace HDNXUdemyServices.Services
             return await _bookmarkCourseRepository.DeleteByKey(id);
         }
 
-
+        public async Task<List<string?>> GetListUserNameRegisterForCourse(int idCourse)
+        {
+            var getListDataStudentPurchase = await _purcharseCourseDetailsRepository.GetAsync(x => x.IdCourse == idCourse);
+            List<int> listIdStudent = getListDataStudentPurchase.Select(x => x.IdStudent).ToList();
+            return (await _userRepository.GetAsync(x => listIdStudent.Contains((int)x.Id))).Select(x => x.Name).ToList();
+        }
     }
 }

@@ -4,7 +4,6 @@ using HDNXUdemyModel.Constant;
 using HDNXUdemyModel.Model;
 using HDNXUdemyModel.SystemExceptions;
 using HDNXUdemyServices.IServices;
-using HDNXUdemyServices.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -493,6 +492,27 @@ namespace HDNXUdemyAPI.Controllers
             };
 
             result.Data = await _courseServices.GetListCourseOfStudent(idStudent);
+            return result;
+        }
+
+        /// <summary>
+        /// GetListUserNameRegisterForCourse
+        /// </summary>
+        /// <param name="idCourse"></param>
+        /// <returns></returns>
+        [HttpGet("student-name-of-course/{idCourse}")]
+        public async Task<RepositoryModel<List<string?>>> GetListUserNameRegisterForCourse(int idCourse)
+        {
+            RepositoryModel<List<string?>> result = new()
+            {
+                PartnerCode = Messenger.SuccessFull,
+                RetCode = ERetCode.Successfull,
+                Data = new List<string?>(),
+                SystemMessage = string.Empty,
+                StatusCode = (int)HttpStatusCode.Created
+            };
+
+            result.Data = await _studentServices.GetListUserNameRegisterForCourse(idCourse);
             return result;
         }
     }

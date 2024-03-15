@@ -18,7 +18,7 @@ namespace HDNXUdemyServices.Services
         private readonly ICourseRepository _courseRepository;
         private readonly IContentCourseRepository _contentCourseRepository;
         private readonly IContentCourseDetailRepository _contentCourseDetailRepository;
-        private readonly IChapterCommentRepository _chapterCommentRepository;
+        private readonly IRTheadQuestionCourseRepository _theadQuestionCourseRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
@@ -26,16 +26,17 @@ namespace HDNXUdemyServices.Services
         private readonly IRPPurcharseCourseDetailsRepository _purcharseCourseDetailsRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRCourseEvaluationRepository _courseEvaluationRepository;
+        private readonly IRDetailTheadQuestionCourseRepository _detailsTheadQuestionCourseRepository;
 
         public CourseServices(ICourseRepository courseRepository, IContentCourseRepository contentCourseRepository, IContentCourseDetailRepository contentCourseDetailRepository,
-            IChapterCommentRepository chapterCommentRepository, IMapper mapper, ICategoryRepository categoryRepository,
+            IRTheadQuestionCourseRepository theadQuestionCourseRepository, IMapper mapper, ICategoryRepository categoryRepository,
             IUserRepository userRepository, IPurcharseCourseRepository pucharseCourseRepository, IRPPurcharseCourseDetailsRepository purcharseCourseDetailsRepository,
-            IHttpContextAccessor httpContextAccessor, IRCourseEvaluationRepository courseEvaluationRepository)
+            IHttpContextAccessor httpContextAccessor, IRCourseEvaluationRepository courseEvaluationRepository, IRDetailTheadQuestionCourseRepository detailsTheadQuestionCourseRepository)
         {
             _courseRepository = courseRepository ?? throw new ProjectException(nameof(_courseRepository));
             _contentCourseRepository = contentCourseRepository ?? throw new ProjectException(nameof(_contentCourseRepository));
             _contentCourseDetailRepository = contentCourseDetailRepository ?? throw new ProjectException(nameof(_contentCourseDetailRepository));
-            _chapterCommentRepository = chapterCommentRepository ?? throw new ProjectException(nameof(_chapterCommentRepository));
+            _theadQuestionCourseRepository = theadQuestionCourseRepository ?? throw new ProjectException(nameof(_theadQuestionCourseRepository));
             _categoryRepository = categoryRepository ?? throw new ProjectException(nameof(_categoryRepository));
             _userRepository = userRepository ?? throw new ProjectException(nameof(_userRepository));
             _mapper = mapper ?? throw new ProjectException(nameof(_mapper));
@@ -43,6 +44,7 @@ namespace HDNXUdemyServices.Services
             _purcharseCourseDetailsRepository = purcharseCourseDetailsRepository ?? throw new ProjectException(nameof(_purcharseCourseDetailsRepository));
             _httpContextAccessor = httpContextAccessor ?? throw new ProjectException(nameof(_httpContextAccessor));
             _courseEvaluationRepository = courseEvaluationRepository ?? throw new ProjectException(nameof(_courseEvaluationRepository));
+            _detailsTheadQuestionCourseRepository = detailsTheadQuestionCourseRepository ?? throw new ProjectException(nameof(_detailsTheadQuestionCourseRepository)); ;
         }
 
         public async Task<bool> CreateCourse(CourseModel model)
@@ -319,37 +321,64 @@ namespace HDNXUdemyServices.Services
             return resultData;
         }
 
-        public async Task<bool> CreateCommentChapter(ChapterCommentModel model)
+        public async Task<bool> CreateTheadQuestionCourse(TheadQuestionCourseModel model)
         {
-            var dataInsert = _mapper.Map<ChapterCommentEntities>(model);
-            return await _chapterCommentRepository.AddAsync(dataInsert);
+            var dataInsert = _mapper.Map<TheadQuestionCourseEntities>(model);
+            return await _theadQuestionCourseRepository.AddAsync(dataInsert);
         }
 
-        public async Task<bool> UpdateStatusCommentChapter(int id, ChapterCommentModel model)
+        public async Task<bool> UpdateStatusTheadQuestionCourse(int id, TheadQuestionCourseModel model)
         {
-            var getData = await _chapterCommentRepository.GetByIdAsync(id) ?? new ChapterCommentEntities();
+            var getData = await _theadQuestionCourseRepository.GetByIdAsync(id) ?? new TheadQuestionCourseEntities();
             getData.Status = model.Status;
-            return await _chapterCommentRepository.UpdateStatusAsync(getData);
+            return await _theadQuestionCourseRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateInformationCommentChapter(int id, ChapterCommentModel model)
+        public async Task<bool> UpdateInformationTheadQuestionCourse(int id, TheadQuestionCourseModel model)
         {
-            var getData = await _chapterCommentRepository.GetByIdAsync(id) ?? new ChapterCommentEntities();
-            var dataInsert = _mapper.Map<ChapterCommentEntities>(model);
+            var getData = await _theadQuestionCourseRepository.GetByIdAsync(id) ?? new TheadQuestionCourseEntities();
+            var dataInsert = _mapper.Map<TheadQuestionCourseEntities>(model);
             dataInsert.CreateDate = getData.CreateDate;
-            return await _chapterCommentRepository.UpdateAsync(dataInsert);
+            return await _theadQuestionCourseRepository.UpdateAsync(dataInsert);
         }
 
-        public async Task<List<ChapterCommentModel>> GetListCommentChapter(int idCourse)
+        public async Task<List<TheadQuestionCourseModel>> GetListTheadQuestionCourse(int idCourse)
         {
-            var getData = await _chapterCommentRepository.GetAsync(x => x.IdCourse == idCourse);
-            return _mapper.Map<List<ChapterCommentModel>>(getData);
+            var getData = await _theadQuestionCourseRepository.GetAsync(x => x.IdCourse == idCourse);
+            return _mapper.Map<List<TheadQuestionCourseModel>>(getData);
         }
 
-        public async Task<ChapterCommentModel> GetCommentChapter(int id)
+        public async Task<TheadQuestionCourseModel> GetTheadQuestionCourse(int id)
         {
-            var getData = await _chapterCommentRepository.GetByIdAsync(id);
-            return _mapper.Map<ChapterCommentModel>(getData);
+            var getData = await _theadQuestionCourseRepository.GetByIdAsync(id);
+            return _mapper.Map<TheadQuestionCourseModel>(getData);
+        }
+
+        public async Task<bool> CreateDetailsTheadQuestionCourse(DetailTheadQuestionCourseModel model)
+        {
+            var dataInsert = _mapper.Map<DetailTheadQuestionCourseEntities>(model);
+            return await _detailsTheadQuestionCourseRepository.AddAsync(dataInsert);
+        }
+
+        public async Task<bool> UpdateStatusDetailsTheadQuestionCourse(int id, DetailTheadQuestionCourseModel model)
+        {
+            var getData = await _detailsTheadQuestionCourseRepository.GetByIdAsync(id) ?? new DetailTheadQuestionCourseEntities();
+            getData.Status = model.Status;
+            return await _detailsTheadQuestionCourseRepository.UpdateStatusAsync(getData);
+        }
+
+        public async Task<bool> UpdateInformationDetailsTheadQuestionCourse(int id, DetailTheadQuestionCourseModel model)
+        {
+            var getData = await _detailsTheadQuestionCourseRepository.GetByIdAsync(id) ?? new DetailTheadQuestionCourseEntities();
+            var dataInsert = _mapper.Map<DetailTheadQuestionCourseEntities>(model);
+            dataInsert.CreateDate = getData.CreateDate;
+            return await _detailsTheadQuestionCourseRepository.UpdateAsync(dataInsert);
+        }
+
+        public async Task<List<DetailTheadQuestionCourseModel>> GetListDetailsTheadQuestionCourse(int idThear)
+        {
+            var getData = await _detailsTheadQuestionCourseRepository.GetAsync(x => x.IdTheadQuestionCourse == idThear);
+            return _mapper.Map<List<DetailTheadQuestionCourseModel>>(getData);
         }
 
         public async Task<List<CourseModel>> GetListCourseAsCategory(int idCategory)

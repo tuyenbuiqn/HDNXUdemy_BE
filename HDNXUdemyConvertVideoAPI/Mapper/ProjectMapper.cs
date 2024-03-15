@@ -24,7 +24,7 @@ namespace HDNXUdemyConvertVideoAPI.Mapper
 
             CreateMap<BookmarkCourseEntities, BookmarkCourseModel>().ReverseMap();
             CreateMap<CategoryEntities, CategoryModel>().ReverseMap();
-            CreateMap<ChapterCommentEntities, ChapterCommentModel>().ReverseMap();
+            CreateMap<TheadQuestionCourseEntities, TheadQuestionCourseModel>().ReverseMap();
             CreateMap<ContentCourseEntities, ContentCourseModel>().ReverseMap();
             CreateMap<ContentCourseDetailEntities, ContentCourseDetailModel>()
                 .ForMember(dest => dest.FileUploadUrlStream, opt => opt.MapFrom(x => $"{ProjectConfig.APIUrlGetVideoStream}{x.IdVideoUpload}.mp4"));
