@@ -27,7 +27,6 @@ namespace HDNXUdemyAPI.ProjectExtensisons
             services.AddTransient<IContentCourseRepository, ContentCourseRepository>();
             services.AddTransient<IContentCourseDetailRepository, ContentCourseDetailRepository>();
             services.AddTransient<ICourseRepository, CourseRepository>();
-            services.AddTransient<ICourseCommentRepository, CourseCommentRepository>();
             services.AddTransient<IInformationManualBankingRepository, InformationManualBankingRepository>();
             services.AddTransient<IPurcharseCourseRepository, PurcharseCourseRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
@@ -38,6 +37,7 @@ namespace HDNXUdemyAPI.ProjectExtensisons
             services.AddTransient<ISystemConfigRepository, SystemConfigRepository>();
             services.AddTransient<IRPPartnerRepository, RPPartnerRepository>();
             services.AddTransient<IRPPurcharseCourseDetailsRepository, RPurcharseCourseDetailsRepository>();
+            services.AddTransient<IRCourseEvaluationRepository, RCourseEvaluationRepository>();
 
             services.AddTransient(typeof(ILogServices<>), typeof(LogServices<>));
             services.AddHttpClient<IAuthenticationServices, AuthenticationServices>();

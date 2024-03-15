@@ -16,15 +16,15 @@ namespace HDNXUdemyServices.IServices
 
         Task<StudentProcessModel> GetStudentProcess(int id);
 
-        Task<bool> CreateCommentCourse(CourseCommentModel model);
+        Task<bool> AddCommentOfStudentForCourse(CourseEvaluationModel model);
 
-        Task<bool> UpdateStatusCommentCourse(int id, CourseCommentModel model);
+        Task<List<CourseEvaluationModel>> GetListCoursEvaluation(int idCourse);
 
-        Task<bool> UpdateInformationCommentCourse(int id, CourseCommentModel model);
+        Task<bool> UpdateStatusCommentCourse(int id, CourseEvaluationModel model);
 
-        Task<List<CourseCommentModel>> GetListCommentCourse(int idCourse);
+        Task<bool> UpdateInformationCommentCourse(int id, CourseEvaluationModel model);
 
-        Task<CourseCommentModel> GetCommentCourse(int id);
+        Task<CourseEvaluationModel> GetCommentCourse(int id);
 
         Task<bool> CreateContentCourse(ContentCourseModel model);
 

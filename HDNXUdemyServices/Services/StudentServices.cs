@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using HDNXUdemyData.Entities;
 using HDNXUdemyData.IRepository;
-using HDNXUdemyData.Repository;
 using HDNXUdemyModel.Constant;
 using HDNXUdemyModel.Model;
 using HDNXUdemyModel.SystemExceptions;
 using HDNXUdemyServices.CommonFunction;
 using HDNXUdemyServices.IServices;
-using NetTopologySuite.Index.HPRtree;
 
 namespace HDNXUdemyServices.Services
 {
@@ -21,10 +19,11 @@ namespace HDNXUdemyServices.Services
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
         private readonly IRPPurcharseCourseDetailsRepository _purcharseCourseDetailsRepository;
+        private readonly IRCourseEvaluationRepository _courseEvaluationRepository;
 
         public StudentServices(IUserRepository userRepository, IMapper mapper, IStudentPromotionRepository studentPromotionRepository,
             IStudentProcessRepository studentProcessRepository, IBookmarkCourseRepository bookmarkCourseRepository, ICategoryRepository categoryRepository,
-            ICourseRepository courseRepository, IRPPurcharseCourseDetailsRepository purcharseCourseDetailsRepository)
+            ICourseRepository courseRepository, IRPPurcharseCourseDetailsRepository purcharseCourseDetailsRepository, IRCourseEvaluationRepository courseEvaluationRepository)
         {
             _userRepository = userRepository ?? throw new ProjectException(nameof(_userRepository));
             _mapper = mapper ?? throw new ProjectException(nameof(_mapper));
@@ -34,6 +33,7 @@ namespace HDNXUdemyServices.Services
             _categoryRepository = categoryRepository ?? throw new ProjectException(nameof(_categoryRepository));
             _courseRepository = courseRepository ?? throw new ProjectException(nameof(_courseRepository));
             _purcharseCourseDetailsRepository = purcharseCourseDetailsRepository ?? throw new ProjectException(nameof(_purcharseCourseDetailsRepository));
+            _courseEvaluationRepository = courseEvaluationRepository ?? throw new ProjectException(nameof(_courseEvaluationRepository)); ;
         }
 
         public async Task<bool> CreateStudent(UserModel model)
@@ -212,11 +212,19 @@ namespace HDNXUdemyServices.Services
             foreach (var item in resultMapping)
             {
                 var isPurchaseCourseDetails = await _purcharseCourseDetailsRepository.GetAsync(x => x.IdCourse == item.Id && x.IdStudent == idUser);
-                item.TotalVoteOfCourse = HelperFunction.CalculatorToTalStartOfCourse(item.Vote1Star ?? 0, item.Vote2Star ?? 0, item.Vote3Star ?? 0, item.Vote4Star ?? 0, item.Vote5Star ?? 0);
+                var getDataOfVoteStar = await _courseEvaluationRepository.GetAsync(x => x.IdCourse == item.Id);
+                var getVoteData = HelperFunction.CalculatorToTalStartOfCourse(getDataOfVoteStar.ToList());
+                item.TotalVoteOfCourse = getDataOfVoteStar.Count();
+                item.Vote1Star = getVoteData.Item1;
+                item.Vote2Star = getVoteData.Item2;
+                item.Vote3Star = getVoteData.Item3;
+                item.Vote4Star = getVoteData.Item4;
+                item.Vote5Star = getVoteData.Item5;
+                item.AverageScore = getVoteData.Item6;
                 item.CategoryName = getCategory.Where(x => x.Id == item.IdCategory).FirstOrDefault()?.Name;
                 item.UserName = (await _userRepository.GetByIdAsync(idUser))?.Name;
                 item.ProcessCourseName = ((ProcessVideo)item.ProcessCourse).GetEnumDescription();
-                item.IsPurchase  = isPurchaseCourseDetails.Any();
+                item.IsPurchase = isPurchaseCourseDetails.Any();
                 item.IsBookMark = true;
             }
             return resultMapping;
@@ -226,5 +234,7 @@ namespace HDNXUdemyServices.Services
         {
             return await _bookmarkCourseRepository.DeleteByKey(id);
         }
+
+
     }
 }

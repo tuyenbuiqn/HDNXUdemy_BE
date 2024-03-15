@@ -3,7 +3,7 @@ using HDNXUdemyData.GenericRepository;
 
 namespace HDNXUdemyData.IRepository
 {
-    public interface ICourseCommentRepository : IGenericRepository<CourseCommentEntities>
+    public interface IRCourseEvaluationRepository : IGenericRepository<CourseEvaluationEntities>
     {
     }
 }

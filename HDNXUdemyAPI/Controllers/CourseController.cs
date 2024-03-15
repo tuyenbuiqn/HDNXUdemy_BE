@@ -201,24 +201,46 @@ namespace HDNXUdemyAPI.Controllers
             return result;
         }
 
+
         /// <summary>
-        /// CreateCommentCourse
+        /// AddCommentOfStudentForCourse
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost("course-comment")]
-        public async Task<RepositoryModel<bool>> CreateCommentCourse(CourseCommentModel model)
+        public async Task<RepositoryModel<bool>> AddCommentOfStudentForCourse(CourseEvaluationModel model)
         {
             RepositoryModel<bool> result = new()
             {
                 PartnerCode = Messenger.SuccessFull,
                 RetCode = ERetCode.Successfull,
-                Data = new bool(),
+                Data = false,
                 SystemMessage = string.Empty,
                 StatusCode = (int)HttpStatusCode.Created
             };
 
-            result.Data = await _courseServices.CreateCommentCourse(model);
+            result.Data = await _courseServices.AddCommentOfStudentForCourse(model);
+            return result;
+        }
+
+        /// <summary>
+        /// GetListCoursEvaluation
+        /// </summary>
+        /// <param name="idCourse"></param>
+        /// <returns></returns>
+        [HttpGet("course-comment/course/{idCourse}")]
+        public async Task<RepositoryModel<List<CourseEvaluationModel>>> GetListCourseEvaluation(int idCourse)
+        {
+            RepositoryModel<List<CourseEvaluationModel>> result = new()
+            {
+                PartnerCode = Messenger.SuccessFull,
+                RetCode = ERetCode.Successfull,
+                Data = new List<CourseEvaluationModel>(),
+                SystemMessage = string.Empty,
+                StatusCode = (int)HttpStatusCode.Created
+            };
+
+            result.Data = await _courseServices.GetListCoursEvaluation(idCourse);
             return result;
         }
 
@@ -229,7 +251,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("course-comment/status/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateStatusCommentCourse(int id, CourseCommentModel model)
+        public async Task<RepositoryModel<bool>> UpdateStatusCommentCourse(int id, CourseEvaluationModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -251,7 +273,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("course-comment/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateInformationCommentCourse(int id, CourseCommentModel model)
+        public async Task<RepositoryModel<bool>> UpdateInformationCommentCourse(int id, CourseEvaluationModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -267,38 +289,18 @@ namespace HDNXUdemyAPI.Controllers
         }
 
         /// <summary>
-        /// GetListStudentProcess
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("course-comment/course/{idCourse}")]
-        public async Task<RepositoryModel<List<CourseCommentModel>>> GetListCommentCourse(int idCourse)
-        {
-            RepositoryModel<List<CourseCommentModel>> result = new()
-            {
-                PartnerCode = Messenger.SuccessFull,
-                RetCode = ERetCode.Successfull,
-                Data = new List<CourseCommentModel>(),
-                SystemMessage = string.Empty,
-                StatusCode = (int)HttpStatusCode.Created
-            };
-
-            result.Data = await _courseServices.GetListCommentCourse(idCourse);
-            return result;
-        }
-
-        /// <summary>
         /// GetCommentCourse
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("course-comment/{id}")]
-        public async Task<RepositoryModel<CourseCommentModel>> GetCommentCourse(int id)
+        public async Task<RepositoryModel<CourseEvaluationModel>> GetCommentCourse(int id)
         {
-            RepositoryModel<CourseCommentModel> result = new()
+            RepositoryModel<CourseEvaluationModel> result = new()
             {
                 PartnerCode = Messenger.SuccessFull,
                 RetCode = ERetCode.Successfull,
-                Data = new CourseCommentModel(),
+                Data = new CourseEvaluationModel(),
                 SystemMessage = string.Empty,
                 StatusCode = (int)HttpStatusCode.Created
             };

@@ -28,7 +28,6 @@ namespace HDNXUdemyModel.Model
 
         public int? TypeOfCourse { get; set; } // Khoá bình thường or tranning cùng giáo viên
         public string? Introduce { get; set; }
-
         public int? Vote5Star { get; set; }
 
         public int? Vote4Star { get; set; }
@@ -55,6 +54,8 @@ namespace HDNXUdemyModel.Model
         public string? FileUrl { get; set; }
 
         public decimal? TotalVoteOfCourse { get; set; }
+
+        public decimal? AverageScore { get; set; }
 
         public int? ProcessCourse { get; set; }
 

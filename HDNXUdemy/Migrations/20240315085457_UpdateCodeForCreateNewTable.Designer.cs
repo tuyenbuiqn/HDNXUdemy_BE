@@ -3,6 +3,7 @@ using System;
 using HDNXUdemyData.EntitiesContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NodaTime;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HDNXUdemyData.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20240315085457_UpdateCodeForCreateNewTable")]
+    partial class UpdateCodeForCreateNewTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -215,31 +218,31 @@ namespace HDNXUdemyData.Migrations
                         {
                             Id = 1L,
                             CreateBy = 1,
-                            CreateDate = new NodaTime.LocalDateTime(2024, 3, 15, 8, 58, 44).PlusNanoseconds(915083800L),
+                            CreateDate = new NodaTime.LocalDateTime(2024, 3, 15, 8, 54, 56).PlusNanoseconds(916554000L),
                             Name = "Thiết kế cơ khí",
                             Status = 0,
                             UpdateBy = 1,
-                            UpdateDate = new NodaTime.LocalDateTime(2024, 3, 15, 8, 58, 44).PlusNanoseconds(915083800L)
+                            UpdateDate = new NodaTime.LocalDateTime(2024, 3, 15, 8, 54, 56).PlusNanoseconds(916554000L)
                         },
                         new
                         {
                             Id = 2L,
                             CreateBy = 1,
-                            CreateDate = new NodaTime.LocalDateTime(2024, 3, 15, 8, 58, 44).PlusNanoseconds(915083800L),
+                            CreateDate = new NodaTime.LocalDateTime(2024, 3, 15, 8, 54, 56).PlusNanoseconds(916554000L),
                             Name = "Lập trình CNC",
                             Status = 0,
                             UpdateBy = 1,
-                            UpdateDate = new NodaTime.LocalDateTime(2024, 3, 15, 8, 58, 44).PlusNanoseconds(915083800L)
+                            UpdateDate = new NodaTime.LocalDateTime(2024, 3, 15, 8, 54, 56).PlusNanoseconds(916554000L)
                         },
                         new
                         {
                             Id = 3L,
                             CreateBy = 1,
-                            CreateDate = new NodaTime.LocalDateTime(2024, 3, 15, 8, 58, 44).PlusNanoseconds(915083800L),
+                            CreateDate = new NodaTime.LocalDateTime(2024, 3, 15, 8, 54, 56).PlusNanoseconds(916554000L),
                             Name = "Vận hành máy CNC",
                             Status = 0,
                             UpdateBy = 1,
-                            UpdateDate = new NodaTime.LocalDateTime(2024, 3, 15, 8, 58, 44).PlusNanoseconds(915083800L)
+                            UpdateDate = new NodaTime.LocalDateTime(2024, 3, 15, 8, 54, 56).PlusNanoseconds(916554000L)
                         });
                 });
 
@@ -470,58 +473,6 @@ namespace HDNXUdemyData.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Courses", "sche_dev_HDNXUdemy");
-                });
-
-            modelBuilder.Entity("HDNXUdemyData.Entities.CourseEvaluationEntities", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("Id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("CommentEvaluation")
-                        .HasColumnType("text");
-
-                    b.Property<int>("CreateBy")
-                        .HasColumnType("integer")
-                        .HasColumnName("CreateBy");
-
-                    b.Property<LocalDateTime>("CreateDate")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("CreateDate");
-
-                    b.Property<int>("DisLike")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("IdCourse")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("IdStudent")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Like")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
-                        .HasColumnName("Status");
-
-                    b.Property<int>("UpdateBy")
-                        .HasColumnType("integer")
-                        .HasColumnName("UpdateBy");
-
-                    b.Property<LocalDateTime>("UpdateDate")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("UpdateDate");
-
-                    b.Property<int>("VoteStartNumber")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CourseEvaluations", "sche_dev_HDNXUdemy");
                 });
 
             modelBuilder.Entity("HDNXUdemyData.Entities.FileManagerEntities", b =>

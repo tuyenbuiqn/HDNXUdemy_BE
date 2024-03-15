@@ -35,7 +35,6 @@ namespace HDNXUdemyData.EntitiesContext
         public virtual DbSet<ContentCourseEntities>? ContentCourses { get; set; }
         public virtual DbSet<ContentCourseDetailEntities>? ContentCourseDetails { get; set; }
         public virtual DbSet<CourseEntities>? Courses { get; set; }
-        public virtual DbSet<CourseCommentEntities>? CourseComments { get; set; }
         public virtual DbSet<InformationManualBankingEntities>? InformationManualBankings { get; set; }
         public virtual DbSet<PurcharseCourseEntities>? PurcharseCourses { get; set; }
         public virtual DbSet<PurcharseCourseDetailsEntities>? PurcharseCourseDetails { get; set; }
@@ -46,6 +45,7 @@ namespace HDNXUdemyData.EntitiesContext
         public virtual DbSet<FileManagerEntities>? FileManagers { get; set; }
         public virtual DbSet<SystemConfigEntities>? SystemConfigs { get; set; }
         public virtual DbSet<PartnerEntities>? Partners { get; set; }
+        public virtual DbSet<CourseEvaluationEntities>? CourseEvaluations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -57,7 +57,6 @@ namespace HDNXUdemyData.EntitiesContext
             modelBuilder.Entity<ChapterCommentEntities>().ToTable("ChapterComments").HasKey(x => x.Id);
             modelBuilder.Entity<ContentCourseEntities>().ToTable("ContentCourses").HasKey(x => x.Id);
             modelBuilder.Entity<ContentCourseDetailEntities>().ToTable("ContentCourseDetails").HasKey(x => x.Id);
-            modelBuilder.Entity<CourseCommentEntities>().ToTable("CourseComments").HasKey(x => x.Id);
             modelBuilder.Entity<InformationManualBankingEntities>().ToTable("InformationManualBankings").HasKey(x => x.Id);
             modelBuilder.Entity<PurcharseCourseEntities>().ToTable("PurcharseCourses").HasKey(x => x.Id);
             modelBuilder.Entity<PurcharseCourseDetailsEntities>().ToTable("PurcharseCourseDetails").HasKey(x => x.Id);
@@ -68,6 +67,7 @@ namespace HDNXUdemyData.EntitiesContext
             modelBuilder.Entity<FileManagerEntities>().ToTable("FileManagers").HasKey(x => x.Id);
             modelBuilder.Entity<SystemConfigEntities>().ToTable("SystemConfigs").HasKey(x => x.Id);
             modelBuilder.Entity<PartnerEntities>().ToTable("Partners").HasKey(x => x.Id);
+            modelBuilder.Entity<CourseEvaluationEntities>().ToTable("CourseEvaluations").HasKey(x => x.Id);
             modelBuilder.SeedDataDefault();
         }
 

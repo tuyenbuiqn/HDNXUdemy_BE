@@ -31,7 +31,6 @@ namespace HDNXUdemyAPI.Mapper
             CreateMap<ContentCourseDetailModel, ContentCourseDetailEntities>();
             CreateMap<BannerEntities, BannerModel>().ReverseMap();
             CreateMap<CourseEntities, CourseModel>().ReverseMap();
-            CreateMap<CourseCommentEntities, CourseCommentModel>().ReverseMap();
             CreateMap<InformationManualBankingEntities, InformationManualBankingModel>().ReverseMap();
             CreateMap<PurcharseCourseEntities, PurcharseCourseModel>().ReverseMap();
             CreateMap<StudentProcessEntities, StudentProcessModel>().ReverseMap();
@@ -41,6 +40,7 @@ namespace HDNXUdemyAPI.Mapper
             CreateMap<SystemConfigEntities, SystemConfigModel>().ReverseMap();
             CreateMap<PartnerEntities, PartnerModel>().ReverseMap();
             CreateMap<UserEntities, UserModel>().ReverseMap();
+            CreateMap<CourseEvaluationEntities, CourseEvaluationModel>().ReverseMap();
 
             CreateMap<ListContentWithDetailCourse, ContentCourseModel>().ReverseMap();
             CreateMap<ListContentWithDetailCourse, ContentCourseEntities>().ReverseMap();
