@@ -51,6 +51,7 @@ namespace HDNXUdemyAPI.Mapper
                 .ForMember(dest => dest.RoleName, opt => opt.MapFrom(x => ((ERoles)x.RoleId).GetEnumDescription()))
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(x => x.Id));
             CreateMap<PurcharseCourseDetailsEntities, PurcharseCourseDetailsModel>().ReverseMap();
+            CreateMap<PagedResult<PurcharseCourseEntities>, PagedResult<PurcharseCourseModel>>().ReverseMap();
         }
     }
 }

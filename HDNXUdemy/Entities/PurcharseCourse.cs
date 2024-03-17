@@ -1,4 +1,6 @@
-﻿namespace HDNXUdemyData.Entities
+﻿using NodaTime;
+
+namespace HDNXUdemyData.Entities
 {
     public class PurcharseCourseEntities : BaseEntities
     {
@@ -13,5 +15,7 @@
         public int PurcharseStatus { get; set; }
 
         public string? PurcharseCode { get; set; }
+
+        public LocalDateTime? PurchaseDate { get; set; }
     }
 }

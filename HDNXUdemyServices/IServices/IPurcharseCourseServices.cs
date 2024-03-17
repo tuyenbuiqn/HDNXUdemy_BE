@@ -1,4 +1,5 @@
-﻿using HDNXUdemyModel.Model;
+﻿using HDNXUdemyModel.Base;
+using HDNXUdemyModel.Model;
 using HDNXUdemyModel.ResponModel;
 
 namespace HDNXUdemyServices.IServices
@@ -12,5 +13,7 @@ namespace HDNXUdemyServices.IServices
         string GenPurchaseOrder(int idStudent);
 
         Task<bool> IsCheckCoursePurchase(int idCourse);
+
+        Task<PagedResult<PurcharseCourseModel>> GetListPurcharseCourses(int pageIndex, int pageSize);
     }
 }

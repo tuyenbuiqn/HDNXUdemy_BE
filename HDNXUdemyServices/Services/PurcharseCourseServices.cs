@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using HDNXUdemyData.Entities;
 using HDNXUdemyData.IRepository;
-using HDNXUdemyData.Repository;
+using HDNXUdemyModel.Base;
 using HDNXUdemyModel.Constant;
 using HDNXUdemyModel.Model;
 using HDNXUdemyModel.ResponModel;
@@ -24,10 +24,12 @@ namespace HDNXUdemyServices.Services
         private readonly IInformationManualBankingRepository _informationManualBankingRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IPurcharseCourseRepository _pucharseCourseRepository;
+        private readonly IUserRepository _userRepository;
 
         public PurcharseCourseServices(IPurcharseCourseRepository purcharseCourseRepository, IMapper mapper, IHubContext<HubConfigProject> hubConfigProject,
             ICourseRepository courseRepository, INotificationRepository notificationRepository, IInformationManualBankingRepository informationManualBankingRepository,
-            IRPPurcharseCourseDetailsRepository purcharseCourseDetailsRepository, IHttpContextAccessor httpContextAccessor, IPurcharseCourseRepository pucharseCourseRepository)
+            IRPPurcharseCourseDetailsRepository purcharseCourseDetailsRepository, IHttpContextAccessor httpContextAccessor, IPurcharseCourseRepository pucharseCourseRepository,
+            IUserRepository userRepository)
         {
             _purcharseCourseRepository = purcharseCourseRepository ?? throw new ProjectException(nameof(_purcharseCourseRepository));
             _mapper = mapper ?? throw new ProjectException(nameof(_mapper));
@@ -38,6 +40,7 @@ namespace HDNXUdemyServices.Services
             _purcharseCourseDetailsRepository = purcharseCourseDetailsRepository ?? throw new ProjectException(nameof(_purcharseCourseDetailsRepository));
             _httpContextAccessor = httpContextAccessor ?? throw new ProjectException(nameof(_httpContextAccessor));
             _pucharseCourseRepository = pucharseCourseRepository ?? throw new ProjectException(nameof(_pucharseCourseRepository));
+            _userRepository = userRepository ?? throw new ProjectException(nameof(_userRepository));
         }
 
         public string GenPurchaseOrder(int idStudent)
@@ -103,6 +106,22 @@ namespace HDNXUdemyServices.Services
             if (idCurrentUser == 0) return false;
             var isPurchaseCourseDetails = await _purcharseCourseDetailsRepository.GetAsync(x => x.IdCourse == idCourse && x.IdStudent == idCurrentUser);
             return isPurchaseCourseDetails.Any();
+        }
+
+        public async Task<PagedResult<PurcharseCourseModel>> GetListPurcharseCourses(int pageIndex, int pageSize)
+        {
+            var getData = (await _pucharseCourseRepository.GetAsync(x => x.Status == (int)EStatus.Active))
+                .OrderByDescending(x => x.CreateDate)
+                .GetPagingPaged(pageIndex, pageSize, null);
+            var returnValue = _mapper.Map<PagedResult<PurcharseCourseModel>>(getData);
+            foreach (var item in returnValue.Results)
+            {
+                var dataUser = await _userRepository.GetByIdAsync(item.IdStudent);
+                item.StudentName = dataUser?.Name;
+                item.Email = dataUser?.Email;
+                item.NameStatus = ((ETypeOfStatusOrder)item.PurcharseStatus).GetEnumDescription();
+            }
+            return returnValue;
         }
     }
 }

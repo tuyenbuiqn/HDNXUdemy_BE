@@ -35,7 +35,10 @@ namespace HDNXUdemyModel.Constant
         Payment,
 
         [Description("Pending-Payment")]
-        Pending
+        Pending,
+
+        [Description("Reject")]
+        Reject
     }
 
     public enum ERetCode

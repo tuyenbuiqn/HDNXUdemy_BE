@@ -112,5 +112,27 @@ namespace HDNXUdemyAPI.Controllers
             result.Data = await _purcharseCourseServices.IsCheckCoursePurchase(idCourse);
             return result;
         }
+
+        /// <summary>
+        /// GetListPurcharseCourses
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet("get-list-purchase-course/{pageIndex}/{pageSize}")]
+        public async Task<RepositoryModel<PagedResult<PurcharseCourseModel>>> GetListPurcharseCourses(int pageIndex, int pageSize)
+        {
+            RepositoryModel<PagedResult<PurcharseCourseModel>> result = new()
+            {
+                PartnerCode = Messenger.SuccessFull,
+                RetCode = ERetCode.Successfull,
+                Data =new PagedResult<PurcharseCourseModel>(),
+                SystemMessage = string.Empty,
+                StatusCode = (int)HttpStatusCode.Created
+            };
+
+            result.Data = await _purcharseCourseServices.GetListPurcharseCourses(pageIndex, pageSize);
+            return result;
+        }
     }
 }
