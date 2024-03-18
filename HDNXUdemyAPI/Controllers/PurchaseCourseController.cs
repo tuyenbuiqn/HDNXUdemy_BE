@@ -126,12 +126,33 @@ namespace HDNXUdemyAPI.Controllers
             {
                 PartnerCode = Messenger.SuccessFull,
                 RetCode = ERetCode.Successfull,
-                Data =new PagedResult<PurcharseCourseModel>(),
+                Data = new PagedResult<PurcharseCourseModel>(),
                 SystemMessage = string.Empty,
                 StatusCode = (int)HttpStatusCode.Created
             };
 
             result.Data = await _purcharseCourseServices.GetListPurcharseCourses(pageIndex, pageSize);
+            return result;
+        }
+
+        /// <summary>
+        /// GetPurchaseCorseDetail
+        /// </summary>
+        /// <param name="idPurchase"></param>
+        /// <returns></returns>
+        [HttpGet("get-detail-purchase-course/{idPurchase}")]
+        public async Task<RepositoryModel<PurcharseCourseModel>> GetPurchaseCorseDetail(int idPurchase)
+        {
+            RepositoryModel<PurcharseCourseModel> result = new()
+            {
+                PartnerCode = Messenger.SuccessFull,
+                RetCode = ERetCode.Successfull,
+                Data = new PurcharseCourseModel(),
+                SystemMessage = string.Empty,
+                StatusCode = (int)HttpStatusCode.Created
+            };
+
+            result.Data = await _purcharseCourseServices.GetPurchaseCorseDetail(idPurchase);
             return result;
         }
     }

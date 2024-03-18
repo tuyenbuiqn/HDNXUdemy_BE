@@ -64,5 +64,7 @@ namespace HDNXUdemyModel.Model
         public bool? IsBookMark { get; set; }
 
         public bool IsPurchase { get; set; }
+
+        public decimal? AmountOfTheCourse { get; set; }
     }
 }

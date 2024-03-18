@@ -1,4 +1,5 @@
 ﻿using HDNXUdemyModel.Base;
+using HDNXUdemyModel.Model;
 
 namespace HDNXUdemyData.Entities
 {
@@ -13,5 +14,7 @@ namespace HDNXUdemyData.Entities
         public decimal? PriceOfDiscount { get; set; }
 
         public int IdPurchaseOrder { get; set; }
+
+        public CourseModel? Courses { get; set; }
     }
 }

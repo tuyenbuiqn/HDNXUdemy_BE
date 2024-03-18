@@ -1,5 +1,6 @@
 ﻿using HDNXUdemyData.Entities;
 using HDNXUdemyModel.Base;
+using HDNXUdemyModel.ResponModel;
 using NodaTime;
 
 namespace HDNXUdemyModel.Model
@@ -20,14 +21,14 @@ namespace HDNXUdemyModel.Model
 
         public LocalDateTime? PurchaseDate { get; set; }
 
-        public string? StudentName { get; set; }
-
-        public string? Email { get; set; }
-
         public string? NameStatus { get; set; }
+
+        public UserModel? User { get; set; }
 
         public List<PurcharseCourseDetailsModel>? ListPurchaseCourseDetails { get; set; }
 
         public InformationManualBankingModel? InfoBanking { get; set; }
+
+        public List<ValuePurchaseOrderCount>? ValueOfDataCount { get; set; }
     }
 }
