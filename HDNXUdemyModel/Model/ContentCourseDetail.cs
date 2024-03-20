@@ -4,7 +4,7 @@ namespace HDNXUdemyModel.Model
 {
     public class ContentCourseDetailModel : BaseModel
     {
-        public Guid IdContent { get; set; }
+        public long IdContent { get; set; }
 
         public string? NameSubContent { get; set; }
 

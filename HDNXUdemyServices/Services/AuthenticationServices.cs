@@ -162,7 +162,7 @@ namespace HDNXUdemyServices.Services
             return returnData;
         }
 
-        public async Task<bool> IsActiveAccountAfterRegister(string email, Guid id)
+        public async Task<bool> IsActiveAccountAfterRegister(string email, long id)
         {
             bool isUpdate = false;
             var getData = await _userRepository.GetObjectAsync(x => x.Email == email && x.Id == id);

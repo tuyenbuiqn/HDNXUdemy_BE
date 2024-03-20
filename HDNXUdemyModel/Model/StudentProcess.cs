@@ -4,7 +4,7 @@ namespace HDNXUdemyModel.Model
 {
     public class StudentProcessModel : BaseModel
     {
-        public Guid IdCourse { get; set; }
+        public long IdCourse { get; set; }
 
         public int NumberContentOfCourse { get; set; }
 

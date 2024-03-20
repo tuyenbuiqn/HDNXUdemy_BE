@@ -8,14 +8,14 @@ namespace HDNXUdemyServices.IServices
     {
         Task<PurcharseCourseModel> CreateRequestPurchase(PurcharseCourseModel model);
 
-        Task<bool> UpdateStatusPurchase(Guid id, PurcharseCourseModel model);
+        Task<bool> UpdateStatusPurchase(long id, PurcharseCourseModel model);
 
-        string GenPurchaseOrder(Guid idStudent);
+        string GenPurchaseOrder(long idStudent);
 
-        Task<bool> IsCheckCoursePurchase(Guid idCourse);
+        Task<bool> IsCheckCoursePurchase(long idCourse);
 
         Task<PagedResult<PurcharseCourseModel>> GetListPurcharseCourses(int pageIndex, int pageSize);
 
-        Task<PurcharseCourseModel> GetPurchaseCorseDetail(Guid idPurchase);
+        Task<PurcharseCourseModel> GetPurchaseCorseDetail(long idPurchase);
     }
 }

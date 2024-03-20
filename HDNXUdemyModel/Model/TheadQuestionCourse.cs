@@ -4,9 +4,9 @@ namespace HDNXUdemyModel.Model
 {
     public class TheadQuestionCourseModel : BaseModel
     {
-        public Guid IdStudent { get; set; }
+        public long IdStudent { get; set; }
 
-        public Guid IdCourse { get; set; }
+        public long IdCourse { get; set; }
 
         public string? Comment { get; set; }
 

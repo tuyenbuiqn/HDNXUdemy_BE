@@ -10,13 +10,13 @@ namespace HDNXUdemyServices.IServices
 
         Task<bool> CreateFileSoftware(FileManagerModel model);
 
-        Task<bool> UpdateStatusSoftware(Guid id, FileManagerModel model);
+        Task<bool> UpdateStatusSoftware(long id, FileManagerModel model);
 
-        Task<bool> UpdateInformationSoftware(Guid id, FileManagerModel model);
+        Task<bool> UpdateInformationSoftware(long id, FileManagerModel model);
 
         Task<List<FileManagerModel>> GetListFileSoftware(HttpRequest request);
 
-        Task<FileManagerModel> GetFileSoftware(Guid id);
+        Task<FileManagerModel> GetFileSoftware(long id);
 
         Task<ReturnUploadFile> UploadVideoMp4FileToServer(IFormFile fileVideoUpload, string folderUpload, HttpRequest request);
     }

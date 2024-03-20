@@ -10,6 +10,6 @@
 
         public decimal? PriceOfDiscount { get; set; }
 
-        public Guid IdPurchaseOrder { get; set; }
+        public long IdPurchaseOrder { get; set; }
     }
 }

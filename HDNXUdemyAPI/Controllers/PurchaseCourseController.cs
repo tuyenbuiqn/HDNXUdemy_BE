@@ -34,7 +34,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="idStudent"></param>
         /// <returns></returns>
         [HttpGet("gen-purchase-code/{idStudent}")]
-        public RepositoryModel<string> GenPurchaseOrder(Guid idStudent)
+        public RepositoryModel<string> GenPurchaseOrder(long idStudent)
         {
             RepositoryModel<string> result = new()
             {
@@ -77,7 +77,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("purchase-course/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateStatusPurchase(Guid id, PurcharseCourseModel model)
+        public async Task<RepositoryModel<bool>> UpdateStatusPurchase(long id, PurcharseCourseModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -98,7 +98,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="idCourse"></param>
         /// <returns></returns>
         [HttpGet("check-purchase-course/{idCourse}")]
-        public async Task<RepositoryModel<bool>> IsCheckCoursePurchase(Guid idCourse)
+        public async Task<RepositoryModel<bool>> IsCheckCoursePurchase(long idCourse)
         {
             RepositoryModel<bool> result = new()
             {
@@ -141,7 +141,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="idPurchase"></param>
         /// <returns></returns>
         [HttpGet("get-detail-purchase-course/{idPurchase}")]
-        public async Task<RepositoryModel<PurcharseCourseModel>> GetPurchaseCorseDetail(Guid idPurchase)
+        public async Task<RepositoryModel<PurcharseCourseModel>> GetPurchaseCorseDetail(long idPurchase)
         {
             RepositoryModel<PurcharseCourseModel> result = new()
             {

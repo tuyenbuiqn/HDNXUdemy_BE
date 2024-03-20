@@ -4,6 +4,6 @@ namespace HDNXUdemyServices.IServices
 {
     public interface IHomeServices
     {
-        Task<HomeModel> GetDataForHome(Guid? idUser);
+        Task<HomeModel> GetDataForHome(long? idUser);
     }
 }

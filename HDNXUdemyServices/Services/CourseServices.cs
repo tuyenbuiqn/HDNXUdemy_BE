@@ -53,7 +53,7 @@ namespace HDNXUdemyServices.Services
             return await _courseRepository.AddAsync(dataInsert);
         }
 
-        public async Task<bool> UpdateStatusCourse(int id, int status, int processCourse)
+        public async Task<bool> UpdateStatusCourse(long id, int status, int processCourse)
         {
             var getData = await _courseRepository.GetByIdAsync(id) ?? new CourseEntities();
             getData.Status = status;
@@ -61,7 +61,7 @@ namespace HDNXUdemyServices.Services
             return await _courseRepository.UpdateAsync(getData);
         }
 
-        public async Task<bool> UpdateInformationCourse(int id, CourseModel model)
+        public async Task<bool> UpdateInformationCourse(long id, CourseModel model)
         {
             var getData = await _courseRepository.GetByIdAsync(id) ?? new CourseEntities();
             var dataInsert = _mapper.Map<CourseEntities>(model);
@@ -92,7 +92,7 @@ namespace HDNXUdemyServices.Services
             return resultMapping;
         }
 
-        public async Task<List<CourseModel>> GetListCourseOfStudent(int idStudent)
+        public async Task<List<CourseModel>> GetListCourseOfStudent(long idStudent)
         {
             var getIdOfPurchaseOrder = await _pucharseCourseRepository.
                 GetAsync(x => x.IdStudent == idStudent && x.PurcharseStatus == (int)ETypeOfStatusOrder.Payment && x.Status == (int)EStatus.Active);
@@ -112,18 +112,17 @@ namespace HDNXUdemyServices.Services
                 item.Vote5Star = getVoteData.Item5;
                 item.AverageScore = getVoteData.Item6;
                 item.CategoryName = getCategory.Where(x => x.Id == item.IdCategory).FirstOrDefault()?.Name;
-                item.UserName = (await _userRepository.GetByIdAsync(item.CreateBy ?? new Guid()))?.Name;
+                item.UserName = (await _userRepository.GetByIdAsync(item.CreateBy))?.Name;
             }
             return resultMapping;
         }
 
-        public async Task<GetCourseWithDetailsContent> GetDetailCourse(int id, bool isAdmin)
+        public async Task<GetCourseWithDetailsContent> GetDetailCourse(long id, bool isAdmin)
         {
             var getData = await _courseRepository.GetByIdAsync(id);
             var resultMapping = _mapper.Map<GetCourseWithDetailsContent>(getData);
-            Guid idCurrentUser = _httpContextAccessor.HttpContext == null ? new Guid() : Guid.Parse(_httpContextAccessor.HttpContext.User.Claims
+            long idCurrentUser = _httpContextAccessor.HttpContext == null ? 0 : long.Parse(_httpContextAccessor.HttpContext.User.Claims
                                 .Where(x => x.Type == "user-id").FirstOrDefault()?.Value ?? "0");
-            idCurrentUser = new Guid();
             bool isPurchase = false;
             if (isAdmin)
             {
@@ -155,7 +154,7 @@ namespace HDNXUdemyServices.Services
                 resultMapping.Vote5Star = getVoteData.Item5;
                 resultMapping.AverageScore = getVoteData.Item6;
                 resultMapping.CategoryName = getCategory.Where(x => x.Id == resultMapping.IdCategory).FirstOrDefault()?.Name;
-                resultMapping.UserName = (await _userRepository.GetByIdAsync(resultMapping.CreateBy ?? new Guid()))?.Name;
+                resultMapping.UserName = (await _userRepository.GetByIdAsync(resultMapping.CreateBy))?.Name;
                 resultMapping.ProcessCourseName = ((ProcessVideo)resultMapping?.ProcessCourse).GetEnumDescription();
                 resultMapping.ListContentCourseDetails = await GetContentOfCourse(getData.Id, isAdmin);
                 resultMapping.ListCourseRate = resultCourse;
@@ -173,7 +172,7 @@ namespace HDNXUdemyServices.Services
             return _mapper.Map<List<StudentProcessModel>>(getData);
         }
 
-        public async Task<StudentProcessModel> GetStudentProcess(int id)
+        public async Task<StudentProcessModel> GetStudentProcess(long id)
         {
             var getData = await _courseRepository.GetByIdAsync(id);
             return _mapper.Map<StudentProcessModel>(getData);
@@ -185,25 +184,25 @@ namespace HDNXUdemyServices.Services
             return await _courseEvaluationRepository.AddAsync(insertData);
         }
 
-        public async Task<List<CourseEvaluationModel>> GetListCoursEvaluation(int idCourse)
+        public async Task<List<CourseEvaluationModel>> GetListCoursEvaluation(long idCourse)
         {
             var getData = await _courseEvaluationRepository.GetAsync(x => x.IdCourse == idCourse && x.Status == (int)EStatus.Active);
             var returnData = _mapper.Map<List<CourseEvaluationModel>>(getData);
             foreach (var item in returnData)
             {
-                item.Users = _mapper.Map<UserModel>(await _userRepository.GetByIdAsync(item.CreateBy ?? new Guid()));
+                item.Users = _mapper.Map<UserModel>(await _userRepository.GetByIdAsync(item.CreateBy));
             }
             return returnData;
         }
 
-        public async Task<bool> UpdateStatusCommentCourse(int id, CourseEvaluationModel model)
+        public async Task<bool> UpdateStatusCommentCourse(long id, CourseEvaluationModel model)
         {
             var getData = await _courseEvaluationRepository.GetByIdAsync(id) ?? new CourseEvaluationEntities();
             getData.Status = model.Status;
             return await _courseEvaluationRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateInformationCommentCourse(int id, CourseEvaluationModel model)
+        public async Task<bool> UpdateInformationCommentCourse(long id, CourseEvaluationModel model)
         {
             var getData = await _courseEvaluationRepository.GetByIdAsync(id) ?? new CourseEvaluationEntities();
             var dataInsert = _mapper.Map<CourseEvaluationEntities>(model);
@@ -211,7 +210,7 @@ namespace HDNXUdemyServices.Services
             return await _courseEvaluationRepository.UpdateAsync(dataInsert);
         }
 
-        public async Task<CourseEvaluationModel> GetCommentCourse(int id)
+        public async Task<CourseEvaluationModel> GetCommentCourse(long id)
         {
             var getData = await _courseEvaluationRepository.GetByIdAsync(id);
             return _mapper.Map<CourseEvaluationModel>(getData);
@@ -223,14 +222,14 @@ namespace HDNXUdemyServices.Services
             return await _contentCourseRepository.AddAsync(dataInsert);
         }
 
-        public async Task<bool> UpdateStatusContentCourse(int id, ContentCourseModel model)
+        public async Task<bool> UpdateStatusContentCourse(long id, ContentCourseModel model)
         {
             var getData = await _contentCourseRepository.GetByIdAsync(id) ?? new ContentCourseEntities();
             getData.Status = model.Status;
             return await _contentCourseRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateInformationContentCourse(int id, ContentCourseModel model)
+        public async Task<bool> UpdateInformationContentCourse(long id, ContentCourseModel model)
         {
             var getData = await _contentCourseRepository.GetByIdAsync(id) ?? new ContentCourseEntities();
             var dataInsert = _mapper.Map<ContentCourseEntities>(model);
@@ -238,7 +237,7 @@ namespace HDNXUdemyServices.Services
             return await _contentCourseRepository.UpdateAsync(dataInsert);
         }
 
-        public async Task<List<ListContentWithDetailCourse>> GetListContentCourse(int idCourse)
+        public async Task<List<ListContentWithDetailCourse>> GetListContentCourse(long idCourse)
         {
             var getData = await _contentCourseRepository.GetAsync(x => x.IdCourse == idCourse);
             var mappingDataContentCourse = _mapper.Map<List<ListContentWithDetailCourse>>(getData.OrderBy(x => x.CreateDate));
@@ -251,7 +250,7 @@ namespace HDNXUdemyServices.Services
             return mappingDataContentCourse;
         }
 
-        public async Task<ContentCourseModel> GetContentCourse(int id)
+        public async Task<ContentCourseModel> GetContentCourse(long id)
         {
             var getData = await _contentCourseRepository.GetByIdAsync(id);
             return _mapper.Map<ContentCourseModel>(getData);
@@ -263,14 +262,14 @@ namespace HDNXUdemyServices.Services
             return await _contentCourseDetailRepository.AddAsync(dataInsert);
         }
 
-        public async Task<bool> UpdateStatusContentCourseDetails(int id, ContentCourseDetailModel model)
+        public async Task<bool> UpdateStatusContentCourseDetails(long id, ContentCourseDetailModel model)
         {
             var getData = await _contentCourseDetailRepository.GetByIdAsync(id) ?? new ContentCourseDetailEntities();
             getData.Status = model.Status;
             return await _contentCourseDetailRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateInformationContentCourseDetails(int id, ContentCourseDetailModel model)
+        public async Task<bool> UpdateInformationContentCourseDetails(long id, ContentCourseDetailModel model)
         {
             var getData = await _contentCourseDetailRepository.GetByIdAsync(id) ?? new ContentCourseDetailEntities();
             var dataInsert = _mapper.Map<ContentCourseDetailEntities>(model);
@@ -278,13 +277,13 @@ namespace HDNXUdemyServices.Services
             return await _contentCourseDetailRepository.UpdateAsync(dataInsert);
         }
 
-        public async Task<List<ContentCourseDetailModel>> GetListContentCourseDetails(int idContent)
+        public async Task<List<ContentCourseDetailModel>> GetListContentCourseDetails(long idContent)
         {
             var getData = await _contentCourseDetailRepository.GetAsync(x => x.IdContent == idContent);
             return _mapper.Map<List<ContentCourseDetailModel>>(getData);
         }
 
-        public async Task<ContentCourseDetailModel> GetContentCourseDetails(int id, HttpRequest request)
+        public async Task<ContentCourseDetailModel> GetContentCourseDetails(long id, HttpRequest request)
         {
             var getData = await _contentCourseDetailRepository.GetByIdAsync(id);
             var resultMapping = _mapper.Map<ContentCourseDetailModel>(getData);
@@ -334,7 +333,7 @@ namespace HDNXUdemyServices.Services
             return await _theadQuestionCourseRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateInformationTheadQuestionCourse(Guid id, TheadQuestionCourseModel model)
+        public async Task<bool> UpdateInformationTheadQuestionCourse(long id, TheadQuestionCourseModel model)
         {
             var getData = await _theadQuestionCourseRepository.GetByIdAsync(id) ?? new TheadQuestionCourseEntities();
             var dataInsert = _mapper.Map<TheadQuestionCourseEntities>(model);
@@ -342,13 +341,13 @@ namespace HDNXUdemyServices.Services
             return await _theadQuestionCourseRepository.UpdateAsync(dataInsert);
         }
 
-        public async Task<List<TheadQuestionCourseModel>> GetListTheadQuestionCourse(Guid idCourse)
+        public async Task<List<TheadQuestionCourseModel>> GetListTheadQuestionCourse(long idCourse)
         {
             var getData = await _theadQuestionCourseRepository.GetAsync(x => x.IdCourse == idCourse);
             return _mapper.Map<List<TheadQuestionCourseModel>>(getData);
         }
 
-        public async Task<TheadQuestionCourseModel> GetTheadQuestionCourse(Guid id)
+        public async Task<TheadQuestionCourseModel> GetTheadQuestionCourse(long id)
         {
             var getData = await _theadQuestionCourseRepository.GetByIdAsync(id);
             return _mapper.Map<TheadQuestionCourseModel>(getData);
@@ -360,14 +359,14 @@ namespace HDNXUdemyServices.Services
             return await _detailsTheadQuestionCourseRepository.AddAsync(dataInsert);
         }
 
-        public async Task<bool> UpdateStatusDetailsTheadQuestionCourse(Guid id, DetailTheadQuestionCourseModel model)
+        public async Task<bool> UpdateStatusDetailsTheadQuestionCourse(long id, DetailTheadQuestionCourseModel model)
         {
             var getData = await _detailsTheadQuestionCourseRepository.GetByIdAsync(id) ?? new DetailTheadQuestionCourseEntities();
             getData.Status = model.Status;
             return await _detailsTheadQuestionCourseRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateInformationDetailsTheadQuestionCourse(Guid id, DetailTheadQuestionCourseModel model)
+        public async Task<bool> UpdateInformationDetailsTheadQuestionCourse(long id, DetailTheadQuestionCourseModel model)
         {
             var getData = await _detailsTheadQuestionCourseRepository.GetByIdAsync(id) ?? new DetailTheadQuestionCourseEntities();
             var dataInsert = _mapper.Map<DetailTheadQuestionCourseEntities>(model);
@@ -375,26 +374,26 @@ namespace HDNXUdemyServices.Services
             return await _detailsTheadQuestionCourseRepository.UpdateAsync(dataInsert);
         }
 
-        public async Task<List<DetailTheadQuestionCourseModel>> GetListDetailsTheadQuestionCourse(Guid idThear)
+        public async Task<List<DetailTheadQuestionCourseModel>> GetListDetailsTheadQuestionCourse(long idThear)
         {
             var getData = await _detailsTheadQuestionCourseRepository.GetAsync(x => x.IdTheadQuestionCourse == idThear);
             return _mapper.Map<List<DetailTheadQuestionCourseModel>>(getData);
         }
 
-        public async Task<List<CourseModel>> GetListCourseAsCategory(Guid idCategory)
+        public async Task<List<CourseModel>> GetListCourseAsCategory(long idCategory)
         {
             var getData = await _courseRepository.GetAsync(x => x.IdCategory == idCategory);
             return _mapper.Map<List<CourseModel>>(getData);
         }
 
-        public async Task<bool> LikeForCommentCourse(Guid id)
+        public async Task<bool> LikeForCommentCourse(long id)
         {
             var getData = await _courseEvaluationRepository.GetByIdAsync(id);
             getData.Like += 1;
             return await _courseEvaluationRepository.UpdateAsync(getData);
         }
 
-        public async Task<bool> DisLikeForCommentCourse(Guid id)
+        public async Task<bool> DisLikeForCommentCourse(long id)
         {
             var getData = await _courseEvaluationRepository.GetByIdAsync(id);
             getData.DisLike += 1;

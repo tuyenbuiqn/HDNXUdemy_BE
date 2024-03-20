@@ -180,14 +180,14 @@ namespace HDNXUdemyServices.Services
             return await _fileManagerRepository.AddAsync(dataInsert);
         }
 
-        public async Task<bool> UpdateStatusSoftware(Guid id, FileManagerModel model)
+        public async Task<bool> UpdateStatusSoftware(long id, FileManagerModel model)
         {
             var getData = await _fileManagerRepository.GetByIdAsync(id) ?? new FileManagerEntities();
             getData.Status = model.Status;
             return await _fileManagerRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateInformationSoftware(Guid id, FileManagerModel model)
+        public async Task<bool> UpdateInformationSoftware(long id, FileManagerModel model)
         {
             var getData = await _fileManagerRepository.GetByIdAsync(id) ?? new FileManagerEntities();
             getData.Status = model.Status;
@@ -212,7 +212,7 @@ namespace HDNXUdemyServices.Services
             return returnValue;
         }
 
-        public async Task<FileManagerModel> GetFileSoftware(Guid id)
+        public async Task<FileManagerModel> GetFileSoftware(long id)
         {
             var getData = await _fileManagerRepository.GetByIdAsync(id);
             return _mapper.Map<FileManagerModel>(getData);

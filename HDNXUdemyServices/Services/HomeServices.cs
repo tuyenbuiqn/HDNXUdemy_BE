@@ -26,7 +26,7 @@ namespace HDNXUdemyServices.Services
             _mapper = mapper ?? throw new ProjectException(nameof(_categoryRepository));
         }
 
-        public async Task<HomeModel> GetDataForHome(Guid? idUser)
+        public async Task<HomeModel> GetDataForHome(long? idUser)
         {
             var returnValue = new HomeModel()
             {
@@ -64,7 +64,7 @@ namespace HDNXUdemyServices.Services
             return returnValue;
         }
 
-        public async Task<List<CourseModel>> GetBookMarkForCourse(List<CourseModel> listCourse, Guid? idUser)
+        public async Task<List<CourseModel>> GetBookMarkForCourse(List<CourseModel> listCourse, long? idUser)
         {
             var getDataBookMarkOfStudent = await _bookmarkCourseRepository.GetAsync(x => x.IdStudent == idUser);
             foreach (var item in listCourse)

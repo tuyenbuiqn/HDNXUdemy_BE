@@ -61,7 +61,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="processCourse"></param>
         /// <returns></returns>
         [HttpPut("course/status/{id}/{status}/{processCourse}")]
-        public async Task<RepositoryModel<bool>> UpdateStatusCourse(Guid id, int status, int processCourse)
+        public async Task<RepositoryModel<bool>> UpdateStatusCourse(long id, int status, int processCourse)
         {
             RepositoryModel<bool> result = new()
             {
@@ -83,7 +83,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("course/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateInformationCourse(Guid id, CourseModel model)
+        public async Task<RepositoryModel<bool>> UpdateInformationCourse(long id, CourseModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -125,7 +125,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="isAdmin"></param>
         /// <returns></returns>
         [HttpGet("course/{id}/{isAdmin}")]
-        public async Task<RepositoryModel<GetCourseWithDetailsContent>> GetCourses(Guid id, bool isAdmin)
+        public async Task<RepositoryModel<GetCourseWithDetailsContent>> GetCourses(long id, bool isAdmin)
         {
             RepositoryModel<GetCourseWithDetailsContent> result = new()
             {
@@ -146,7 +146,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="idCategory"></param>
         /// <returns></returns>
         [HttpGet("course/category/{idCategory}")]
-        public async Task<RepositoryModel<List<CourseModel>>> GetListCourseAsCategory(Guid idCategory)
+        public async Task<RepositoryModel<List<CourseModel>>> GetListCourseAsCategory(long idCategory)
         {
             RepositoryModel<List<CourseModel>> result = new()
             {
@@ -187,7 +187,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("course/student-process/{id}")]
-        public async Task<RepositoryModel<StudentProcessModel>> GetStudentProcess(Guid id)
+        public async Task<RepositoryModel<StudentProcessModel>> GetStudentProcess(long id)
         {
             RepositoryModel<StudentProcessModel> result = new()
             {
@@ -229,7 +229,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="idCourse"></param>
         /// <returns></returns>
         [HttpGet("course-comment/course/{idCourse}")]
-        public async Task<RepositoryModel<List<CourseEvaluationModel>>> GetListCourseEvaluation(Guid idCourse)
+        public async Task<RepositoryModel<List<CourseEvaluationModel>>> GetListCourseEvaluation(long idCourse)
         {
             RepositoryModel<List<CourseEvaluationModel>> result = new()
             {
@@ -251,7 +251,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("course-comment/status/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateStatusCommentCourse(Guid id, CourseEvaluationModel model)
+        public async Task<RepositoryModel<bool>> UpdateStatusCommentCourse(long id, CourseEvaluationModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -273,7 +273,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("course-comment/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateInformationCommentCourse(Guid id, CourseEvaluationModel model)
+        public async Task<RepositoryModel<bool>> UpdateInformationCommentCourse(long id, CourseEvaluationModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -294,7 +294,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("course-comment/{id}")]
-        public async Task<RepositoryModel<CourseEvaluationModel>> GetCommentCourse(Guid id)
+        public async Task<RepositoryModel<CourseEvaluationModel>> GetCommentCourse(long id)
         {
             RepositoryModel<CourseEvaluationModel> result = new()
             {
@@ -337,7 +337,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("course-content/status/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateStatusContentCourse(Guid id, ContentCourseModel model)
+        public async Task<RepositoryModel<bool>> UpdateStatusContentCourse(long id, ContentCourseModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -359,7 +359,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("course-content/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateInformationContentCourse(Guid id, ContentCourseModel model)
+        public async Task<RepositoryModel<bool>> UpdateInformationContentCourse(long id, ContentCourseModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -379,7 +379,7 @@ namespace HDNXUdemyAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("course-content/course/{idCourse}")]
-        public async Task<RepositoryModel<List<ListContentWithDetailCourse>>> GetListContentCourse(Guid idCourse)
+        public async Task<RepositoryModel<List<ListContentWithDetailCourse>>> GetListContentCourse(long idCourse)
         {
             RepositoryModel<List<ListContentWithDetailCourse>> result = new()
             {
@@ -400,7 +400,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("course-content/{id}")]
-        public async Task<RepositoryModel<ContentCourseModel>> GetContentCourse(Guid id)
+        public async Task<RepositoryModel<ContentCourseModel>> GetContentCourse(long id)
         {
             RepositoryModel<ContentCourseModel> result = new()
             {
@@ -443,7 +443,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("course-content-details/status/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateStatusContentCourseDetails(Guid id, ContentCourseDetailModel model)
+        public async Task<RepositoryModel<bool>> UpdateStatusContentCourseDetails(long id, ContentCourseDetailModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -465,7 +465,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("course-content-details/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateInformationContentCourseDetails(Guid id, ContentCourseDetailModel model)
+        public async Task<RepositoryModel<bool>> UpdateInformationContentCourseDetails(long id, ContentCourseDetailModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -485,7 +485,7 @@ namespace HDNXUdemyAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("course-content-details/course/{idCourse}")]
-        public async Task<RepositoryModel<List<ContentCourseDetailModel>>> GetListContentCourseDetails(Guid idCourse)
+        public async Task<RepositoryModel<List<ContentCourseDetailModel>>> GetListContentCourseDetails(long idCourse)
         {
             RepositoryModel<List<ContentCourseDetailModel>> result = new()
             {
@@ -506,7 +506,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("course-content-details/{id}")]
-        public async Task<RepositoryModel<ContentCourseDetailModel>> GetContentCourseDetails(Guid id)
+        public async Task<RepositoryModel<ContentCourseDetailModel>> GetContentCourseDetails(long id)
         {
             RepositoryModel<ContentCourseDetailModel> result = new()
             {
@@ -549,7 +549,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("thead-question-course/status/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateStatusTheadQuestionCourse(Guid id, TheadQuestionCourseModel model)
+        public async Task<RepositoryModel<bool>> UpdateStatusTheadQuestionCourse(long id, TheadQuestionCourseModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -571,7 +571,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("thead-question-course/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateInformationTheadQuestionCourse(Guid id, TheadQuestionCourseModel model)
+        public async Task<RepositoryModel<bool>> UpdateInformationTheadQuestionCourse(long id, TheadQuestionCourseModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -591,7 +591,7 @@ namespace HDNXUdemyAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("thead-question-course/course/{idCourse}")]
-        public async Task<RepositoryModel<List<TheadQuestionCourseModel>>> GetListTheadQuestionCourse(Guid idCourse)
+        public async Task<RepositoryModel<List<TheadQuestionCourseModel>>> GetListTheadQuestionCourse(long idCourse)
         {
             RepositoryModel<List<TheadQuestionCourseModel>> result = new()
             {
@@ -612,7 +612,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("thead-question-course/{id}")]
-        public async Task<RepositoryModel<TheadQuestionCourseModel>> GetTheadQuestionCourse(Guid id)
+        public async Task<RepositoryModel<TheadQuestionCourseModel>> GetTheadQuestionCourse(long id)
         {
             RepositoryModel<TheadQuestionCourseModel> result = new()
             {
@@ -633,7 +633,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut("course-comment-like/{id}")]
-        public async Task<RepositoryModel<bool>> LikeForCommentCourse(Guid id)
+        public async Task<RepositoryModel<bool>> LikeForCommentCourse(long id)
         {
             RepositoryModel<bool> result = new()
             {
@@ -654,7 +654,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut("course-comment-dislike/{id}")]
-        public async Task<RepositoryModel<bool>> DisLikeForCommentCourse(Guid id)
+        public async Task<RepositoryModel<bool>> DisLikeForCommentCourse(long id)
         {
             RepositoryModel<bool> result = new()
             {
@@ -697,7 +697,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("details-thead-question-course/status/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateStatusDetailsTheadQuestionCourse(Guid id, DetailTheadQuestionCourseModel model)
+        public async Task<RepositoryModel<bool>> UpdateStatusDetailsTheadQuestionCourse(long id, DetailTheadQuestionCourseModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -719,7 +719,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("details-thead-question-course/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateInformationDetailsTheadQuestionCourse(Guid id, DetailTheadQuestionCourseModel model)
+        public async Task<RepositoryModel<bool>> UpdateInformationDetailsTheadQuestionCourse(long id, DetailTheadQuestionCourseModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -739,7 +739,7 @@ namespace HDNXUdemyAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("details-thead-question-course/course/{idThead}")]
-        public async Task<RepositoryModel<List<DetailTheadQuestionCourseModel>>> GetListDetailsTheadQuestionCourse(Guid idThead)
+        public async Task<RepositoryModel<List<DetailTheadQuestionCourseModel>>> GetListDetailsTheadQuestionCourse(long idThead)
         {
             RepositoryModel<List<DetailTheadQuestionCourseModel>> result = new()
             {

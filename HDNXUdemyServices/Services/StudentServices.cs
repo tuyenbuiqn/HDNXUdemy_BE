@@ -53,14 +53,14 @@ namespace HDNXUdemyServices.Services
             }
         }
 
-        public async Task<bool> UpdateStatusStudent(Guid id, UserModel model)
+        public async Task<bool> UpdateStatusStudent(long id, UserModel model)
         {
             var getData = await _userRepository.GetByIdAsync(id) ?? new UserEntities();
             getData.Status = model.Status;
             return await _userRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateBecomeToTeacher(Guid id)
+        public async Task<bool> UpdateBecomeToTeacher(long id)
         {
             var getData = await _userRepository.GetByIdAsync(id) ?? new UserEntities();
             getData.IsRequestTeacher = true;
@@ -68,7 +68,7 @@ namespace HDNXUdemyServices.Services
             return await _userRepository.UpdateAsync(getData);
         }
 
-        public async Task<bool> UpdateStudent(Guid id, UserModel model)
+        public async Task<bool> UpdateStudent(long id, UserModel model)
         {
             var getData = await _userRepository.GetByIdAsync(id) ?? new UserEntities();
             getData.Status = model.Status;
@@ -101,7 +101,7 @@ namespace HDNXUdemyServices.Services
             return _mapper.Map<List<UserModel>>(getData);
         }
 
-        public async Task<UserModel> GetStudent(Guid id)
+        public async Task<UserModel> GetStudent(long id)
         {
             var getData = await _userRepository.GetByIdAsync(id);
             return _mapper.Map<UserModel>(getData);
@@ -113,14 +113,14 @@ namespace HDNXUdemyServices.Services
             return await _studentPromotionRepository.AddAsync(dataInsert);
         }
 
-        public async Task<bool> UpdateStatusStudentPromotions(Guid id, StudentPromotionModel model)
+        public async Task<bool> UpdateStatusStudentPromotions(long id, StudentPromotionModel model)
         {
             var getData = await _studentPromotionRepository.GetByIdAsync(id) ?? new StudentPromotionEntities();
             getData.Status = model.Status;
             return await _studentPromotionRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateInformationStudentPromotions(Guid id, StudentPromotionModel model)
+        public async Task<bool> UpdateInformationStudentPromotions(long id, StudentPromotionModel model)
         {
             var getData = await _studentPromotionRepository.GetByIdAsync(id) ?? new StudentPromotionEntities();
             getData.Status = model.Status;
@@ -138,7 +138,7 @@ namespace HDNXUdemyServices.Services
             return _mapper.Map<List<StudentPromotionModel>>(getData);
         }
 
-        public async Task<StudentPromotionModel> GetStudentPromotions(Guid id)
+        public async Task<StudentPromotionModel> GetStudentPromotions(long id)
         {
             var getData = await _studentPromotionRepository.GetByIdAsync(id);
             return _mapper.Map<StudentPromotionModel>(getData);
@@ -150,14 +150,14 @@ namespace HDNXUdemyServices.Services
             return await _studentProcessRepository.AddAsync(dataInsert);
         }
 
-        public async Task<bool> UpdateStatusStudentProcess(Guid id, StudentProcessModel model)
+        public async Task<bool> UpdateStatusStudentProcess(long id, StudentProcessModel model)
         {
             var getData = await _studentProcessRepository.GetByIdAsync(id) ?? new StudentProcessEntities();
             getData.Status = model.Status;
             return await _studentProcessRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateInformationStudentProcess(Guid id, StudentProcessModel model)
+        public async Task<bool> UpdateInformationStudentProcess(long id, StudentProcessModel model)
         {
             var getData = await _studentProcessRepository.GetByIdAsync(id) ?? new StudentProcessEntities();
             getData.Status = model.Status;
@@ -173,7 +173,7 @@ namespace HDNXUdemyServices.Services
             return _mapper.Map<List<StudentProcessModel>>(getData);
         }
 
-        public async Task<StudentProcessModel> GetStudentProcess(Guid id)
+        public async Task<StudentProcessModel> GetStudentProcess(long id)
         {
             var getData = await _studentProcessRepository.GetByIdAsync(id);
             return _mapper.Map<StudentProcessModel>(getData);
@@ -193,14 +193,14 @@ namespace HDNXUdemyServices.Services
             }
         }
 
-        public async Task<bool> UpdateStatusStudentBookmarkCourse(Guid id, BookmarkCourseModel model)
+        public async Task<bool> UpdateStatusStudentBookmarkCourse(long id, BookmarkCourseModel model)
         {
             var getData = await _bookmarkCourseRepository.GetByIdAsync(id) ?? new BookmarkCourseEntities();
             getData.Status = model.Status;
             return await _bookmarkCourseRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<List<CourseModel>> GetListStudentBookmarkCourse(Guid idUser)
+        public async Task<List<CourseModel>> GetListStudentBookmarkCourse(long idUser)
         {
             var getData = await _bookmarkCourseRepository.GetAsync(x => x.IdStudent == idUser);
             var listIdOfCoureBookmark = getData.DistinctBy(x => x.IdCourse).Select(x => x.IdCourse).ToList();
@@ -230,15 +230,15 @@ namespace HDNXUdemyServices.Services
             return resultMapping;
         }
 
-        public async Task<bool> DeleteStudentBookmarkCourse(Guid id)
+        public async Task<bool> DeleteStudentBookmarkCourse(long id)
         {
             return await _bookmarkCourseRepository.DeleteByKey(id);
         }
 
-        public async Task<List<string?>> GetListUserNameRegisterForCourse(Guid idCourse)
+        public async Task<List<string?>> GetListUserNameRegisterForCourse(long idCourse)
         {
             var getListDataStudentPurchase = await _purcharseCourseDetailsRepository.GetAsync(x => x.IdCourse == idCourse);
-            List<Guid> listIdStudent = getListDataStudentPurchase.Select(x => x.IdStudent).ToList();
+            List<long> listIdStudent = getListDataStudentPurchase.Select(x => x.IdStudent).ToList();
             return (await _userRepository.GetAsync(x => listIdStudent.Contains(x.Id))).Select(x => x.Name).ToList();
         }
     }

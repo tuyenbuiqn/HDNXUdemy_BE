@@ -7,7 +7,7 @@ namespace HDNXUdemyModel.Model
 {
     public class PurcharseCourseModel : BaseModel
     {
-        public Guid IdStudent { get; set; }
+        public long IdStudent { get; set; }
 
         public string? ContentTranferBanking { get; set; }
 

@@ -47,7 +47,7 @@ namespace HDNXUdemyServices.Services
             _categoryRepository = categoryRepository ?? throw new ProjectException(nameof(_categoryRepository));
         }
 
-        public string GenPurchaseOrder(Guid idStudent)
+        public string GenPurchaseOrder(long idStudent)
         {
             return Generator.GenerateRandomString(idStudent);
         }
@@ -58,6 +58,7 @@ namespace HDNXUdemyServices.Services
                 (await _informationManualBankingRepository.GetAsync(x => x.Status == (int)EStatus.Active)).FirstOrDefault());
 
             model.PurcharseStatus = (int)ETypeOfStatusOrder.Request;
+            model.PurcharseCode = Guid.NewGuid();
             var dataInsert = _mapper.Map<PurcharseCourseEntities>(model);
             var addReturnModel = await _purcharseCourseRepository.AddReturnModelAsync(dataInsert);
 
@@ -72,7 +73,7 @@ namespace HDNXUdemyServices.Services
             return model;
         }
 
-        public async Task<bool> UpdateStatusPurchase(Guid id, PurcharseCourseModel model)
+        public async Task<bool> UpdateStatusPurchase(long id, PurcharseCourseModel model)
         {
             var getData = await _purcharseCourseRepository.GetByIdAsync(id) ?? new PurcharseCourseEntities();
             getData.Status = model.Status;
@@ -103,9 +104,9 @@ namespace HDNXUdemyServices.Services
             return returnValue;
         }
 
-        public async Task<bool> IsCheckCoursePurchase(Guid idCourse)
+        public async Task<bool> IsCheckCoursePurchase(long idCourse)
         {
-            Guid idCurrentUser = _httpContextAccessor.HttpContext == null ? new Guid() : Guid.Parse(_httpContextAccessor.HttpContext.User.Claims
+            long idCurrentUser = _httpContextAccessor.HttpContext == null ? 0 : long.Parse(_httpContextAccessor.HttpContext.User.Claims
                     .Where(x => x.Type == "user-id").FirstOrDefault()?.Value ?? "0");
             var isPurchaseCourseDetails = await _purcharseCourseDetailsRepository.GetAsync(x => x.IdCourse == idCourse && x.IdStudent == idCurrentUser);
             return isPurchaseCourseDetails.Any();
@@ -134,7 +135,7 @@ namespace HDNXUdemyServices.Services
             return returnValue;
         }
 
-        public async Task<PurcharseCourseModel> GetPurchaseCorseDetail(Guid idPurchase)
+        public async Task<PurcharseCourseModel> GetPurchaseCorseDetail(long idPurchase)
         {
             var getDataPurchaseOrder = await _pucharseCourseRepository.GetByIdAsync(idPurchase);
             var getDataPurchaseOrderDetail = await _purcharseCourseDetailsRepository.GetAsync(x => x.IdPurchaseOrder == idPurchase && x.Status == (int)EStatus.Active);

@@ -4,7 +4,7 @@
     {
         public long IdCourse { get; set; }
 
-        public Guid IdStudent { get; set; }
+        public long IdStudent { get; set; }
 
         public long IdPromotion { get; set; }
 
