@@ -47,10 +47,11 @@ namespace HDNXUdemyServices.Services
             _detailsTheadQuestionCourseRepository = detailsTheadQuestionCourseRepository ?? throw new ProjectException(nameof(_detailsTheadQuestionCourseRepository)); ;
         }
 
-        public async Task<bool> CreateCourse(CourseModel model)
+        public async Task<CourseModel> CreateCourse(CourseModel model)
         {
             var dataInsert = _mapper.Map<CourseEntities>(model);
-            return await _courseRepository.AddAsync(dataInsert);
+            var dataAfterInsert = _mapper.Map<CourseModel>(await _courseRepository.AddReturnModelAsync(dataInsert));
+            return dataAfterInsert;
         }
 
         public async Task<bool> UpdateStatusCourse(long id, int status, int processCourse)

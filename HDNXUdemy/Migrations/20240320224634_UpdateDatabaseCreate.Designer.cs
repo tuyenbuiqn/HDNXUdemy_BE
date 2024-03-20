@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HDNXUdemyData.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20240320092727_CreateDatabaseForTable")]
-    partial class CreateDatabaseForTable
+    [Migration("20240320224634_UpdateDatabaseCreate")]
+    partial class UpdateDatabaseCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,13 +29,15 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("DNXUdemyData.Entities.ContentCourseDetailEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
@@ -45,8 +47,8 @@ namespace HDNXUdemyData.Migrations
                     b.Property<string>("FileNameVideo")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("IdContent")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdContent")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("IdVideoUpload")
                         .HasColumnType("text");
@@ -67,8 +69,8 @@ namespace HDNXUdemyData.Migrations
                     b.Property<string>("TimeOfContent")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -82,16 +84,18 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.BannerEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("ContentBanner")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
@@ -111,8 +115,8 @@ namespace HDNXUdemyData.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -129,31 +133,33 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.BookmarkCourseEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("CreateDate");
 
-                    b.Property<Guid>("IdCourse")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdCourse")
+                        .HasColumnType("bigint");
 
-                    b.Property<Guid>("IdStudent")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdStudent")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -167,13 +173,15 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.CategoryEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
@@ -193,8 +201,8 @@ namespace HDNXUdemyData.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -208,21 +216,23 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.ContentCourseEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("CreateDate");
 
-                    b.Property<Guid>("IdCourse")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdCourse")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -231,8 +241,8 @@ namespace HDNXUdemyData.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -246,13 +256,15 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.CourseEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
@@ -271,8 +283,8 @@ namespace HDNXUdemyData.Migrations
                     b.Property<int>("IdAuthor")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("IdCategory")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdCategory")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Introduce")
                         .HasColumnType("text");
@@ -326,8 +338,8 @@ namespace HDNXUdemyData.Migrations
                     b.Property<int>("TypeOfCourse")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -341,16 +353,18 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.CourseEvaluationEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("CommentEvaluation")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
@@ -360,11 +374,11 @@ namespace HDNXUdemyData.Migrations
                     b.Property<int>("DisLike")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("IdCourse")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdCourse")
+                        .HasColumnType("bigint");
 
-                    b.Property<Guid>("IdStudent")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdStudent")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Like")
                         .HasColumnType("integer");
@@ -373,8 +387,8 @@ namespace HDNXUdemyData.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -391,16 +405,18 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.DetailTheadQuestionCourseEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Comment")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
@@ -410,11 +426,11 @@ namespace HDNXUdemyData.Migrations
                     b.Property<int>("DisLike")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("IdStudent")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdStudent")
+                        .HasColumnType("bigint");
 
-                    b.Property<Guid>("IdTheadQuestionCourse")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdTheadQuestionCourse")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Like")
                         .HasColumnType("integer");
@@ -423,8 +439,8 @@ namespace HDNXUdemyData.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -438,16 +454,18 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.FileManagerEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("ActualNameFile")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
@@ -482,8 +500,8 @@ namespace HDNXUdemyData.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -497,16 +515,18 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.InformationManualBankingEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("AccountName")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
@@ -526,8 +546,8 @@ namespace HDNXUdemyData.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -541,27 +561,29 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.NotificationEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("CreateDate");
 
-                    b.Property<Guid?>("IdComment")
-                        .HasColumnType("uuid");
+                    b.Property<long?>("IdComment")
+                        .HasColumnType("bigint");
 
-                    b.Property<Guid>("IdCourse")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdCourse")
+                        .HasColumnType("bigint");
 
-                    b.Property<Guid?>("IdStudent")
-                        .HasColumnType("uuid");
+                    b.Property<long?>("IdStudent")
+                        .HasColumnType("bigint");
 
                     b.Property<bool?>("IsRead")
                         .HasColumnType("boolean");
@@ -576,8 +598,8 @@ namespace HDNXUdemyData.Migrations
                     b.Property<int?>("TypeNotification")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -591,13 +613,15 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.PartnerEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
@@ -617,8 +641,8 @@ namespace HDNXUdemyData.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -632,27 +656,29 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.PurcharseCourseDetailsEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("CreateDate");
 
-                    b.Property<Guid>("IdCourse")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdCourse")
+                        .HasColumnType("bigint");
 
-                    b.Property<Guid>("IdPurchaseOrder")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdPurchaseOrder")
+                        .HasColumnType("bigint");
 
-                    b.Property<Guid>("IdStudent")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdStudent")
+                        .HasColumnType("bigint");
 
                     b.Property<decimal?>("PriceOfCourse")
                         .HasColumnType("numeric");
@@ -664,8 +690,8 @@ namespace HDNXUdemyData.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -679,16 +705,18 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.PurcharseCourseEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("ContentTranferBanking")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
@@ -698,11 +726,11 @@ namespace HDNXUdemyData.Migrations
                     b.Property<decimal?>("DiscountAmount")
                         .HasColumnType("numeric");
 
-                    b.Property<Guid>("IdStudent")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdStudent")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("PurcharseCode")
-                        .HasColumnType("text");
+                    b.Property<Guid>("PurcharseCode")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("PurcharseStatus")
                         .HasColumnType("integer");
@@ -717,8 +745,8 @@ namespace HDNXUdemyData.Migrations
                     b.Property<decimal?>("TotalPrice")
                         .HasColumnType("numeric");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -732,21 +760,23 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.StudentProcessEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("CreateDate");
 
-                    b.Property<Guid>("IdCourse")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdCourse")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("LastContentOfContent")
                         .HasColumnType("integer");
@@ -758,8 +788,8 @@ namespace HDNXUdemyData.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -773,37 +803,39 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.StudentPromotionEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("CodePromotion")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("CreateDate");
 
-                    b.Property<Guid>("IdCourse")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdCourse")
+                        .HasColumnType("bigint");
 
-                    b.Property<Guid>("IdPromotion")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdPromotion")
+                        .HasColumnType("bigint");
 
-                    b.Property<Guid>("IdStudent")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdStudent")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -820,21 +852,23 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.SubCategoryEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("CreateDate");
 
-                    b.Property<Guid>("IdCategory")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdCategory")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -843,8 +877,8 @@ namespace HDNXUdemyData.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -858,13 +892,15 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.SystemConfigEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
@@ -878,8 +914,8 @@ namespace HDNXUdemyData.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -896,16 +932,18 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.TheadQuestionCourseEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Comment")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
@@ -915,11 +953,11 @@ namespace HDNXUdemyData.Migrations
                     b.Property<int>("DisLike")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("IdCourse")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdCourse")
+                        .HasColumnType("bigint");
 
-                    b.Property<Guid>("IdStudent")
-                        .HasColumnType("uuid");
+                    b.Property<long>("IdStudent")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Like")
                         .HasColumnType("integer");
@@ -928,8 +966,8 @@ namespace HDNXUdemyData.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")
@@ -943,13 +981,15 @@ namespace HDNXUdemyData.Migrations
 
             modelBuilder.Entity("HDNXUdemyData.Entities.UserEntities", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("Id");
 
-                    b.Property<Guid>("CreateBy")
-                        .HasColumnType("uuid")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CreateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("CreateBy");
 
                     b.Property<LocalDateTime>("CreateDate")
@@ -993,8 +1033,8 @@ namespace HDNXUdemyData.Migrations
                     b.Property<int>("TypeLogin")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("uuid")
+                    b.Property<long>("UpdateBy")
+                        .HasColumnType("bigint")
                         .HasColumnName("UpdateBy");
 
                     b.Property<LocalDateTime>("UpdateDate")

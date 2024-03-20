@@ -1,13 +1,14 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 using NodaTime;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace HDNXUdemyData.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDatabaseForTable : Migration
+    public partial class UpdateDatabaseCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,7 +21,8 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UrlPicture = table.Column<string>(type: "text", nullable: true),
                     ContentBanner = table.Column<string>(type: "text", nullable: true),
                     PublicId = table.Column<string>(type: "text", nullable: true),
@@ -28,8 +30,8 @@ namespace HDNXUdemyData.Migrations
                     LinkAd = table.Column<string>(type: "text", nullable: true),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -42,13 +44,14 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdStudent = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCourse = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IdStudent = table.Column<long>(type: "bigint", nullable: false),
+                    IdCourse = table.Column<long>(type: "bigint", nullable: false),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -61,14 +64,15 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: true),
                     PictureUrl = table.Column<string>(type: "text", nullable: true),
                     PublicId = table.Column<string>(type: "text", nullable: true),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -81,8 +85,9 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdContent = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IdContent = table.Column<long>(type: "bigint", nullable: false),
                     NameSubContent = table.Column<string>(type: "text", nullable: true),
                     TimeOfContent = table.Column<string>(type: "text", nullable: true),
                     IsLearningFree = table.Column<bool>(type: "boolean", nullable: false),
@@ -91,8 +96,8 @@ namespace HDNXUdemyData.Migrations
                     IsFinishConvert = table.Column<bool>(type: "boolean", nullable: false),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -105,13 +110,14 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCourse = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IdCourse = table.Column<long>(type: "bigint", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: true),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -124,17 +130,18 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdStudent = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCourse = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IdStudent = table.Column<long>(type: "bigint", nullable: false),
+                    IdCourse = table.Column<long>(type: "bigint", nullable: false),
                     VoteStartNumber = table.Column<int>(type: "integer", nullable: false),
                     CommentEvaluation = table.Column<string>(type: "text", nullable: true),
                     Like = table.Column<int>(type: "integer", nullable: false),
                     DisLike = table.Column<int>(type: "integer", nullable: false),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -147,7 +154,8 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "text", nullable: true),
                     ShortDescription = table.Column<string>(type: "text", nullable: true),
                     IdAuthor = table.Column<int>(type: "integer", nullable: false),
@@ -160,7 +168,7 @@ namespace HDNXUdemyData.Migrations
                     IsFree = table.Column<bool>(type: "boolean", nullable: false),
                     TypeOfCourse = table.Column<int>(type: "integer", nullable: false),
                     Introduce = table.Column<string>(type: "text", nullable: true),
-                    IdCategory = table.Column<Guid>(type: "uuid", nullable: false),
+                    IdCategory = table.Column<long>(type: "bigint", nullable: false),
                     LevelCourse = table.Column<string>(type: "text", nullable: true),
                     Languages = table.Column<int>(type: "integer", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
@@ -171,8 +179,8 @@ namespace HDNXUdemyData.Migrations
                     ProcessCourse = table.Column<int>(type: "integer", nullable: true),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -185,16 +193,17 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdTheadQuestionCourse = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdStudent = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IdTheadQuestionCourse = table.Column<long>(type: "bigint", nullable: false),
+                    IdStudent = table.Column<long>(type: "bigint", nullable: false),
                     Comment = table.Column<string>(type: "text", nullable: true),
                     Like = table.Column<int>(type: "integer", nullable: false),
                     DisLike = table.Column<int>(type: "integer", nullable: false),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -207,7 +216,8 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     FileName = table.Column<string>(type: "text", nullable: true),
                     FileType = table.Column<string>(type: "text", nullable: true),
                     FileUrl = table.Column<string>(type: "text", nullable: true),
@@ -219,8 +229,8 @@ namespace HDNXUdemyData.Migrations
                     FileSize = table.Column<string>(type: "text", nullable: true),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -233,15 +243,16 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     NameBanking = table.Column<string>(type: "text", nullable: true),
                     AccountName = table.Column<string>(type: "text", nullable: true),
                     NumberBanking = table.Column<string>(type: "text", nullable: true),
                     Notes = table.Column<string>(type: "text", nullable: true),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -254,17 +265,18 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdComment = table.Column<Guid>(type: "uuid", nullable: true),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IdComment = table.Column<long>(type: "bigint", nullable: true),
                     TypeNotification = table.Column<int>(type: "integer", nullable: true),
-                    IdCourse = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdStudent = table.Column<Guid>(type: "uuid", nullable: true),
+                    IdCourse = table.Column<long>(type: "bigint", nullable: false),
+                    IdStudent = table.Column<long>(type: "bigint", nullable: true),
                     ShortComment = table.Column<string>(type: "text", nullable: true),
                     IsRead = table.Column<bool>(type: "boolean", nullable: true),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -277,14 +289,15 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: true),
                     PublicId = table.Column<string>(type: "text", nullable: true),
                     PictureUrl = table.Column<string>(type: "text", nullable: true),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -297,16 +310,17 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCourse = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdStudent = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IdCourse = table.Column<long>(type: "bigint", nullable: false),
+                    IdStudent = table.Column<long>(type: "bigint", nullable: false),
                     PriceOfCourse = table.Column<decimal>(type: "numeric", nullable: true),
                     PriceOfDiscount = table.Column<decimal>(type: "numeric", nullable: true),
-                    IdPurchaseOrder = table.Column<Guid>(type: "uuid", nullable: false),
+                    IdPurchaseOrder = table.Column<long>(type: "bigint", nullable: false),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -319,18 +333,19 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdStudent = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IdStudent = table.Column<long>(type: "bigint", nullable: false),
                     ContentTranferBanking = table.Column<string>(type: "text", nullable: true),
                     TotalPrice = table.Column<decimal>(type: "numeric", nullable: true),
                     DiscountAmount = table.Column<decimal>(type: "numeric", nullable: true),
                     PurcharseStatus = table.Column<int>(type: "integer", nullable: false),
-                    PurcharseCode = table.Column<string>(type: "text", nullable: true),
+                    PurcharseCode = table.Column<Guid>(type: "uuid", nullable: false),
                     PurchaseDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: true),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -343,14 +358,15 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCourse = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IdCourse = table.Column<long>(type: "bigint", nullable: false),
                     NumberContentOfCourse = table.Column<int>(type: "integer", nullable: false),
                     LastContentOfContent = table.Column<int>(type: "integer", nullable: false),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -363,16 +379,17 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCourse = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdStudent = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdPromotion = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IdCourse = table.Column<long>(type: "bigint", nullable: false),
+                    IdStudent = table.Column<long>(type: "bigint", nullable: false),
+                    IdPromotion = table.Column<long>(type: "bigint", nullable: false),
                     CodePromotion = table.Column<string>(type: "text", nullable: true),
                     ValuePromotion = table.Column<int>(type: "integer", nullable: false),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -385,13 +402,14 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: true),
-                    IdCategory = table.Column<Guid>(type: "uuid", nullable: false),
+                    IdCategory = table.Column<long>(type: "bigint", nullable: false),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -404,13 +422,14 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     KeyConfig = table.Column<string>(type: "text", nullable: true),
                     Value = table.Column<string>(type: "text", nullable: true),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -423,16 +442,17 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdStudent = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCourse = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IdStudent = table.Column<long>(type: "bigint", nullable: false),
+                    IdCourse = table.Column<long>(type: "bigint", nullable: false),
                     Comment = table.Column<string>(type: "text", nullable: true),
                     Like = table.Column<int>(type: "integer", nullable: false),
                     DisLike = table.Column<int>(type: "integer", nullable: false),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -445,7 +465,8 @@ namespace HDNXUdemyData.Migrations
                 schema: "sche_dev_HDNXUdemy",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: true),
                     Email = table.Column<string>(type: "text", nullable: true),
                     Password = table.Column<string>(type: "text", nullable: true),
@@ -459,8 +480,8 @@ namespace HDNXUdemyData.Migrations
                     IsActive = table.Column<bool>(type: "boolean", nullable: true),
                     CreateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateDate = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    CreateBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdateBy = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
