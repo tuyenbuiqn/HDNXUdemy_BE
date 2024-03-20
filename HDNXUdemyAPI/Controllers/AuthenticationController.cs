@@ -122,7 +122,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="email"></param>
         /// <returns></returns>
         [HttpGet("verify-account/{id}/{email}")]
-        public async Task<IActionResult> VerifyLinkRegister(int id, string email)
+        public async Task<IActionResult> VerifyLinkRegister(Guid id, string email)
         {
             bool isUpdate = await _authenticationServices.IsActiveAccountAfterRegister(email, id);
             if (isUpdate)

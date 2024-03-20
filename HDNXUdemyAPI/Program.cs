@@ -94,6 +94,7 @@ namespace HDNXUdemyAPI
             }
             app.UseDeveloperExceptionPage();
             app.UseAuthentication();
+            app.UseAuthorization();
             app.UseExceptionMiddleware();
             app.UseCors();
             app.UseRouting().UseEndpoints(endpoint =>

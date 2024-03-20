@@ -70,14 +70,14 @@ namespace HDNXUdemyData.EntitiesContext
             modelBuilder.Entity<PartnerEntities>().ToTable("Partners").HasKey(x => x.Id);
             modelBuilder.Entity<CourseEvaluationEntities>().ToTable("CourseEvaluations").HasKey(x => x.Id);
             modelBuilder.Entity<DetailTheadQuestionCourseEntities>().ToTable("DetailTheadQuestionCourses").HasKey(x => x.Id);
-            modelBuilder.SeedDataDefault();
+            // modelBuilder.SeedDataDefault();
         }
 
         public override int SaveChanges()
         {
             LocalDateTime dateNow = LocalDateTime.FromDateTime(DateTime.UtcNow);
             var errorList = new List<ValidationResult>();
-            int idCurrentUser = _httpContextAccessor.HttpContext == null ? 1 : int.Parse(_httpContextAccessor.HttpContext.User.Claims
+            Guid idCurrentUser = _httpContextAccessor.HttpContext == null ? new Guid() : Guid.Parse(_httpContextAccessor.HttpContext.User.Claims
                                             .Where(x => x.Type == "user-id").FirstOrDefault()?.Value ?? "0");
 
             var entries = ChangeTracker.Entries()
@@ -121,7 +121,7 @@ namespace HDNXUdemyData.EntitiesContext
         {
             LocalDateTime dateNow = LocalDateTime.FromDateTime(DateTime.UtcNow);
             var errorList = new List<ValidationResult>();
-            int idCurrentUser = _httpContextAccessor.HttpContext == null ? 1 : int.Parse(_httpContextAccessor.HttpContext.User.Claims
+            Guid idCurrentUser = _httpContextAccessor.HttpContext == null ? new Guid() : Guid.Parse(_httpContextAccessor.HttpContext.User.Claims
                                             .Where(x => x.Type == "user-id").FirstOrDefault()?.Value ?? "0");
 
             var entries = ChangeTracker.Entries()

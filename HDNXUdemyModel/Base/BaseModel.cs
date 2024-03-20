@@ -5,11 +5,11 @@ namespace HDNXUdemyModel.Base
 {
     public class BaseModel
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
-        public int CreateBy { get; set; }
+        public Guid CreateBy { get; set; }
 
-        public int UpdateBy { get; set; }
+        public Guid UpdateBy { get; set; }
 
         public LocalDateTime? CreateDate { get; set; }
 

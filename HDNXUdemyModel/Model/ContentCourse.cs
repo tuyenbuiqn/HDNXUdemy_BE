@@ -6,6 +6,6 @@ namespace HDNXUdemyModel.Model
     {
         public string? Name { get; set; }
 
-        public int IdCourse { get; set; }
+        public Guid IdCourse { get; set; }
     }
 }

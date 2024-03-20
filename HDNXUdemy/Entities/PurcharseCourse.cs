@@ -4,7 +4,7 @@ namespace HDNXUdemyData.Entities
 {
     public class PurcharseCourseEntities : BaseEntities
     {
-        public int IdStudent { get; set; }
+        public Guid IdStudent { get; set; }
 
         public string? ContentTranferBanking { get; set; }
 

@@ -22,12 +22,12 @@ namespace HDNXUdemyData.GenericRepository
             _projectContext = new ProjectContext(_httpContextAccessor);
         }
 
-        public T GetById(long id)
+        public T GetById(Guid id)
         {
             return _projectContext.Set<T>().Find(id)!;
         }
 
-        public async Task<T?> GetByIdAsync(long id)
+        public async Task<T?> GetByIdAsync(Guid id)
         {
             return await _projectContext.Set<T>().FindAsync(id);
         }
@@ -277,7 +277,7 @@ namespace HDNXUdemyData.GenericRepository
             return await _projectContext.Set<T>().FindAsync(pKeys);
         }
 
-        public bool UpdateStatus(long pKey, int pStatus)
+        public bool UpdateStatus(Guid pKey, int pStatus)
         {
             using var transaction = _projectContext.Database.BeginTransaction();
             try
@@ -414,7 +414,7 @@ namespace HDNXUdemyData.GenericRepository
             }
         }
 
-        public async Task<bool> DeleteByKey(int pKey)
+        public async Task<bool> DeleteByKey(Guid pKey)
         {
             using var transaction = _projectContext.Database.BeginTransaction();
             try

@@ -2,13 +2,13 @@
 {
     public class NotificationEntities : BaseEntities
     {
-        public int? IdComment { get; set; }
+        public Guid? IdComment { get; set; }
 
         public int? TypeNotification { get; set; }
 
-        public int IdCourse { get; set; }
+        public Guid IdCourse { get; set; }
 
-        public int? IdStudent { get; set; }
+        public Guid? IdStudent { get; set; }
 
         public string? ShortComment { get; set; }
 

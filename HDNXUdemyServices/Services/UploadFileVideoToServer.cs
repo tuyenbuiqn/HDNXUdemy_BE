@@ -18,23 +18,20 @@ namespace HDNXUdemyServices.Services
     public class UploadFileVideoToServer : IUploadFileVideoToServer
     {
         private readonly ILogServices<UploadFileVideoToServer> _logServices;
-        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IContentCourseDetailRepository _contentCourseDetailRepository;
         private readonly IFileManagerRepository _fileManagerRepository;
         private readonly IMapper _mapper;
 
-        public UploadFileVideoToServer(ILogServices<UploadFileVideoToServer> logServices, IWebHostEnvironment hostingEnvironment, IContentCourseDetailRepository contentCourseDetailRepository,
+        public UploadFileVideoToServer(ILogServices<UploadFileVideoToServer> logServices, IContentCourseDetailRepository contentCourseDetailRepository,
             IFileManagerRepository fileManagerRepository, IMapper mapper)
         {
             _logServices = logServices ?? throw new ProjectException(nameof(_logServices));
-            _hostingEnvironment = hostingEnvironment ?? throw new ProjectException(nameof(_hostingEnvironment));
             _contentCourseDetailRepository = contentCourseDetailRepository ?? throw new ProjectException(nameof(_contentCourseDetailRepository));
             _fileManagerRepository = fileManagerRepository ?? throw new ProjectException(nameof(_fileManagerRepository));
             _mapper = mapper ?? throw new ProjectException(nameof(_mapper));
         }
 
-        public async Task<ReturnUploadFile> UploadVideoFileToServer(
-            IWebHostEnvironment _hostingEnvironment, IFormFile fileVideoUpload, string folderUpload, HttpRequest request)
+        public async Task<ReturnUploadFile> UploadVideoFileToServer(IFormFile fileVideoUpload, string folderUpload, HttpRequest request)
         {
             var returnValue = new ReturnUploadFile();
             try
@@ -54,7 +51,7 @@ namespace HDNXUdemyServices.Services
                     fileName = $"{keyValue}.{contentDispositionFileName.Trim('"')}";
                 }
 
-                string folder = _hostingEnvironment.WebRootPath + $@"\{folderUpload}";
+                string folder = $@"{ProjectConfig.DiskBaseForVideo}\{folderUpload}";
                 _logServices.LogInformation(ETypeAction.Get, $"Upload video file to server with start patch : {fileVideoUpload} file path {folder}");
 
                 if (!Directory.Exists(folder))
@@ -84,8 +81,7 @@ namespace HDNXUdemyServices.Services
             }
         }
 
-        public async Task<ReturnUploadFile> UploadVideoMp4FileToServer(
-            IWebHostEnvironment _hostingEnvironment, IFormFile fileVideoUpload, string folderUpload, HttpRequest request)
+        public async Task<ReturnUploadFile> UploadVideoMp4FileToServer(IFormFile fileVideoUpload, string folderUpload, HttpRequest request)
         {
             var returnValue = new ReturnUploadFile();
             try
@@ -105,7 +101,7 @@ namespace HDNXUdemyServices.Services
                     fileName = $"{keyValue}.{contentDispositionFileName.Trim('"')}";
                 }
 
-                string folder = _hostingEnvironment.WebRootPath + $@"\{folderUpload}";
+                string folder = $@"{ProjectConfig.DiskBaseForVideo}\{folderUpload}";
                 _logServices.LogInformation(ETypeAction.Get, $"Upload video file to server with start patch : {fileVideoUpload} file path {folder}");
 
                 if (!Directory.Exists(folder))
@@ -137,8 +133,8 @@ namespace HDNXUdemyServices.Services
 
         private async Task<string> ConvertVideoToStreamFile(string fileNameUpload)
         {
-            string folderUploadVideo = _hostingEnvironment.WebRootPath + $@"\{ProjectConfig.StorageMainVideo}";
-            string folderUploadStreamVideo = _hostingEnvironment.WebRootPath + $@"\{ProjectConfig.StorageStreamVideo}";
+            string folderUploadVideo = $@"{ProjectConfig.DiskBaseForVideo}\{ProjectConfig.StorageMainVideo}";
+            string folderUploadStreamVideo = $@"{ProjectConfig.DiskBaseForVideo}\{ProjectConfig.StorageStreamVideo}";
             string returnFileName = string.Empty;
 
             if (!Directory.Exists(folderUploadStreamVideo))
@@ -184,14 +180,14 @@ namespace HDNXUdemyServices.Services
             return await _fileManagerRepository.AddAsync(dataInsert);
         }
 
-        public async Task<bool> UpdateStatusSoftware(int id, FileManagerModel model)
+        public async Task<bool> UpdateStatusSoftware(Guid id, FileManagerModel model)
         {
             var getData = await _fileManagerRepository.GetByIdAsync(id) ?? new FileManagerEntities();
             getData.Status = model.Status;
             return await _fileManagerRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateInformationSoftware(int id, FileManagerModel model)
+        public async Task<bool> UpdateInformationSoftware(Guid id, FileManagerModel model)
         {
             var getData = await _fileManagerRepository.GetByIdAsync(id) ?? new FileManagerEntities();
             getData.Status = model.Status;
@@ -216,7 +212,7 @@ namespace HDNXUdemyServices.Services
             return returnValue;
         }
 
-        public async Task<FileManagerModel> GetFileSoftware(int id)
+        public async Task<FileManagerModel> GetFileSoftware(Guid id)
         {
             var getData = await _fileManagerRepository.GetByIdAsync(id);
             return _mapper.Map<FileManagerModel>(getData);

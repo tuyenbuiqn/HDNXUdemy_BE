@@ -36,7 +36,7 @@ namespace HDNXUdemyModel.Model
 
         public int? Vote2Star { get; set; }
         public int? Vote1Star { get; set; }
-        public int? IdCategory { get; set; }
+        public Guid? IdCategory { get; set; }
 
         public string? CategoryName { get; set; }
 

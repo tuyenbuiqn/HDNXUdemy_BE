@@ -120,7 +120,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("file-software/status/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateStatusSoftware(int id, FileManagerModel model)
+        public async Task<RepositoryModel<bool>> UpdateStatusSoftware(Guid id, FileManagerModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -142,7 +142,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("file-software/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateInformationSoftware(int id, FileManagerModel model)
+        public async Task<RepositoryModel<bool>> UpdateInformationSoftware(Guid id, FileManagerModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -183,7 +183,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("file-software/{id}")]
-        public async Task<RepositoryModel<FileManagerModel>> GetFileSoftware(int id)
+        public async Task<RepositoryModel<FileManagerModel>> GetFileSoftware(Guid id)
         {
             RepositoryModel<FileManagerModel> result = new()
             {

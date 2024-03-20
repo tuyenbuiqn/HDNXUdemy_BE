@@ -2,15 +2,15 @@
 {
     public class PurcharseCourseDetailsEntities : BaseEntities
     {
-        public int IdCourse { get; set; }
+        public Guid IdCourse { get; set; }
 
-        public int IdStudent { get; set; }
+        public Guid IdStudent { get; set; }
 
         public decimal? PriceOfCourse { get; set; }
 
         public decimal? PriceOfDiscount { get; set; }
 
-        public int IdPurchaseOrder { get; set; }
+        public Guid IdPurchaseOrder { get; set; }
 
     }
 }

@@ -2,11 +2,11 @@
 {
     public class StudentPromotionEntities : BaseEntities
     {
-        public int IdCourse { get; set; }
+        public Guid IdCourse { get; set; }
 
-        public int IdStudent { get; set; }
+        public Guid IdStudent { get; set; }
 
-        public int IdPromotion { get; set; }
+        public Guid IdPromotion { get; set; }
 
         public string? CodePromotion { get; set; }
 

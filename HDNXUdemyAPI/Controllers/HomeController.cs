@@ -43,7 +43,7 @@ namespace HDNXUdemyAPI.Controllers
                 StatusCode = (int)HttpStatusCode.Created
             };
 
-            result.Data = await _homeServices.GetDataForHome(16);
+            result.Data = await _homeServices.GetDataForHome(new Guid());
             return result;
         }
     }
