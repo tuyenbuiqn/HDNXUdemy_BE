@@ -6,7 +6,7 @@ namespace HDNXUdemyServices.IServices
 {
     public interface ICourseServices
     {
-        Task<bool> CreateCourse(CourseModel model);
+        Task<CourseModel> CreateCourse(CourseModel model);
 
         Task<bool> UpdateStatusCourse(long id, int status, int processCourse);
 

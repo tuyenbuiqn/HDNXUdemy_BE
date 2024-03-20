@@ -38,13 +38,13 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost("course")]
-        public async Task<RepositoryModel<bool>> CreateCourse(CourseModel model)
+        public async Task<RepositoryModel<CourseModel>> CreateCourse(CourseModel model)
         {
-            RepositoryModel<bool> result = new()
+            RepositoryModel<CourseModel> result = new()
             {
                 PartnerCode = Messenger.SuccessFull,
                 RetCode = ERetCode.Successfull,
-                Data = new bool(),
+                Data = new CourseModel(),
                 SystemMessage = string.Empty,
                 StatusCode = (int)HttpStatusCode.Created
             };
