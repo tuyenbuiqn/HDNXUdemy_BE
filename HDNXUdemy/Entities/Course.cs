@@ -25,7 +25,7 @@
         public int TypeOfCourse { get; set; } // Khoá bình thường or tranning cùng giáo viên
         public string? Introduce { get; set; }
 
-        public Guid IdCategory { get; set; }
+        public long IdCategory { get; set; }
 
         public string? LevelCourse { get; set; }
 

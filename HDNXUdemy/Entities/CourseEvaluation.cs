@@ -2,9 +2,9 @@
 {
     public class CourseEvaluationEntities : BaseEntities
     {
-        public Guid IdStudent { get; set; }
+        public long IdStudent { get; set; }
 
-        public Guid IdCourse { get; set; }
+        public long IdCourse { get; set; }
 
         public int VoteStartNumber { get; set; }
 

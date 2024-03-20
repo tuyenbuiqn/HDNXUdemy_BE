@@ -4,6 +4,6 @@
     {
         public string? Name { get; set; }
 
-        public Guid IdCategory { get; set; }
+        public long IdCategory { get; set; }
     }
 }

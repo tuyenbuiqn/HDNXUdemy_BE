@@ -4,7 +4,7 @@ namespace HDNXUdemyData.Entities
 {
     public class PurcharseCourseEntities : BaseEntities
     {
-        public Guid IdStudent { get; set; }
+        public long IdStudent { get; set; }
 
         public string? ContentTranferBanking { get; set; }
 
@@ -14,7 +14,7 @@ namespace HDNXUdemyData.Entities
 
         public int PurcharseStatus { get; set; }
 
-        public string? PurcharseCode { get; set; }
+        public Guid PurcharseCode { get; set; }
 
         public LocalDateTime? PurchaseDate { get; set; }
     }

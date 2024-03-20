@@ -4,9 +4,9 @@ namespace HDNXUdemyData.GenericRepository
 {
     public interface IGenericRepository<T> where T : class
     {
-        T GetById(Guid id);
+        T GetById(long id);
 
-        Task<T?> GetByIdAsync(Guid id);
+        Task<T?> GetByIdAsync(long id);
 
         IEnumerable<T> GetAll();
 
@@ -32,7 +32,7 @@ namespace HDNXUdemyData.GenericRepository
 
         T? GetObject(params object[] pKeys);
 
-        bool UpdateStatus(Guid pKey, int pStatus);
+        bool UpdateStatus(long pKey, int pStatus);
 
         bool Update(T pObj);
 
@@ -50,6 +50,6 @@ namespace HDNXUdemyData.GenericRepository
 
         Task<bool> UpdateStatusAsync(T pObj);
 
-        Task<bool> DeleteByKey(Guid pKey);
+        Task<bool> DeleteByKey(long pKey);
     }
 }

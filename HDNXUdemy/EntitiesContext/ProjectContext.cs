@@ -77,7 +77,7 @@ namespace HDNXUdemyData.EntitiesContext
         {
             LocalDateTime dateNow = LocalDateTime.FromDateTime(DateTime.UtcNow);
             var errorList = new List<ValidationResult>();
-            Guid idCurrentUser = _httpContextAccessor.HttpContext == null ? new Guid() : Guid.Parse(_httpContextAccessor.HttpContext.User.Claims
+            int idCurrentUser = _httpContextAccessor.HttpContext == null ? 0 : int.Parse(_httpContextAccessor.HttpContext.User.Claims
                                             .Where(x => x.Type == "user-id").FirstOrDefault()?.Value ?? "0");
 
             var entries = ChangeTracker.Entries()
@@ -121,7 +121,7 @@ namespace HDNXUdemyData.EntitiesContext
         {
             LocalDateTime dateNow = LocalDateTime.FromDateTime(DateTime.UtcNow);
             var errorList = new List<ValidationResult>();
-            Guid idCurrentUser = _httpContextAccessor.HttpContext == null ? new Guid() : Guid.Parse(_httpContextAccessor.HttpContext.User.Claims
+            int idCurrentUser = _httpContextAccessor.HttpContext == null ? 0 : int.Parse(_httpContextAccessor.HttpContext.User.Claims
                                             .Where(x => x.Type == "user-id").FirstOrDefault()?.Value ?? "0");
 
             var entries = ChangeTracker.Entries()

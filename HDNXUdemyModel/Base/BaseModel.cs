@@ -1,15 +1,14 @@
-﻿using Newtonsoft.Json;
-using NodaTime;
+﻿using NodaTime;
 
 namespace HDNXUdemyModel.Base
 {
     public class BaseModel
     {
-        public Guid Id { get; set; }
+        public long? Id { get; set; }
 
-        public Guid CreateBy { get; set; }
+        public long? CreateBy { get; set; }
 
-        public Guid UpdateBy { get; set; }
+        public long? UpdateBy { get; set; }
 
         public LocalDateTime? CreateDate { get; set; }
 

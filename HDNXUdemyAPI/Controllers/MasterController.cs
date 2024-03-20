@@ -114,7 +114,7 @@ namespace HDNXUdemyAPI.Controllers
                 StatusCode = (int)HttpStatusCode.Created
             };
 
-            result.Data = await _masterDataServices.UpdateInformationCategory(model.Id, model);
+            result.Data = await _masterDataServices.UpdateInformationCategory(model.Id ?? new Guid(), model);
             return result;
         }
 

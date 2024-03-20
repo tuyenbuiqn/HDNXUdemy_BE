@@ -17,7 +17,7 @@ namespace HDNXUdemyModel.Model
 
         public int PurcharseStatus { get; set; }
 
-        public string? PurcharseCode { get; set; }
+        public Guid PurcharseCode { get; set; }
 
         public LocalDateTime? PurchaseDate { get; set; }
 

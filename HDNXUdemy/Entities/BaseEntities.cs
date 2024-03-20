@@ -9,7 +9,7 @@ namespace HDNXUdemyData.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("Id")]
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         [Column("CreateDate")]
         public LocalDateTime CreateDate { get; set; }
@@ -18,10 +18,10 @@ namespace HDNXUdemyData.Entities
         public LocalDateTime UpdateDate { get; set; }
 
         [Column("CreateBy")]
-        public Guid CreateBy { get; set; }
+        public long CreateBy { get; set; }
 
         [Column("UpdateBy")]
-        public Guid UpdateBy { get; set; }
+        public long UpdateBy { get; set; }
 
         [Column("Status")]
         public int Status { get; set; }
