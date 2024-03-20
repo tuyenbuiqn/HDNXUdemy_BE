@@ -1,8 +1,10 @@
-﻿namespace HDNXUdemyData.Entities
+﻿using NodaTime;
+
+namespace HDNXUdemyData.Entities
 {
     public class PurcharseCourseEntities : BaseEntities
     {
-        public int IdStudent { get; set; }
+        public long IdStudent { get; set; }
 
         public string? ContentTranferBanking { get; set; }
 
@@ -12,6 +14,8 @@
 
         public int PurcharseStatus { get; set; }
 
-        public string? PurcharseCode { get; set; }
+        public Guid PurcharseCode { get; set; }
+
+        public LocalDateTime? PurchaseDate { get; set; }
     }
 }

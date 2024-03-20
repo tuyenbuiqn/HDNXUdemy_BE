@@ -17,18 +17,15 @@ namespace HDNXUdemyConvertVideoAPI.Controllers
     public class UploadVideoDataToServerController : BaseController
     {
         private readonly IUploadFileVideoToServer _uploadFileVideoToServer;
-        private readonly IWebHostEnvironment _hostingEnvironment;
 
         /// <summary>
         /// UploadVideoDataToServerController
         /// </summary>
         /// <param name="uploadFileVideoToServer"></param>
-        /// /// <param name="hostingEnvironment"></param>
         /// <exception cref="ProjectException"></exception>
-        public UploadVideoDataToServerController(IUploadFileVideoToServer uploadFileVideoToServer, IWebHostEnvironment hostingEnvironment)
+        public UploadVideoDataToServerController(IUploadFileVideoToServer uploadFileVideoToServer)
         {
             _uploadFileVideoToServer = uploadFileVideoToServer ?? throw new ProjectException(nameof(_uploadFileVideoToServer));
-            _hostingEnvironment = hostingEnvironment ?? throw new ProjectException(nameof(_uploadFileVideoToServer));
         }
 
         /// <summary>
@@ -48,7 +45,7 @@ namespace HDNXUdemyConvertVideoAPI.Controllers
             };
             var folderUpload = ProjectConfig.StorageMainVideo ?? string.Empty;
             var files = Request.Form.Files;
-            result.Data = await _uploadFileVideoToServer.UploadVideoFileToServer(_hostingEnvironment, files[0], folderUpload, Request);
+            result.Data = await _uploadFileVideoToServer.UploadVideoFileToServer(files[0], folderUpload, Request);
             return result;
         }
 
@@ -69,7 +66,7 @@ namespace HDNXUdemyConvertVideoAPI.Controllers
             };
             var folderUpload = ProjectConfig.UploadSoftWareAndFile ?? string.Empty;
             var files = Request.Form.Files;
-            result.Data = await _uploadFileVideoToServer.UploadVideoFileToServer(_hostingEnvironment, files[0], folderUpload, Request);
+            result.Data = await _uploadFileVideoToServer.UploadVideoFileToServer(files[0], folderUpload, Request);
             return result;
         }
 
@@ -90,7 +87,7 @@ namespace HDNXUdemyConvertVideoAPI.Controllers
             };
             var folderUpload = ProjectConfig.StorageMainVideo ?? string.Empty;
             var files = Request.Form.Files;
-            result.Data = await _uploadFileVideoToServer.UploadVideoMp4FileToServer(_hostingEnvironment, files[0], folderUpload, Request);
+            result.Data = await _uploadFileVideoToServer.UploadVideoMp4FileToServer(files[0], folderUpload, Request);
             return result;
         }
     }

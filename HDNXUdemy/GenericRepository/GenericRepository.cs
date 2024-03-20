@@ -414,7 +414,7 @@ namespace HDNXUdemyData.GenericRepository
             }
         }
 
-        public async Task<bool> DeleteByKey(int pKey)
+        public async Task<bool> DeleteByKey(long pKey)
         {
             using var transaction = _projectContext.Database.BeginTransaction();
             try

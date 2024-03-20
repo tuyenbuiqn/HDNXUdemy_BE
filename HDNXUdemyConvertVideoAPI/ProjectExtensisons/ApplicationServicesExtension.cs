@@ -23,7 +23,7 @@ namespace HDNXUdemyConvertVideoAPI.ProjectExtensisons
             services.AddTransient<IBannerRepository, BannerRepository>();
             services.AddTransient<IBookmarkCourseRepository, BookmarkCourseRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
-            services.AddTransient<IChapterCommentRepository, ChapterCommentRepository>();
+            services.AddTransient<IRTheadQuestionCourseRepository, RTheadQuestionCourseRepository>();
             services.AddTransient<IContentCourseRepository, ContentCourseRepository>();
             services.AddTransient<IContentCourseDetailRepository, ContentCourseDetailRepository>();
             services.AddTransient<ICourseRepository, CourseRepository>();
@@ -38,6 +38,7 @@ namespace HDNXUdemyConvertVideoAPI.ProjectExtensisons
             services.AddTransient<IRPPartnerRepository, RPPartnerRepository>();
             services.AddTransient<IRPPurcharseCourseDetailsRepository, RPurcharseCourseDetailsRepository>();
             services.AddTransient<IRCourseEvaluationRepository, RCourseEvaluationRepository>();
+            services.AddTransient<IRDetailTheadQuestionCourseRepository, RDetailTheadQuestionCourseRepository>();
 
             services.AddTransient(typeof(ILogServices<>), typeof(LogServices<>));
             services.AddHttpClient<IAuthenticationServices, AuthenticationServices>();

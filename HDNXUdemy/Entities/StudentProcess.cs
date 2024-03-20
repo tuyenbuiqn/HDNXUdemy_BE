@@ -2,7 +2,7 @@
 {
     public class StudentProcessEntities : BaseEntities
     {
-        public int IdCourse { get; set; }
+        public long IdCourse { get; set; }
 
         public int NumberContentOfCourse { get; set; }
 

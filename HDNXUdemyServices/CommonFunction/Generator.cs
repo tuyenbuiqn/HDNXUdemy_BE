@@ -102,7 +102,7 @@ namespace HDNXUdemyServices.CommonFunction
             return returnValue;
         }
 
-        public static string GenerateRandomString(int idStudent)
+        public static string GenerateRandomString(long idStudent)
         {
             Random random = new Random();
             const string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";

@@ -1,11 +1,13 @@
 ﻿using HDNXUdemyData.Entities;
 using HDNXUdemyModel.Base;
+using HDNXUdemyModel.ResponModel;
+using NodaTime;
 
 namespace HDNXUdemyModel.Model
 {
     public class PurcharseCourseModel : BaseModel
     {
-        public int IdStudent { get; set; }
+        public long IdStudent { get; set; }
 
         public string? ContentTranferBanking { get; set; }
 
@@ -15,10 +17,18 @@ namespace HDNXUdemyModel.Model
 
         public int PurcharseStatus { get; set; }
 
-        public string? PurcharseCode { get; set; }
+        public Guid PurcharseCode { get; set; }
+
+        public LocalDateTime? PurchaseDate { get; set; }
+
+        public string? NameStatus { get; set; }
+
+        public UserModel? User { get; set; }
 
         public List<PurcharseCourseDetailsModel>? ListPurchaseCourseDetails { get; set; }
 
         public InformationManualBankingModel? InfoBanking { get; set; }
+
+        public List<ValuePurchaseOrderCount>? ValueOfDataCount { get; set; }
     }
 }

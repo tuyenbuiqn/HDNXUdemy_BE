@@ -4,11 +4,11 @@ namespace HDNXUdemyModel.Model
 {
     public class StudentPromotionModel : BaseModel
     {
-        public int IdCourse { get; set; }
+        public long IdCourse { get; set; }
 
-        public int IdStudent { get; set; }
+        public long IdStudent { get; set; }
 
-        public int IdPromotion { get; set; }
+        public long IdPromotion { get; set; }
 
         public string? CodePromotion { get; set; }
 

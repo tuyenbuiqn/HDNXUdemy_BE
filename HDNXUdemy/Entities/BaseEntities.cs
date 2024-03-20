@@ -18,10 +18,10 @@ namespace HDNXUdemyData.Entities
         public LocalDateTime UpdateDate { get; set; }
 
         [Column("CreateBy")]
-        public int CreateBy { get; set; }
+        public long CreateBy { get; set; }
 
         [Column("UpdateBy")]
-        public int UpdateBy { get; set; }
+        public long UpdateBy { get; set; }
 
         [Column("Status")]
         public int Status { get; set; }

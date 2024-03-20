@@ -31,7 +31,7 @@ namespace HDNXUdemyData.EntitiesContext
         public virtual DbSet<BookmarkCourseEntities>? BookmarkCourses { get; set; }
         public virtual DbSet<BannerEntities>? Banners { get; set; }
         public virtual DbSet<CategoryEntities>? Categories { get; set; }
-        public virtual DbSet<ChapterCommentEntities>? ChapterComments { get; set; }
+        public virtual DbSet<TheadQuestionCourseEntities>? TheadQuestionCourses { get; set; }
         public virtual DbSet<ContentCourseEntities>? ContentCourses { get; set; }
         public virtual DbSet<ContentCourseDetailEntities>? ContentCourseDetails { get; set; }
         public virtual DbSet<CourseEntities>? Courses { get; set; }
@@ -46,6 +46,7 @@ namespace HDNXUdemyData.EntitiesContext
         public virtual DbSet<SystemConfigEntities>? SystemConfigs { get; set; }
         public virtual DbSet<PartnerEntities>? Partners { get; set; }
         public virtual DbSet<CourseEvaluationEntities>? CourseEvaluations { get; set; }
+        public virtual DbSet<DetailTheadQuestionCourseEntities>? DetailTheadQuestionCourses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -54,7 +55,7 @@ namespace HDNXUdemyData.EntitiesContext
             modelBuilder.Entity<BookmarkCourseEntities>().ToTable("BookmarkCourses").HasKey(x => x.Id);
             modelBuilder.Entity<BannerEntities>().ToTable("Banners").HasKey(x => x.Id);
             modelBuilder.Entity<CategoryEntities>().ToTable("Categories").HasKey(x => x.Id);
-            modelBuilder.Entity<ChapterCommentEntities>().ToTable("ChapterComments").HasKey(x => x.Id);
+            modelBuilder.Entity<TheadQuestionCourseEntities>().ToTable("TheadQuestionCourses").HasKey(x => x.Id);
             modelBuilder.Entity<ContentCourseEntities>().ToTable("ContentCourses").HasKey(x => x.Id);
             modelBuilder.Entity<ContentCourseDetailEntities>().ToTable("ContentCourseDetails").HasKey(x => x.Id);
             modelBuilder.Entity<InformationManualBankingEntities>().ToTable("InformationManualBankings").HasKey(x => x.Id);
@@ -68,14 +69,15 @@ namespace HDNXUdemyData.EntitiesContext
             modelBuilder.Entity<SystemConfigEntities>().ToTable("SystemConfigs").HasKey(x => x.Id);
             modelBuilder.Entity<PartnerEntities>().ToTable("Partners").HasKey(x => x.Id);
             modelBuilder.Entity<CourseEvaluationEntities>().ToTable("CourseEvaluations").HasKey(x => x.Id);
-            modelBuilder.SeedDataDefault();
+            modelBuilder.Entity<DetailTheadQuestionCourseEntities>().ToTable("DetailTheadQuestionCourses").HasKey(x => x.Id);
+            // modelBuilder.SeedDataDefault();
         }
 
         public override int SaveChanges()
         {
             LocalDateTime dateNow = LocalDateTime.FromDateTime(DateTime.UtcNow);
             var errorList = new List<ValidationResult>();
-            int idCurrentUser = _httpContextAccessor.HttpContext == null ? 1 : int.Parse(_httpContextAccessor.HttpContext.User.Claims
+            int idCurrentUser = _httpContextAccessor.HttpContext == null ? 0 : int.Parse(_httpContextAccessor.HttpContext.User.Claims
                                             .Where(x => x.Type == "user-id").FirstOrDefault()?.Value ?? "0");
 
             var entries = ChangeTracker.Entries()
@@ -119,7 +121,7 @@ namespace HDNXUdemyData.EntitiesContext
         {
             LocalDateTime dateNow = LocalDateTime.FromDateTime(DateTime.UtcNow);
             var errorList = new List<ValidationResult>();
-            int idCurrentUser = _httpContextAccessor.HttpContext == null ? 1 : int.Parse(_httpContextAccessor.HttpContext.User.Claims
+            int idCurrentUser = _httpContextAccessor.HttpContext == null ? 0 : int.Parse(_httpContextAccessor.HttpContext.User.Claims
                                             .Where(x => x.Type == "user-id").FirstOrDefault()?.Value ?? "0");
 
             var entries = ChangeTracker.Entries()

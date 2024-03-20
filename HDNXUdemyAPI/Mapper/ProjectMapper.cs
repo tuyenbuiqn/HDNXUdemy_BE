@@ -24,7 +24,7 @@ namespace HDNXUdemyAPI.Mapper
 
             CreateMap<BookmarkCourseEntities, BookmarkCourseModel>().ReverseMap();
             CreateMap<CategoryEntities, CategoryModel>().ReverseMap();
-            CreateMap<ChapterCommentEntities, ChapterCommentModel>().ReverseMap();
+            CreateMap<TheadQuestionCourseEntities, TheadQuestionCourseModel>().ReverseMap();
             CreateMap<ContentCourseEntities, ContentCourseModel>().ReverseMap();
             CreateMap<ContentCourseDetailEntities, ContentCourseDetailModel>()
                 .ForMember(dest => dest.FileUploadUrlStream, opt => opt.MapFrom(x => $"{ProjectConfig.APIUrlGetVideoStream}{x.IdVideoUpload}.mp4"));
@@ -51,6 +51,7 @@ namespace HDNXUdemyAPI.Mapper
                 .ForMember(dest => dest.RoleName, opt => opt.MapFrom(x => ((ERoles)x.RoleId).GetEnumDescription()))
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(x => x.Id));
             CreateMap<PurcharseCourseDetailsEntities, PurcharseCourseDetailsModel>().ReverseMap();
+            CreateMap<PagedResult<PurcharseCourseEntities>, PagedResult<PurcharseCourseModel>>().ReverseMap();
         }
     }
 }

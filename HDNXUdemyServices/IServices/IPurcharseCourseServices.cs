@@ -1,4 +1,5 @@
-﻿using HDNXUdemyModel.Model;
+﻿using HDNXUdemyModel.Base;
+using HDNXUdemyModel.Model;
 using HDNXUdemyModel.ResponModel;
 
 namespace HDNXUdemyServices.IServices
@@ -7,10 +8,14 @@ namespace HDNXUdemyServices.IServices
     {
         Task<PurcharseCourseModel> CreateRequestPurchase(PurcharseCourseModel model);
 
-        Task<bool> UpdateStatusPurchase(int id, PurcharseCourseModel model);
+        Task<bool> UpdateStatusPurchase(long id, PurcharseCourseModel model);
 
-        string GenPurchaseOrder(int idStudent);
+        string GenPurchaseOrder(long idStudent);
 
-        Task<bool> IsCheckCoursePurchase(int idCourse);
+        Task<bool> IsCheckCoursePurchase(long idCourse);
+
+        Task<PagedResult<PurcharseCourseModel>> GetListPurcharseCourses(int pageIndex, int pageSize);
+
+        Task<PurcharseCourseModel> GetPurchaseCorseDetail(long idPurchase);
     }
 }

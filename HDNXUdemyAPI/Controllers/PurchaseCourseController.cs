@@ -34,7 +34,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="idStudent"></param>
         /// <returns></returns>
         [HttpGet("gen-purchase-code/{idStudent}")]
-        public RepositoryModel<string> GenPurchaseOrder(int idStudent)
+        public RepositoryModel<string> GenPurchaseOrder(long idStudent)
         {
             RepositoryModel<string> result = new()
             {
@@ -77,7 +77,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("purchase-course/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateStatusPurchase(int id, PurcharseCourseModel model)
+        public async Task<RepositoryModel<bool>> UpdateStatusPurchase(long id, PurcharseCourseModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -98,7 +98,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="idCourse"></param>
         /// <returns></returns>
         [HttpGet("check-purchase-course/{idCourse}")]
-        public async Task<RepositoryModel<bool>> IsCheckCoursePurchase(int idCourse)
+        public async Task<RepositoryModel<bool>> IsCheckCoursePurchase(long idCourse)
         {
             RepositoryModel<bool> result = new()
             {
@@ -110,6 +110,49 @@ namespace HDNXUdemyAPI.Controllers
             };
 
             result.Data = await _purcharseCourseServices.IsCheckCoursePurchase(idCourse);
+            return result;
+        }
+
+        /// <summary>
+        /// GetListPurcharseCourses
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet("get-list-purchase-course/{pageIndex}/{pageSize}")]
+        public async Task<RepositoryModel<PagedResult<PurcharseCourseModel>>> GetListPurcharseCourses(int pageIndex, int pageSize)
+        {
+            RepositoryModel<PagedResult<PurcharseCourseModel>> result = new()
+            {
+                PartnerCode = Messenger.SuccessFull,
+                RetCode = ERetCode.Successfull,
+                Data = new PagedResult<PurcharseCourseModel>(),
+                SystemMessage = string.Empty,
+                StatusCode = (int)HttpStatusCode.Created
+            };
+
+            result.Data = await _purcharseCourseServices.GetListPurcharseCourses(pageIndex, pageSize);
+            return result;
+        }
+
+        /// <summary>
+        /// GetPurchaseCorseDetail
+        /// </summary>
+        /// <param name="idPurchase"></param>
+        /// <returns></returns>
+        [HttpGet("get-detail-purchase-course/{idPurchase}")]
+        public async Task<RepositoryModel<PurcharseCourseModel>> GetPurchaseCorseDetail(long idPurchase)
+        {
+            RepositoryModel<PurcharseCourseModel> result = new()
+            {
+                PartnerCode = Messenger.SuccessFull,
+                RetCode = ERetCode.Successfull,
+                Data = new PurcharseCourseModel(),
+                SystemMessage = string.Empty,
+                StatusCode = (int)HttpStatusCode.Created
+            };
+
+            result.Data = await _purcharseCourseServices.GetPurchaseCorseDetail(idPurchase);
             return result;
         }
     }

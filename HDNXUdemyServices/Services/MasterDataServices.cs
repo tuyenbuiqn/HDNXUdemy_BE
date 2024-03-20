@@ -49,14 +49,14 @@ namespace HDNXUdemyServices.Services
             return await _categoryRepository.AddAsync(dataInsert);
         }
 
-        public async Task<bool> UpdateStatusCategory(int id, CategoryModel category)
+        public async Task<bool> UpdateStatusCategory(long id, CategoryModel category)
         {
             var getData = await _categoryRepository.GetByIdAsync(id) ?? new CategoryEntities();
             getData.Status = category.Status;
             return await _categoryRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateInformationCategory(int id, CategoryModel category)
+        public async Task<bool> UpdateInformationCategory(long id, CategoryModel category)
         {
             var getData = await _categoryRepository.GetByIdAsync(id) ?? new CategoryEntities();
             getData.Status = category.Status;
@@ -66,7 +66,7 @@ namespace HDNXUdemyServices.Services
             return await _categoryRepository.UpdateAsync(getData);
         }
 
-        public async Task<bool> DeleteCategory(int id)
+        public async Task<bool> DeleteCategory(long id)
         {
             return await _categoryRepository.DeleteByKey(id);
         }
@@ -88,14 +88,14 @@ namespace HDNXUdemyServices.Services
             return await _bannerRepository.AddAsync(dataInsert);
         }
 
-        public async Task<bool> UpdateStatusBanner(int id, BannerModel model)
+        public async Task<bool> UpdateStatusBanner(long id, BannerModel model)
         {
             var getData = await _bannerRepository.GetByIdAsync(id) ?? new BannerEntities();
             getData.Status = model.Status;
             return await _bannerRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateInformationBanner(int id, BannerModel model)
+        public async Task<bool> UpdateInformationBanner(long id, BannerModel model)
         {
             var getData = await _bannerRepository.GetByIdAsync(id) ?? new BannerEntities();
             getData.Status = model.Status;
@@ -118,14 +118,14 @@ namespace HDNXUdemyServices.Services
             return await _informationManualBankingRepository.AddAsync(dataInsert);
         }
 
-        public async Task<bool> UpdateStatusInformationManualBanking(int id, InformationManualBankingModel model)
+        public async Task<bool> UpdateStatusInformationManualBanking(long id, InformationManualBankingModel model)
         {
             var getData = await _informationManualBankingRepository.GetByIdAsync(id) ?? new InformationManualBankingEntities();
             getData.Status = model.Status;
             return await _informationManualBankingRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateInformationManualBanking(int id, InformationManualBankingModel model)
+        public async Task<bool> UpdateInformationManualBanking(long id, InformationManualBankingModel model)
         {
             var getData = await _informationManualBankingRepository.GetByIdAsync(id) ?? new InformationManualBankingEntities();
             getData.Status = model.Status;
@@ -148,14 +148,14 @@ namespace HDNXUdemyServices.Services
             return await _subCategoryRepository.AddAsync(dataInsert);
         }
 
-        public async Task<bool> UpdateStatusSubCategory(int id, SubCategoryModel model)
+        public async Task<bool> UpdateStatusSubCategory(long id, SubCategoryModel model)
         {
             var getData = await _subCategoryRepository.GetByIdAsync(id) ?? new SubCategoryEntities();
             getData.Status = model.Status;
             return await _subCategoryRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateInformationSubCategory(int id, SubCategoryModel model)
+        public async Task<bool> UpdateInformationSubCategory(long id, SubCategoryModel model)
         {
             var getData = await _subCategoryRepository.GetByIdAsync(id) ?? new SubCategoryEntities();
             getData.Status = model.Status;
@@ -170,7 +170,7 @@ namespace HDNXUdemyServices.Services
             return _mapper.Map<List<SubCategoryModel>>(getData);
         }
 
-        public async Task<SubCategoryModel> GetSubCategory(int id)
+        public async Task<SubCategoryModel> GetSubCategory(long id)
         {
             var getData = await _subCategoryRepository.GetByIdAsync(id);
             return _mapper.Map<SubCategoryModel>(getData);
@@ -182,14 +182,14 @@ namespace HDNXUdemyServices.Services
             return await _systemConfigRepository.AddAsync(dataInsert);
         }
 
-        public async Task<bool> UpdateStatusConfigSystem(int id, SystemConfigModel model)
+        public async Task<bool> UpdateStatusConfigSystem(long id, SystemConfigModel model)
         {
             var getData = await _systemConfigRepository.GetByIdAsync(id) ?? new SystemConfigEntities();
             getData.Status = model.Status;
             return await _systemConfigRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateInformationConfigSystem(int id, SystemConfigModel model)
+        public async Task<bool> UpdateInformationConfigSystem(long id, SystemConfigModel model)
         {
             var getData = await _systemConfigRepository.GetByIdAsync(id) ?? new SystemConfigEntities();
             getData.Status = model.Status;
@@ -203,7 +203,7 @@ namespace HDNXUdemyServices.Services
             return _mapper.Map<List<SystemConfigModel>>(getData);
         }
 
-        public async Task<SystemConfigModel> GetConfigSystem(int id)
+        public async Task<SystemConfigModel> GetConfigSystem(long id)
         {
             var getData = await _systemConfigRepository.GetByIdAsync(id);
             return _mapper.Map<SystemConfigModel>(getData);

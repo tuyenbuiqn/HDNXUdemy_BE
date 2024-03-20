@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using HDNXUdemyModel.Base;
 using HDNXUdemyModel.Constant;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
@@ -31,14 +32,14 @@ namespace HDNXUdemyConvertVideoAPI.Controllers
         [HttpGet("stream/{fileName}")]
         public IActionResult GetVideoStream(string fileName)
         {
-            var filePath = _fileProvider.GetFileInfo($"StorageStreamVideo/{fileName}");
+            var filePath = Path.Combine($@"{ProjectConfig.DiskBaseForVideo}\StorageStreamVideo\{fileName}");
 
-            if (!filePath.Exists)
+            if (!System.IO.File.Exists(filePath))
             {
                 return NotFound(); // File not found
             }
 
-            var fileContent = System.IO.File.OpenRead(filePath.PhysicalPath ?? string.Empty);
+            var fileContent = System.IO.File.OpenRead(filePath ?? string.Empty);
             return File(fileContent, "application/octet-stream", enableRangeProcessing: true);
         }
 

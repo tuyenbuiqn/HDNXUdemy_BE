@@ -107,12 +107,12 @@ namespace HDNXUdemyServices.Services
                 TypeLogin = (int)ETypeLogin.Email,
             };
             var dataInsertReturn = await _userRepository.AddReturnModelAsync(dataInsert);
-            if (dataInsertReturn.Id != 0)
+            if (dataInsertReturn != null)
             {
                 string linkRequestUrl = $"{ProjectConfig.LinkRequestUrl}/{dataInsertReturn.Id}/{dataInsertReturn.Email}";
                 await _emailServices.SendEmailToSingUpEmail(email, linkRequestUrl);
             }
-            return dataInsertReturn.Id != 0;
+            return dataInsertReturn != null;
         }
 
         public async Task<ResponeLogin> LoginNormalAccount(string email, string password, HttpContext httpContext)
@@ -162,7 +162,7 @@ namespace HDNXUdemyServices.Services
             return returnData;
         }
 
-        public async Task<bool> IsActiveAccountAfterRegister(string email, int id)
+        public async Task<bool> IsActiveAccountAfterRegister(string email, long id)
         {
             bool isUpdate = false;
             var getData = await _userRepository.GetObjectAsync(x => x.Email == email && x.Id == id);

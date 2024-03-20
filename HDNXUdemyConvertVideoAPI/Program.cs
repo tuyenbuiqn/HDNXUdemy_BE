@@ -125,9 +125,9 @@ namespace HDNXUdemyConvertVideoAPI
                 FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.WebRootPath)),
                 ServeUnknownFileTypes = true,
                 DefaultContentType = "application/octet-stream",
-                OnPrepareResponse = ctx =>
+                OnPrepareResponse = context =>
                 {
-                    ctx.Context.Response.Headers.Append("Cache-Control", "public, max-age=600");
+                    context.Context.Response.Headers.Append("Cache-Control", "public, max-age=600");
                 },
                 ContentTypeProvider = new FileExtensionContentTypeProvider
                 {

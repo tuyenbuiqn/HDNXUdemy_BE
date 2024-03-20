@@ -36,7 +36,7 @@ namespace HDNXUdemyModel.Model
 
         public int? Vote2Star { get; set; }
         public int? Vote1Star { get; set; }
-        public int? IdCategory { get; set; }
+        public long? IdCategory { get; set; }
 
         public string? CategoryName { get; set; }
 
@@ -64,5 +64,7 @@ namespace HDNXUdemyModel.Model
         public bool? IsBookMark { get; set; }
 
         public bool IsPurchase { get; set; }
+
+        public decimal? AmountOfTheCourse { get; set; }
     }
 }

@@ -116,5 +116,7 @@
         public static string? LinkRegisterError { get; set; }
 
         public static string? LinkRequestUrl { get; set; }
+
+        public static string? DiskBaseForVideo { get; set; }
     }
 }

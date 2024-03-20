@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HDNXUdemyData.IRepository;
+using HDNXUdemyModel.Constant;
 using HDNXUdemyModel.Model;
 using HDNXUdemyModel.ResponModel;
 using HDNXUdemyModel.SystemExceptions;
@@ -25,7 +26,7 @@ namespace HDNXUdemyServices.Services
             _mapper = mapper ?? throw new ProjectException(nameof(_categoryRepository));
         }
 
-        public async Task<HomeModel> GetDataForHome(int? idUser)
+        public async Task<HomeModel> GetDataForHome(long? idUser)
         {
             var returnValue = new HomeModel()
             {
@@ -39,14 +40,14 @@ namespace HDNXUdemyServices.Services
             {
                 NameContent = "Khoá học mua nhiều nhất",
                 ListDataOfContent = await GetBookMarkForCourse(_mapper.Map<List<CourseModel>>((await _courseRepository
-                .GetAllAsync()).OrderBy(x => x.TotalStudentRegister).Take(10)), idUser),
+                .GetAsync(x => x.ProcessCourse == (int)ProcessVideo.Public)).OrderBy(x => x.TotalStudentRegister).Take(10)), idUser),
             };
             returnValue.ListContentData.Add(getDataOfBestIsBuy);
             var getDataOfBestIsDisCount = new ListContentOfCourse()
             {
                 NameContent = "Khoá học khuyến mãi",
                 ListDataOfContent = await GetBookMarkForCourse(_mapper.Map<List<CourseModel>>((await _courseRepository
-                .GetAsync(x => x.IsDiscount == true)).OrderBy(x => x.CreateDate).Take(10)), idUser),
+                .GetAsync(x => x.IsDiscount == true && x.ProcessCourse == (int)ProcessVideo.Public)).OrderBy(x => x.CreateDate).Take(10)), idUser),
             };
             returnValue.ListContentData.Add(getDataOfBestIsDisCount);
             foreach (var item in getDataOfCategory)
@@ -55,7 +56,7 @@ namespace HDNXUdemyServices.Services
                 {
                     NameContent = item.Name,
                     ListDataOfContent = await GetBookMarkForCourse(_mapper.Map<List<CourseModel>>((await _courseRepository
-                    .GetAsync(x => x.IdCategory == item.Id)).Take(10)), idUser),
+                    .GetAsync(x => x.IdCategory == item.Id && x.ProcessCourse == (int)ProcessVideo.Public)).Take(10)), idUser),
                 };
                 returnValue.ListContentData.Add(getDataItem);
             }
@@ -63,7 +64,7 @@ namespace HDNXUdemyServices.Services
             return returnValue;
         }
 
-        public async Task<List<CourseModel>> GetBookMarkForCourse(List<CourseModel> listCourse, int? idUser = 0)
+        public async Task<List<CourseModel>> GetBookMarkForCourse(List<CourseModel> listCourse, long? idUser)
         {
             var getDataBookMarkOfStudent = await _bookmarkCourseRepository.GetAsync(x => x.IdStudent == idUser);
             foreach (var item in listCourse)

@@ -4,13 +4,13 @@ namespace HDNXUdemyModel.Model
 {
     public class NotificationModel : BaseModel
     {
-        public int? IdComment { get; set; }
+        public long? IdComment { get; set; }
 
         public int? TypeNotification { get; set; }
 
-        public int? IdCourse { get; set; }
+        public long? IdCourse { get; set; }
 
-        public int? IdStudent { get; set; }
+        public long? IdStudent { get; set; }
 
         public string? ShortComment { get; set; }
 
