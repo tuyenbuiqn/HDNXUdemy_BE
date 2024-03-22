@@ -4,12 +4,14 @@ using HDNXUdemyAPI.Middlewares;
 using HDNXUdemyAPI.ModelHelp;
 using HDNXUdemyAPI.ProjectExtensisons;
 using HDNXUdemyData.EntitiesContext;
+using HDNXUdemyModel.Base;
 using HDNXUdemyServices.CommonFunction;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Stripe;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using static HDNXUdemyAPI.ProjectExtensisons.ApplicationSwaggerExtension;
@@ -82,6 +84,7 @@ namespace HDNXUdemyAPI
                 });
             });
             builder.Services.AddSignalR();
+            StripeConfiguration.ApiKey = ProjectConfig.StripeSecretKey;
 
             var app = builder.Build();
 

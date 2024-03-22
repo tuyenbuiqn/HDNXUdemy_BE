@@ -51,6 +51,7 @@ namespace HDNXUdemyAPI.ProjectExtensisons
             services.AddTransient<IHomeServices, HomeServices>();
             services.AddTransient<IEmailServices, EmailServices>();
             services.AddTransient<IPurcharseCourseServices, PurcharseCourseServices>();
+            services.AddTransient<IStripeServices, StripeServices>();
             services.AddAWSService<IAmazonS3>();
         }
     }

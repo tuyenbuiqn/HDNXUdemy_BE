@@ -58,6 +58,9 @@ namespace HDNXUdemyAPI.ModelHelp
             ProjectConfig.LinkRegisterError = appConfig.GetValue<string>("LinkRegisterError");
             ProjectConfig.LinkRequestUrl = appConfig.GetValue<string>("LinkRequestUrl");
             ProjectConfig.DiskBaseForVideo = appConfig.GetValue<string>("DiskBaseForVideo");
+            ProjectConfig.APIKeyResendEmail = appConfig.GetValue<string>("APIKeyResendEmail");
+            ProjectConfig.StripePublishableKey = appConfig.GetValue<string>("StripePublishableKey");
+            ProjectConfig.StripeSecretKey = appConfig.GetValue<string>("StripeSecretKey");
 
             ProjectConfig.SenderEmail = emailConfig.GetValue<string>("SenderEmail");
             ProjectConfig.DisplayName = emailConfig.GetValue<string>("DisplayName");

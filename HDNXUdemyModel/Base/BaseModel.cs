@@ -10,9 +10,9 @@ namespace HDNXUdemyModel.Base
 
         public long UpdateBy { get; set; }
 
-        public LocalDateTime CreateDate { get; set; }
+        public LocalDateTime? CreateDate { get; set; }
 
-        public LocalDateTime UpdateDate { get; set; }
+        public LocalDateTime? UpdateDate { get; set; }
 
         public int Status { get; set; }
     }

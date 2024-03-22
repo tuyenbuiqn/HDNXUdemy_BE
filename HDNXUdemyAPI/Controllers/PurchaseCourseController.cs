@@ -2,6 +2,7 @@
 using HDNXUdemyModel.Base;
 using HDNXUdemyModel.Constant;
 using HDNXUdemyModel.Model;
+using HDNXUdemyModel.ResponModel;
 using HDNXUdemyModel.SystemExceptions;
 using HDNXUdemyServices.IServices;
 using Microsoft.AspNetCore.Mvc;
@@ -17,15 +18,17 @@ namespace HDNXUdemyAPI.Controllers
     public class PurchaseCourseController : BaseController
     {
         private readonly IPurcharseCourseServices _purcharseCourseServices;
+        private readonly IStripeServices _stripeServices;
 
         /// <summary>
         /// PurchaseCourseController
         /// </summary>
         /// <param name="purcharseCourseServices"></param>
         /// <exception cref="ProjectException"></exception>
-        public PurchaseCourseController(IPurcharseCourseServices purcharseCourseServices)
+        public PurchaseCourseController(IPurcharseCourseServices purcharseCourseServices, IStripeServices stripeServices)
         {
             _purcharseCourseServices = purcharseCourseServices ?? throw new ProjectException(nameof(_purcharseCourseServices));
+            _stripeServices = stripeServices ?? throw new ProjectException(nameof(_purcharseCourseServices));
         }
 
         /// <summary>
@@ -153,6 +156,27 @@ namespace HDNXUdemyAPI.Controllers
             };
 
             result.Data = await _purcharseCourseServices.GetPurchaseCorseDetail(idPurchase);
+            return result;
+        }
+
+        /// <summary>
+        /// CreateCheckoutSession
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost("create-stripe-checkout-session")]
+        public async Task<RepositoryModel<CheckoutSessionResponse>> CreateCheckoutSession(PurcharseCourseModel model)
+        {
+            RepositoryModel<CheckoutSessionResponse> result = new()
+            {
+                PartnerCode = Messenger.SuccessFull,
+                RetCode = ERetCode.Successfull,
+                Data = new CheckoutSessionResponse(),
+                SystemMessage = string.Empty,
+                StatusCode = (int)HttpStatusCode.Created
+            };
+
+            result.Data = await _stripeServices.CreateCheckoutSession(model);
             return result;
         }
     }

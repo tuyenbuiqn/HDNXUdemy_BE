@@ -118,5 +118,11 @@
         public static string? LinkRequestUrl { get; set; }
 
         public static string? DiskBaseForVideo { get; set; }
+
+        public static string? APIKeyResendEmail { get; set; }
+
+        public static string? StripePublishableKey { get; set; }
+
+        public static string? StripeSecretKey { get; set; }
     }
 }
