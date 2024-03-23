@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using HDNXUdemyData.EntitiesContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NodaTime;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -13,9 +14,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HDNXUdemyData.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20240323044318_AddNewTableForCouponPromotionCode")]
+    partial class AddNewTableForCouponPromotionCode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -211,38 +214,6 @@ namespace HDNXUdemyData.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories", "sche_dev_HDNXUdemy");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            CreateBy = 1L,
-                            CreateDate = new NodaTime.LocalDateTime(2024, 3, 23, 14, 39, 0).PlusNanoseconds(598964500L),
-                            Name = "Công nghệ thông tin",
-                            Status = 0,
-                            UpdateBy = 1L,
-                            UpdateDate = new NodaTime.LocalDateTime(2024, 3, 23, 14, 39, 0).PlusNanoseconds(598964500L)
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            CreateBy = 1L,
-                            CreateDate = new NodaTime.LocalDateTime(2024, 3, 23, 14, 39, 0).PlusNanoseconds(598964500L),
-                            Name = "Chat GPT",
-                            Status = 0,
-                            UpdateBy = 1L,
-                            UpdateDate = new NodaTime.LocalDateTime(2024, 3, 23, 14, 39, 0).PlusNanoseconds(598964500L)
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            CreateBy = 1L,
-                            CreateDate = new NodaTime.LocalDateTime(2024, 3, 23, 14, 39, 0).PlusNanoseconds(598964500L),
-                            Name = "Khóa học cuộc sống",
-                            Status = 0,
-                            UpdateBy = 1L,
-                            UpdateDate = new NodaTime.LocalDateTime(2024, 3, 23, 14, 39, 0).PlusNanoseconds(598964500L)
-                        });
                 });
 
             modelBuilder.Entity("HDNXUdemyData.Entities.ContentCourseEntities", b =>
@@ -880,13 +851,7 @@ namespace HDNXUdemyData.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("CheckoutSessionId")
-                        .HasColumnType("text");
-
                     b.Property<string>("ContentTranferBanking")
-                        .HasColumnType("text");
-
-                    b.Property<string>("CoupponCode")
                         .HasColumnType("text");
 
                     b.Property<long>("CreateBy")
@@ -902,12 +867,6 @@ namespace HDNXUdemyData.Migrations
 
                     b.Property<long>("IdStudent")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("PaymentIntent")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PromotionCode")
-                        .HasColumnType("text");
 
                     b.Property<Guid>("PurcharseCode")
                         .HasColumnType("uuid");

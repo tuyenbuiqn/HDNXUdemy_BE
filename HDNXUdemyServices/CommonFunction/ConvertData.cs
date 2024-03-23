@@ -1,4 +1,5 @@
 ﻿using HDNXUdemyModel.Base;
+using Microsoft.Extensions.Caching.Distributed;
 using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
@@ -145,21 +146,15 @@ namespace HDNXUdemyServices.CommonFunction
             }
         }
 
-        public static bool CheckIsAttendance(this string valueInput)
+        public static DistributedCacheEntryOptions OptionCache()
         {
-            if (string.IsNullOrWhiteSpace(valueInput))
+            DistributedCacheEntryOptions optionSaveCache = new DistributedCacheEntryOptions()
             {
-                return false;
-            }
-            else
-            {
-                return valueInput.ToUpper() switch
-                {
-                    "K" => false,
-                    "P" => true,
-                    _ => true,
-                };
-            }
+                SlidingExpiration = TimeSpan.FromMinutes(ProjectConfig.SetSlidingExpiration),
+                AbsoluteExpiration = DateTime.Now.AddMinutes(ProjectConfig.SetAbsoluteExpiration)
+            };
+
+            return optionSaveCache;
         }
     }
 }

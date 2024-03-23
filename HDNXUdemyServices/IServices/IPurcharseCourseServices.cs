@@ -1,6 +1,7 @@
 ﻿using HDNXUdemyModel.Base;
 using HDNXUdemyModel.Model;
-using HDNXUdemyModel.ResponModel;
+using Stripe;
+using Stripe.Checkout;
 
 namespace HDNXUdemyServices.IServices
 {
@@ -17,5 +18,7 @@ namespace HDNXUdemyServices.IServices
         Task<PagedResult<PurcharseCourseModel>> GetListPurcharseCourses(int pageIndex, int pageSize);
 
         Task<PurcharseCourseModel> GetPurchaseCorseDetail(long idPurchase);
+
+        Task CreateAndUpdatePurchaseOrderWhenPaymentFromStripe(Session stripeSession, Event eventStripe);
     }
 }

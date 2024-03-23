@@ -38,14 +38,14 @@ namespace HDNXUdemyServices.Services
             returnValue.Partners.AddRange(getDataOfPartner);
             var getDataOfBestIsBuy = new ListContentOfCourse()
             {
-                NameContent = "Khoá học mua nhiều nhất",
+                NameContent = "The best-selling course",
                 ListDataOfContent = await GetBookMarkForCourse(_mapper.Map<List<CourseModel>>((await _courseRepository
                 .GetAsync(x => x.ProcessCourse == (int)ProcessVideo.Public)).OrderBy(x => x.TotalStudentRegister).Take(10)), idUser),
             };
             returnValue.ListContentData.Add(getDataOfBestIsBuy);
             var getDataOfBestIsDisCount = new ListContentOfCourse()
             {
-                NameContent = "Khoá học khuyến mãi",
+                NameContent = "Promotional course",
                 ListDataOfContent = await GetBookMarkForCourse(_mapper.Map<List<CourseModel>>((await _courseRepository
                 .GetAsync(x => x.IsDiscount == true && x.ProcessCourse == (int)ProcessVideo.Public)).OrderBy(x => x.CreateDate).Take(10)), idUser),
             };

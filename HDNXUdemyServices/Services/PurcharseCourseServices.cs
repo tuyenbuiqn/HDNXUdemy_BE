@@ -10,8 +10,10 @@ using HDNXUdemyServices.CommonFunction;
 using HDNXUdemyServices.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
-using NetTopologySuite.Index.HPRtree;
+using Microsoft.Extensions.Caching.Distributed;
 using NodaTime;
+using Stripe;
+using Stripe.Checkout;
 
 namespace HDNXUdemyServices.Services
 {
@@ -28,11 +30,12 @@ namespace HDNXUdemyServices.Services
         private readonly IPurcharseCourseRepository _pucharseCourseRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IDistributedCache _distributedCache;
 
         public PurcharseCourseServices(IPurcharseCourseRepository purcharseCourseRepository, IMapper mapper, IHubContext<HubConfigProject> hubConfigProject,
             ICourseRepository courseRepository, INotificationRepository notificationRepository, IInformationManualBankingRepository informationManualBankingRepository,
             IRPPurcharseCourseDetailsRepository purcharseCourseDetailsRepository, IHttpContextAccessor httpContextAccessor, IPurcharseCourseRepository pucharseCourseRepository,
-            IUserRepository userRepository, ICategoryRepository categoryRepository)
+            IUserRepository userRepository, ICategoryRepository categoryRepository, IDistributedCache distributedCache)
         {
             _purcharseCourseRepository = purcharseCourseRepository ?? throw new ProjectException(nameof(_purcharseCourseRepository));
             _mapper = mapper ?? throw new ProjectException(nameof(_mapper));
@@ -45,11 +48,12 @@ namespace HDNXUdemyServices.Services
             _pucharseCourseRepository = pucharseCourseRepository ?? throw new ProjectException(nameof(_pucharseCourseRepository));
             _userRepository = userRepository ?? throw new ProjectException(nameof(_userRepository));
             _categoryRepository = categoryRepository ?? throw new ProjectException(nameof(_categoryRepository));
+            _distributedCache = distributedCache ?? throw new ProjectException(nameof(_distributedCache));
         }
 
         public string GenPurchaseOrder(long idStudent)
         {
-            return Generator.GenerateRandomString(idStudent);
+            return Guid.NewGuid().ToString();
         }
 
         public async Task<PurcharseCourseModel> CreateRequestPurchase(PurcharseCourseModel model)
@@ -57,8 +61,6 @@ namespace HDNXUdemyServices.Services
             var getValueOfInfoPurechase = _mapper.Map<InformationManualBankingModel>(
                 (await _informationManualBankingRepository.GetAsync(x => x.Status == (int)EStatus.Active)).FirstOrDefault());
 
-            model.PurcharseStatus = (int)ETypeOfStatusOrder.Request;
-            model.PurcharseCode = Guid.NewGuid();
             var dataInsert = _mapper.Map<PurcharseCourseEntities>(model);
             var addReturnModel = await _purcharseCourseRepository.AddReturnModelAsync(dataInsert);
 
@@ -79,9 +81,9 @@ namespace HDNXUdemyServices.Services
             getData.Status = model.Status;
             getData.PurcharseStatus = model.PurcharseStatus;
             bool returnValue = await _purcharseCourseRepository.UpdateAsync(getData);
-            if (returnValue)
+            var getDataOfCourse = await _courseRepository.GetObjectAsync(id);
+            if (returnValue && getDataOfCourse != null)
             {
-                var getDataOfCourse = await _courseRepository.GetObjectAsync(id);
                 var dataInsertNotification = new NotificationEntities()
                 {
                     IdCourse = getDataOfCourse.Id,
@@ -139,23 +141,27 @@ namespace HDNXUdemyServices.Services
         {
             var getDataPurchaseOrder = await _pucharseCourseRepository.GetByIdAsync(idPurchase);
             var getDataPurchaseOrderDetail = await _purcharseCourseDetailsRepository.GetAsync(x => x.IdPurchaseOrder == idPurchase && x.Status == (int)EStatus.Active);
-            var getDataStudent = await _userRepository.GetByIdAsync(getDataPurchaseOrder.IdStudent);
-            var returnData = _mapper.Map<PurcharseCourseModel>(getDataPurchaseOrder);
-            var getCategory = await _categoryRepository.GetAllAsync();
-            returnData.ListPurchaseCourseDetails = _mapper.Map<List<PurcharseCourseDetailsModel>>(getDataPurchaseOrderDetail);
-            returnData.User = _mapper.Map<UserModel>(getDataStudent);
-            returnData.NameStatus = ((ETypeOfStatusOrder)returnData.PurcharseStatus).GetEnumDescription();
 
-            foreach (var item in returnData.ListPurchaseCourseDetails)
+            var returnData = _mapper.Map<PurcharseCourseModel>(getDataPurchaseOrder);
+            if (getDataPurchaseOrder != null)
             {
-                item.Courses = _mapper.Map<CourseModel>(await _courseRepository.GetObjectAsync(x => x.Id == item.IdCourse && x.Status == (int)EStatus.Active));
-                item.Courses.CategoryName = getCategory.Where(x => x.Id == item.Courses.IdCategory).FirstOrDefault()?.Name;
-                item.Courses.AmountOfTheCourse = item.Courses.IsDiscount == true ? item.Courses.PriceOfDiscount : item.Courses.PriceOfCourse;
+                var getDataStudent = await _userRepository.GetByIdAsync(getDataPurchaseOrder.IdStudent);
+                var getCategory = await _categoryRepository.GetAllAsync();
+                returnData.ListPurchaseCourseDetails = _mapper.Map<List<PurcharseCourseDetailsModel>>(getDataPurchaseOrderDetail);
+                returnData.User = _mapper.Map<UserModel>(getDataStudent);
+                returnData.NameStatus = ((ETypeOfStatusOrder)returnData.PurcharseStatus).GetEnumDescription();
+
+                foreach (var item in returnData.ListPurchaseCourseDetails)
+                {
+                    item.Courses = _mapper.Map<CourseModel>(await _courseRepository.GetObjectAsync(x => x.Id == item.IdCourse && x.Status == (int)EStatus.Active));
+                    item.Courses.CategoryName = getCategory.Where(x => x.Id == item.Courses.IdCategory).FirstOrDefault()?.Name;
+                    item.Courses.AmountOfTheCourse = item.Courses.IsDiscount == true ? item.Courses.PriceOfDiscount : item.Courses.PriceOfCourse;
+                }
             }
             return returnData;
         }
 
-        private List<ValuePurchaseOrderCount> GetDataValueForStatusOfPurchaseOrder(List<PurcharseCourseEntities> currentPurcharseCourseModels, List<PurcharseCourseEntities> sameWithCurrentPurcharseCourseModels)
+        private static List<ValuePurchaseOrderCount> GetDataValueForStatusOfPurchaseOrder(List<PurcharseCourseEntities> currentPurcharseCourseModels, List<PurcharseCourseEntities> sameWithCurrentPurcharseCourseModels)
         {
             var listValuePurchaseOrderStatus = new List<ValuePurchaseOrderCount>();
             var resultDataMapper = currentPurcharseCourseModels.GroupBy(x => x.PurcharseStatus);
@@ -173,6 +179,66 @@ namespace HDNXUdemyServices.Services
             }
 
             return listValuePurchaseOrderStatus;
+        }
+
+        public async Task CreateAndUpdatePurchaseOrderWhenPaymentFromStripe(Session stripeSession, Event eventStripe)
+        {
+            var dataPurchaseModel = await DistributedCacheRedis.GetDataToDistributedCache<PurcharseCourseModel>(_distributedCache, stripeSession.ClientReferenceId);
+            if (dataPurchaseModel != null)
+            {
+                switch (eventStripe.Type)
+                {
+                    case Events.CheckoutSessionCompleted:
+                        if (stripeSession.PaymentStatus == "paid")
+                        {
+                            var getDataPurchasePaid = await _pucharseCourseRepository.GetObjectAsync(x => x.PurcharseCode == dataPurchaseModel.PurcharseCode);
+                            if (getDataPurchasePaid != null)
+                            {
+                                await UpdatePurchaseStatus(getDataPurchasePaid, ETypeOfStatusOrder.Payment, stripeSession);
+                            }
+                            else
+                            {
+                                await CreateAndUpdatePurchase(dataPurchaseModel, ETypeOfStatusOrder.Payment, stripeSession);
+                            }
+                        }
+                        else
+                        {
+                            await CreateAndUpdatePurchase(dataPurchaseModel, ETypeOfStatusOrder.Request, stripeSession);
+                        }
+                        break;
+
+                    case Events.CheckoutSessionAsyncPaymentSucceeded:
+
+                        await CreateAndUpdatePurchase(dataPurchaseModel, ETypeOfStatusOrder.Payment, stripeSession);
+                        break;
+
+                    case Events.CheckoutSessionAsyncPaymentFailed:
+                        var getDataPurchaseFaild = await _pucharseCourseRepository.GetObjectAsync(x => x.PurcharseCode == dataPurchaseModel.PurcharseCode);
+                        await UpdatePurchaseStatus(getDataPurchaseFaild, ETypeOfStatusOrder.Pending, stripeSession);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private async Task UpdatePurchaseStatus(PurcharseCourseEntities purchaseModel, ETypeOfStatusOrder status, Session stripeSession)
+        {
+            purchaseModel.PurcharseStatus = (int)status;
+            purchaseModel.PurchaseDate = LocalDateTime.FromDateTime(DateTime.UtcNow);
+            purchaseModel.CheckoutSessionId = stripeSession.Id;
+            purchaseModel.PaymentIntent = stripeSession.PaymentIntentId;
+            await _pucharseCourseRepository.UpdateAsync(purchaseModel);
+        }
+
+        private async Task CreateAndUpdatePurchase(PurcharseCourseModel purchaseModel, ETypeOfStatusOrder status, Session stripeSession)
+        {
+            purchaseModel.PurcharseStatus = (int)status;
+            purchaseModel.PurchaseDate = LocalDateTime.FromDateTime(DateTime.UtcNow);
+            purchaseModel.CheckoutSessionId = stripeSession.Id;
+            purchaseModel.PaymentIntent = stripeSession.PaymentIntentId;
+            await CreateRequestPurchase(purchaseModel);
         }
     }
 }
