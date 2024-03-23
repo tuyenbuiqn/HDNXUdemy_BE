@@ -65,7 +65,7 @@ namespace HDNXUdemyAPI
                 config.SubstituteApiVersionInUrl = true;
             });
             builder.Services.AddSwashbuckleSwagger();
-            builder.Services.AddApplicationServicesExtension();
+            builder.Services.AddApplicationServicesExtension(configuration);
             builder.Services.CustomerApplicationJWTExtension();
             builder.Services.AddCors(x =>
             {

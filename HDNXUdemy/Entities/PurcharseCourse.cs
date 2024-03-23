@@ -17,5 +17,13 @@ namespace HDNXUdemyData.Entities
         public Guid PurcharseCode { get; set; }
 
         public LocalDateTime? PurchaseDate { get; set; }
+
+        public string? PaymentIntent { get; set; }
+
+        public string? PromotionCode { get; set; }
+
+        public string? CoupponCode { get; set; }
+
+        public string? CheckoutSessionId { get; set; }
     }
 }

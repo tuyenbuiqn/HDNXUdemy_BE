@@ -48,6 +48,9 @@ namespace HDNXUdemyData.EntitiesContext
         public virtual DbSet<CourseEvaluationEntities>? CourseEvaluations { get; set; }
         public virtual DbSet<DetailTheadQuestionCourseEntities>? DetailTheadQuestionCourses { get; set; }
 
+        public virtual DbSet<CouponEntities>? Coupons { get; set; }
+        public virtual DbSet<PromotionCodeEntities>? PromotionCodes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema(ProjectConfig.DefaultSchema);
@@ -70,7 +73,9 @@ namespace HDNXUdemyData.EntitiesContext
             modelBuilder.Entity<PartnerEntities>().ToTable("Partners").HasKey(x => x.Id);
             modelBuilder.Entity<CourseEvaluationEntities>().ToTable("CourseEvaluations").HasKey(x => x.Id);
             modelBuilder.Entity<DetailTheadQuestionCourseEntities>().ToTable("DetailTheadQuestionCourses").HasKey(x => x.Id);
-            // modelBuilder.SeedDataDefault();
+            modelBuilder.Entity<CouponEntities>().ToTable("Coupons").HasKey(x => x.Id);
+            modelBuilder.Entity<PromotionCodeEntities>().ToTable("PromotionCodes").HasKey(x => x.Id);
+            modelBuilder.SeedDataDefault();
         }
 
         public override int SaveChanges()

@@ -110,7 +110,7 @@ namespace HDNXUdemyServices.Services
             if (dataInsertReturn != null)
             {
                 string linkRequestUrl = $"{ProjectConfig.LinkRequestUrl}/{dataInsertReturn.Id}/{dataInsertReturn.Email}";
-                await _emailServices.SendEmailToSingUpEmail(email, linkRequestUrl);
+                // await _emailServices.SendEmailToSingUpEmail(email, linkRequestUrl);
             }
             return dataInsertReturn != null;
         }

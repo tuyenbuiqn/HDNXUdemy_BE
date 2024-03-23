@@ -30,5 +30,13 @@ namespace HDNXUdemyModel.Model
         public InformationManualBankingModel? InfoBanking { get; set; }
 
         public List<ValuePurchaseOrderCount>? ValueOfDataCount { get; set; }
+
+        public string? PaymentIntent { get; set; }
+
+        public string? PromotionCode { get; set; }
+
+        public string? CoupponCode { get; set; }
+
+        public string? CheckoutSessionId { get; set; }
     }
 }

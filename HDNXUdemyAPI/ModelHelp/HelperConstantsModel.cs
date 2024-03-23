@@ -61,6 +61,11 @@ namespace HDNXUdemyAPI.ModelHelp
             ProjectConfig.APIKeyResendEmail = appConfig.GetValue<string>("APIKeyResendEmail");
             ProjectConfig.StripePublishableKey = appConfig.GetValue<string>("StripePublishableKey");
             ProjectConfig.StripeSecretKey = appConfig.GetValue<string>("StripeSecretKey");
+            ProjectConfig.StripePaymentSuccessLink = appConfig.GetValue<string>("StripePaymentSuccessLink");
+            ProjectConfig.StripePaymentUnSuccessLink = appConfig.GetValue<string>("StripePaymentUnSuccessLink");
+            ProjectConfig.SetSlidingExpiration = appConfig.GetValue<double>("SetSlidingExpiration");
+            ProjectConfig.SetAbsoluteExpiration = appConfig.GetValue<double>("SetAbsoluteExpiration");
+            ProjectConfig.StripeWebHookKey = appConfig.GetValue<string>("StripeWebHookKey");
 
             ProjectConfig.SenderEmail = emailConfig.GetValue<string>("SenderEmail");
             ProjectConfig.DisplayName = emailConfig.GetValue<string>("DisplayName");

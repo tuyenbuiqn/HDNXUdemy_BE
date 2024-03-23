@@ -7,6 +7,7 @@ using HDNXUdemyModel.Constant;
 using HDNXUdemyModel.Model;
 using HDNXUdemyModel.ResponModel;
 using HDNXUdemyServices.CommonFunction;
+using Stripe;
 
 namespace HDNXUdemyAPI.Mapper
 {
@@ -52,6 +53,12 @@ namespace HDNXUdemyAPI.Mapper
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(x => x.Id));
             CreateMap<PurcharseCourseDetailsEntities, PurcharseCourseDetailsModel>().ReverseMap();
             CreateMap<PagedResult<PurcharseCourseEntities>, PagedResult<PurcharseCourseModel>>().ReverseMap();
+            CreateMap<Coupon, CouponModel>()
+                .ForMember(dest => dest.StripeCouponId, opt => opt.MapFrom(x => x.Id));
+            CreateMap<CouponEntities, CouponModel>().ReverseMap();
+            CreateMap<PromotionCode, PromotionCodeModel>()
+                .ForMember(dest => dest.StripePromotionCodeId, opt => opt.MapFrom(x => x.Id));
+            CreateMap<PromotionCodeEntities, PromotionCodeModel>().ReverseMap();
         }
     }
 }
