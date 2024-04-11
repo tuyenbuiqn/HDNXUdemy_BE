@@ -337,12 +337,12 @@ namespace HDNXUdemyData.GenericRepository
 
         public bool Update(T pObj)
         {
-            return UpdateWithTransaction(pObj, "CreateDate", "CreateBy", "Status");
+            return UpdateWithTransaction(pObj, "CreateDate", "CreateBy");
         }
 
         public async Task<bool> UpdateAsync(T pObj)
         {
-            return await UpdateWithTransactionAsync(pObj, "CreateDate", "CreateBy", "Status");
+            return await UpdateWithTransactionAsync(pObj, "CreateDate", "CreateBy");
         }
 
         public bool UpdateStatus(T pObj)
@@ -414,7 +414,7 @@ namespace HDNXUdemyData.GenericRepository
             }
         }
 
-        public async Task<bool> DeleteByKey(int pKey)
+        public async Task<bool> DeleteByKey(long pKey)
         {
             using var transaction = _projectContext.Database.BeginTransaction();
             try

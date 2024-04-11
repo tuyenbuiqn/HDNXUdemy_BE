@@ -1,6 +1,4 @@
-﻿using Hangfire;
-using HDNXUdemyModel.Base;
-using HDNXUdemyServices.IServices;
+﻿using HDNXUdemyModel.Base;
 
 namespace HDNXUdemyServices.RecuringJob
 {

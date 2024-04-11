@@ -4,16 +4,16 @@ using HDNXUdemyAPI.Middlewares;
 using HDNXUdemyAPI.ModelHelp;
 using HDNXUdemyAPI.ProjectExtensisons;
 using HDNXUdemyData.EntitiesContext;
+using HDNXUdemyModel.Base;
 using HDNXUdemyServices.CommonFunction;
-using HDNXUdemyServices.Services;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Stripe;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
-using System.Text.Json.Serialization;
 using static HDNXUdemyAPI.ProjectExtensisons.ApplicationSwaggerExtension;
 
 namespace HDNXUdemyAPI
@@ -65,19 +65,26 @@ namespace HDNXUdemyAPI
                 config.SubstituteApiVersionInUrl = true;
             });
             builder.Services.AddSwashbuckleSwagger();
-            builder.Services.AddApplicationServicesExtension();
+            builder.Services.AddApplicationServicesExtension(configuration);
             builder.Services.CustomerApplicationJWTExtension();
             builder.Services.AddCors(x =>
             {
                 x.AddDefaultPolicy(polocy =>
                 {
-                    polocy.WithOrigins("http://localhost:4200", "http://localhost:61560")
+                    polocy.WithOrigins(
+                        "http://localhost:4200",
+                        "http://localhost:65362",
+                        "https://web-hdnx.devproinsights.com",
+                        "http://web-hdnx.devproinsights.com",
+                        "http://hdnx-admin.devproinsights.com",
+                        "https://hdnx-admin.devproinsights.com")
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials();
                 });
             });
             builder.Services.AddSignalR();
+            StripeConfiguration.ApiKey = ProjectConfig.StripeSecretKey;
 
             var app = builder.Build();
 
@@ -86,12 +93,11 @@ namespace HDNXUdemyAPI
             var env = app.Environment;
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 app.UseSwashbuckleSwagger(apiVersionProvider);
             }
-
-            app.UseHttpsRedirection();
+            app.UseDeveloperExceptionPage();
             app.UseAuthentication();
+            app.UseAuthorization();
             app.UseExceptionMiddleware();
             app.UseCors();
             app.UseRouting().UseEndpoints(endpoint =>

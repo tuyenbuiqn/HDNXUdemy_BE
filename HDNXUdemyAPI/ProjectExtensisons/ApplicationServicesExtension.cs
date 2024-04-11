@@ -1,4 +1,5 @@
 ﻿using Amazon.S3;
+using HDNXUdemyAPI.ModelHelp;
 using HDNXUdemyData.GenericRepository;
 using HDNXUdemyData.IRepository;
 using HDNXUdemyData.Repository;
@@ -16,18 +17,18 @@ namespace HDNXUdemyAPI.ProjectExtensisons
         /// AddApplicationServicesExtension
         /// </summary>
         /// <param name="services"></param>
-        public static void AddApplicationServicesExtension(this IServiceCollection services)
+        /// <param name="configuration"></param>
+        public static void AddApplicationServicesExtension(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient<INotificationRepository, NotificationRepository>();
             services.AddTransient<IBannerRepository, BannerRepository>();
             services.AddTransient<IBookmarkCourseRepository, BookmarkCourseRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
-            services.AddTransient<IChapterCommentRepository, ChapterCommentRepository>();
+            services.AddTransient<IRTheadQuestionCourseRepository, RTheadQuestionCourseRepository>();
             services.AddTransient<IContentCourseRepository, ContentCourseRepository>();
             services.AddTransient<IContentCourseDetailRepository, ContentCourseDetailRepository>();
             services.AddTransient<ICourseRepository, CourseRepository>();
-            services.AddTransient<ICourseCommentRepository, CourseCommentRepository>();
             services.AddTransient<IInformationManualBankingRepository, InformationManualBankingRepository>();
             services.AddTransient<IPurcharseCourseRepository, PurcharseCourseRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
@@ -37,6 +38,11 @@ namespace HDNXUdemyAPI.ProjectExtensisons
             services.AddTransient<IFileManagerRepository, FileManagerRepository>();
             services.AddTransient<ISystemConfigRepository, SystemConfigRepository>();
             services.AddTransient<IRPPartnerRepository, RPPartnerRepository>();
+            services.AddTransient<IRPPurcharseCourseDetailsRepository, RPurcharseCourseDetailsRepository>();
+            services.AddTransient<IRCourseEvaluationRepository, RCourseEvaluationRepository>();
+            services.AddTransient<IRDetailTheadQuestionCourseRepository, RDetailTheadQuestionCourseRepository>();
+            services.AddTransient<IRCouponRepository, RCouponRepository>();
+            services.AddTransient<IRPromotionCodeRepository, RPromotionCodeRepository>();
 
             services.AddTransient(typeof(ILogServices<>), typeof(LogServices<>));
             services.AddHttpClient<IAuthenticationServices, AuthenticationServices>();
@@ -48,7 +54,10 @@ namespace HDNXUdemyAPI.ProjectExtensisons
             services.AddTransient<IStudentServices, StudentServices>();
             services.AddTransient<IHomeServices, HomeServices>();
             services.AddTransient<IEmailServices, EmailServices>();
+            services.AddTransient<IPurcharseCourseServices, PurcharseCourseServices>();
+            services.AddTransient<IStripeServices, StripeServices>();
             services.AddAWSService<IAmazonS3>();
+            services.ApplicationDistributedConfigulation(configuration);
         }
     }
 }

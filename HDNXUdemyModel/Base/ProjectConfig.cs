@@ -116,5 +116,23 @@
         public static string? LinkRegisterError { get; set; }
 
         public static string? LinkRequestUrl { get; set; }
+
+        public static string? DiskBaseForVideo { get; set; }
+
+        public static string? APIKeyResendEmail { get; set; }
+
+        public static string? StripePublishableKey { get; set; }
+
+        public static string? StripeSecretKey { get; set; }
+
+        public static string? StripePaymentSuccessLink { get; set; }
+
+        public static string? StripePaymentUnSuccessLink { get; set; }
+
+        public static double SetSlidingExpiration { get; set; }
+
+        public static double SetAbsoluteExpiration { get; set; }
+
+        public static string? StripeWebHookKey { get; set; }
     }
 }

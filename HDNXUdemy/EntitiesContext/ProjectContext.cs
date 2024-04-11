@@ -31,13 +31,13 @@ namespace HDNXUdemyData.EntitiesContext
         public virtual DbSet<BookmarkCourseEntities>? BookmarkCourses { get; set; }
         public virtual DbSet<BannerEntities>? Banners { get; set; }
         public virtual DbSet<CategoryEntities>? Categories { get; set; }
-        public virtual DbSet<ChapterCommentEntities>? ChapterComments { get; set; }
+        public virtual DbSet<TheadQuestionCourseEntities>? TheadQuestionCourses { get; set; }
         public virtual DbSet<ContentCourseEntities>? ContentCourses { get; set; }
         public virtual DbSet<ContentCourseDetailEntities>? ContentCourseDetails { get; set; }
         public virtual DbSet<CourseEntities>? Courses { get; set; }
-        public virtual DbSet<CourseCommentEntities>? CourseComments { get; set; }
         public virtual DbSet<InformationManualBankingEntities>? InformationManualBankings { get; set; }
         public virtual DbSet<PurcharseCourseEntities>? PurcharseCourses { get; set; }
+        public virtual DbSet<PurcharseCourseDetailsEntities>? PurcharseCourseDetails { get; set; }
         public virtual DbSet<UserEntities>? Users { get; set; }
         public virtual DbSet<StudentProcessEntities>? StudentProcess { get; set; }
         public virtual DbSet<StudentPromotionEntities>? StudentPromotions { get; set; }
@@ -45,6 +45,11 @@ namespace HDNXUdemyData.EntitiesContext
         public virtual DbSet<FileManagerEntities>? FileManagers { get; set; }
         public virtual DbSet<SystemConfigEntities>? SystemConfigs { get; set; }
         public virtual DbSet<PartnerEntities>? Partners { get; set; }
+        public virtual DbSet<CourseEvaluationEntities>? CourseEvaluations { get; set; }
+        public virtual DbSet<DetailTheadQuestionCourseEntities>? DetailTheadQuestionCourses { get; set; }
+
+        public virtual DbSet<CouponEntities>? Coupons { get; set; }
+        public virtual DbSet<PromotionCodeEntities>? PromotionCodes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -53,12 +58,12 @@ namespace HDNXUdemyData.EntitiesContext
             modelBuilder.Entity<BookmarkCourseEntities>().ToTable("BookmarkCourses").HasKey(x => x.Id);
             modelBuilder.Entity<BannerEntities>().ToTable("Banners").HasKey(x => x.Id);
             modelBuilder.Entity<CategoryEntities>().ToTable("Categories").HasKey(x => x.Id);
-            modelBuilder.Entity<ChapterCommentEntities>().ToTable("ChapterComments").HasKey(x => x.Id);
+            modelBuilder.Entity<TheadQuestionCourseEntities>().ToTable("TheadQuestionCourses").HasKey(x => x.Id);
             modelBuilder.Entity<ContentCourseEntities>().ToTable("ContentCourses").HasKey(x => x.Id);
             modelBuilder.Entity<ContentCourseDetailEntities>().ToTable("ContentCourseDetails").HasKey(x => x.Id);
-            modelBuilder.Entity<CourseCommentEntities>().ToTable("CourseComments").HasKey(x => x.Id);
             modelBuilder.Entity<InformationManualBankingEntities>().ToTable("InformationManualBankings").HasKey(x => x.Id);
             modelBuilder.Entity<PurcharseCourseEntities>().ToTable("PurcharseCourses").HasKey(x => x.Id);
+            modelBuilder.Entity<PurcharseCourseDetailsEntities>().ToTable("PurcharseCourseDetails").HasKey(x => x.Id);
             modelBuilder.Entity<UserEntities>().ToTable("Users").HasKey(x => x.Id);
             modelBuilder.Entity<StudentProcessEntities>().ToTable("StudentProcess").HasKey(x => x.Id);
             modelBuilder.Entity<StudentPromotionEntities>().ToTable("StudentPromotions").HasKey(x => x.Id);
@@ -66,6 +71,10 @@ namespace HDNXUdemyData.EntitiesContext
             modelBuilder.Entity<FileManagerEntities>().ToTable("FileManagers").HasKey(x => x.Id);
             modelBuilder.Entity<SystemConfigEntities>().ToTable("SystemConfigs").HasKey(x => x.Id);
             modelBuilder.Entity<PartnerEntities>().ToTable("Partners").HasKey(x => x.Id);
+            modelBuilder.Entity<CourseEvaluationEntities>().ToTable("CourseEvaluations").HasKey(x => x.Id);
+            modelBuilder.Entity<DetailTheadQuestionCourseEntities>().ToTable("DetailTheadQuestionCourses").HasKey(x => x.Id);
+            modelBuilder.Entity<CouponEntities>().ToTable("Coupons").HasKey(x => x.Id);
+            modelBuilder.Entity<PromotionCodeEntities>().ToTable("PromotionCodes").HasKey(x => x.Id);
             modelBuilder.SeedDataDefault();
         }
 
@@ -73,7 +82,7 @@ namespace HDNXUdemyData.EntitiesContext
         {
             LocalDateTime dateNow = LocalDateTime.FromDateTime(DateTime.UtcNow);
             var errorList = new List<ValidationResult>();
-            int idCurrentUser = _httpContextAccessor.HttpContext == null ? 1 : int.Parse(_httpContextAccessor.HttpContext.User.Claims
+            int idCurrentUser = _httpContextAccessor.HttpContext == null ? 0 : int.Parse(_httpContextAccessor.HttpContext.User.Claims
                                             .Where(x => x.Type == "user-id").FirstOrDefault()?.Value ?? "0");
 
             var entries = ChangeTracker.Entries()
@@ -90,7 +99,6 @@ namespace HDNXUdemyData.EntitiesContext
                         itemBase.CreateDate = itemBase.UpdateDate = dateNow;
                         itemBase.CreateBy = idCurrentUser;
                         itemBase.UpdateBy = idCurrentUser;
-                        itemBase.Status = (int)EStatus.Active;
                     }
                 }
                 else if (entry.State == EntityState.Modified)
@@ -117,7 +125,7 @@ namespace HDNXUdemyData.EntitiesContext
         {
             LocalDateTime dateNow = LocalDateTime.FromDateTime(DateTime.UtcNow);
             var errorList = new List<ValidationResult>();
-            int idCurrentUser = _httpContextAccessor.HttpContext == null ? 1 : int.Parse(_httpContextAccessor.HttpContext.User.Claims
+            int idCurrentUser = _httpContextAccessor.HttpContext == null ? 0 : int.Parse(_httpContextAccessor.HttpContext.User.Claims
                                             .Where(x => x.Type == "user-id").FirstOrDefault()?.Value ?? "0");
 
             var entries = ChangeTracker.Entries()
@@ -134,7 +142,6 @@ namespace HDNXUdemyData.EntitiesContext
                         itemBase.CreateDate = itemBase.UpdateDate = dateNow;
                         itemBase.CreateBy = idCurrentUser;
                         itemBase.UpdateBy = idCurrentUser;
-                        itemBase.Status = (int)EStatus.Active;
                     }
                 }
                 else if (entry.State == EntityState.Modified)

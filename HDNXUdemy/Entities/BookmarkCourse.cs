@@ -2,7 +2,7 @@
 {
     public class BookmarkCourseEntities : BaseEntities
     {
-        public int IdStudent { get; set; }
-        public int IdCourse { get; set; }
+        public long IdStudent { get; set; }
+        public long IdCourse { get; set; }
     }
 }

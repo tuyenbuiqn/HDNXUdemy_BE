@@ -50,6 +50,6 @@ namespace HDNXUdemyData.GenericRepository
 
         Task<bool> UpdateStatusAsync(T pObj);
 
-        Task<bool> DeleteByKey(int pKey);
+        Task<bool> DeleteByKey(long pKey);
     }
 }

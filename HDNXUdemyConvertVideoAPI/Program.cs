@@ -1,15 +1,10 @@
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
-using Hangfire;
-using Hangfire.Dashboard;
-using Hangfire.Redis.StackExchange;
 using HDNXUdemyConvertVideoAPI.Middlewares;
 using HDNXUdemyConvertVideoAPI.ModelHelp;
 using HDNXUdemyConvertVideoAPI.ProjectExtensisons;
 using HDNXUdemyData.EntitiesContext;
-using HDNXUdemyModel.Base;
 using HDNXUdemyServices.IServices;
-using HDNXUdemyServices.RecuringJob;
 using HDNXUdemyServices.Services;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.StaticFiles;
@@ -82,24 +77,17 @@ namespace HDNXUdemyConvertVideoAPI
             builder.Services.AddApplicationServicesExtension();
             builder.Services.CustomerApplicationJWTExtension();
 
-            var redisConfig = GetSettings(configuration);
-            // Add Hangfire services.
-            builder.Services.AddHangfire(configuration =>
-            {
-                configuration.UseRedisStorage($"{redisConfig.Host}:{redisConfig.Port},abortConnect=false,ssl=false,password={redisConfig.Password}");
-                // configuration.UseRedisStorage($"{redisConfig.Host}:{redisConfig.Port}");
-            });
-
-            builder.Services.AddHangfireServer(options =>
-            {
-                options.WorkerCount = 30;
-            });
-
             builder.Services.AddCors(x =>
             {
                 x.AddDefaultPolicy(polocy =>
                 {
-                    polocy.WithOrigins("http://localhost:4200")
+                    polocy.WithOrigins(
+                        "http://localhost:4200",
+                        "http://localhost:65362",
+                        "https://web-hdnx.devproinsights.com",
+                        "http://web-hdnx.devproinsights.com",
+                        "http://hdnx-admin.devproinsights.com",
+                        "https://hdnx-admin.devproinsights.com")
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials();
@@ -116,11 +104,9 @@ namespace HDNXUdemyConvertVideoAPI
             var env = app.Environment;
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 app.UseSwashbuckleSwagger(apiVersionProvider);
             }
-
-            app.UseHttpsRedirection();
+            app.UseDeveloperExceptionPage();
             app.UseAuthentication();
             app.UseExceptionMiddleware();
             app.UseCors();
@@ -131,11 +117,6 @@ namespace HDNXUdemyConvertVideoAPI
 
             app.UseAuthorization();
 
-            var dashboardOptions = new DashboardOptions()
-            {
-                Authorization = new[] { new AllowAllConnectionsFilter(configuration) },
-            };
-
             // Using Dashboard for hangfire
             // app.UseHangfireDashboard("/hangfirejobs", dashboardOptions);
             // RunRecuringJob.RunAutoRecuringJob(redisConfig);
@@ -144,9 +125,9 @@ namespace HDNXUdemyConvertVideoAPI
                 FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.WebRootPath)),
                 ServeUnknownFileTypes = true,
                 DefaultContentType = "application/octet-stream",
-                OnPrepareResponse = ctx =>
+                OnPrepareResponse = context =>
                 {
-                    ctx.Context.Response.Headers.Append("Cache-Control", "public, max-age=600");
+                    context.Context.Response.Headers.Append("Cache-Control", "public, max-age=600");
                 },
                 ContentTypeProvider = new FileExtensionContentTypeProvider
                 {
@@ -155,43 +136,6 @@ namespace HDNXUdemyConvertVideoAPI
             });
             app.UseDirectoryBrowser();
             app.Run();
-        }
-
-        private static RedisConnect GetSettings(IConfiguration configuration)
-        {
-            var jobSetting = configuration.GetSection(nameof(RedisConfig.RedisConnect)).Get<RedisConnect>();
-            return jobSetting ?? new RedisConnect();
-        }
-
-        /// <summary>
-        /// AllowAllConnectionsFilter
-        /// </summary>
-        public class AllowAllConnectionsFilter : IDashboardAuthorizationFilter
-        {
-            /// <summary>
-            /// AllowAllConnectionsFilter
-            /// </summary>
-            /// <param name="configuration"></param>
-            public AllowAllConnectionsFilter(IConfiguration configuration)
-            {
-                Configuration = configuration;
-            }
-
-            /// <summary>
-            /// Configuration
-            /// </summary>
-            public IConfiguration Configuration { get; }
-
-            /// <summary>
-            /// Authorize
-            /// </summary>
-            /// <param name="context"></param>
-            /// <returns></returns>
-            public bool Authorize(DashboardContext context)
-            {
-                var jobSetting = Configuration.GetSection(nameof(RedisConfig.RedisConnect)).Get<RedisConnect>() ?? new RedisConnect();
-                return jobSetting.IsEnableDashboard;
-            }
         }
     }
 }

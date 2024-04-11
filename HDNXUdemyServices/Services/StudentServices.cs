@@ -15,16 +15,25 @@ namespace HDNXUdemyServices.Services
         private readonly IStudentPromotionRepository _studentPromotionRepository;
         private readonly IStudentProcessRepository _studentProcessRepository;
         private readonly IBookmarkCourseRepository _bookmarkCourseRepository;
+        private readonly ICourseRepository _courseRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
+        private readonly IRPPurcharseCourseDetailsRepository _purcharseCourseDetailsRepository;
+        private readonly IRCourseEvaluationRepository _courseEvaluationRepository;
 
         public StudentServices(IUserRepository userRepository, IMapper mapper, IStudentPromotionRepository studentPromotionRepository,
-            IStudentProcessRepository studentProcessRepository, IBookmarkCourseRepository bookmarkCourseRepository)
+            IStudentProcessRepository studentProcessRepository, IBookmarkCourseRepository bookmarkCourseRepository, ICategoryRepository categoryRepository,
+            ICourseRepository courseRepository, IRPPurcharseCourseDetailsRepository purcharseCourseDetailsRepository, IRCourseEvaluationRepository courseEvaluationRepository)
         {
             _userRepository = userRepository ?? throw new ProjectException(nameof(_userRepository));
             _mapper = mapper ?? throw new ProjectException(nameof(_mapper));
             _studentPromotionRepository = studentPromotionRepository ?? throw new ProjectException(nameof(_studentPromotionRepository));
             _studentProcessRepository = studentProcessRepository ?? throw new ProjectException(nameof(_studentProcessRepository));
             _bookmarkCourseRepository = bookmarkCourseRepository ?? throw new ProjectException(nameof(_bookmarkCourseRepository));
+            _categoryRepository = categoryRepository ?? throw new ProjectException(nameof(_categoryRepository));
+            _courseRepository = courseRepository ?? throw new ProjectException(nameof(_courseRepository));
+            _purcharseCourseDetailsRepository = purcharseCourseDetailsRepository ?? throw new ProjectException(nameof(_purcharseCourseDetailsRepository));
+            _courseEvaluationRepository = courseEvaluationRepository ?? throw new ProjectException(nameof(_courseEvaluationRepository)); ;
         }
 
         public async Task<bool> CreateStudent(UserModel model)
@@ -44,14 +53,14 @@ namespace HDNXUdemyServices.Services
             }
         }
 
-        public async Task<bool> UpdateStatusStudent(int id, UserModel model)
+        public async Task<bool> UpdateStatusStudent(long id, UserModel model)
         {
             var getData = await _userRepository.GetByIdAsync(id) ?? new UserEntities();
             getData.Status = model.Status;
             return await _userRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateBecomeToTeacher(int id)
+        public async Task<bool> UpdateBecomeToTeacher(long id)
         {
             var getData = await _userRepository.GetByIdAsync(id) ?? new UserEntities();
             getData.IsRequestTeacher = true;
@@ -59,7 +68,7 @@ namespace HDNXUdemyServices.Services
             return await _userRepository.UpdateAsync(getData);
         }
 
-        public async Task<bool> UpdateStudent(int id, UserModel model)
+        public async Task<bool> UpdateStudent(long id, UserModel model)
         {
             var getData = await _userRepository.GetByIdAsync(id) ?? new UserEntities();
             getData.Status = model.Status;
@@ -92,7 +101,7 @@ namespace HDNXUdemyServices.Services
             return _mapper.Map<List<UserModel>>(getData);
         }
 
-        public async Task<UserModel> GetStudent(int id)
+        public async Task<UserModel> GetStudent(long id)
         {
             var getData = await _userRepository.GetByIdAsync(id);
             return _mapper.Map<UserModel>(getData);
@@ -104,14 +113,14 @@ namespace HDNXUdemyServices.Services
             return await _studentPromotionRepository.AddAsync(dataInsert);
         }
 
-        public async Task<bool> UpdateStatusStudentPromotions(int id, StudentPromotionModel model)
+        public async Task<bool> UpdateStatusStudentPromotions(long id, StudentPromotionModel model)
         {
             var getData = await _studentPromotionRepository.GetByIdAsync(id) ?? new StudentPromotionEntities();
             getData.Status = model.Status;
             return await _studentPromotionRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateInformationStudentPromotions(int id, StudentPromotionModel model)
+        public async Task<bool> UpdateInformationStudentPromotions(long id, StudentPromotionModel model)
         {
             var getData = await _studentPromotionRepository.GetByIdAsync(id) ?? new StudentPromotionEntities();
             getData.Status = model.Status;
@@ -129,7 +138,7 @@ namespace HDNXUdemyServices.Services
             return _mapper.Map<List<StudentPromotionModel>>(getData);
         }
 
-        public async Task<StudentPromotionModel> GetStudentPromotions(int id)
+        public async Task<StudentPromotionModel> GetStudentPromotions(long id)
         {
             var getData = await _studentPromotionRepository.GetByIdAsync(id);
             return _mapper.Map<StudentPromotionModel>(getData);
@@ -141,14 +150,14 @@ namespace HDNXUdemyServices.Services
             return await _studentProcessRepository.AddAsync(dataInsert);
         }
 
-        public async Task<bool> UpdateStatusStudentProcess(int id, StudentProcessModel model)
+        public async Task<bool> UpdateStatusStudentProcess(long id, StudentProcessModel model)
         {
             var getData = await _studentProcessRepository.GetByIdAsync(id) ?? new StudentProcessEntities();
             getData.Status = model.Status;
             return await _studentProcessRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<bool> UpdateInformationStudentProcess(int id, StudentProcessModel model)
+        public async Task<bool> UpdateInformationStudentProcess(long id, StudentProcessModel model)
         {
             var getData = await _studentProcessRepository.GetByIdAsync(id) ?? new StudentProcessEntities();
             getData.Status = model.Status;
@@ -164,7 +173,7 @@ namespace HDNXUdemyServices.Services
             return _mapper.Map<List<StudentProcessModel>>(getData);
         }
 
-        public async Task<StudentProcessModel> GetStudentProcess(int id)
+        public async Task<StudentProcessModel> GetStudentProcess(long id)
         {
             var getData = await _studentProcessRepository.GetByIdAsync(id);
             return _mapper.Map<StudentProcessModel>(getData);
@@ -173,25 +182,64 @@ namespace HDNXUdemyServices.Services
         public async Task<bool> CreateStudentBookmarkCourse(BookmarkCourseModel model)
         {
             var dataInsert = _mapper.Map<BookmarkCourseEntities>(model);
-            return await _bookmarkCourseRepository.AddAsync(dataInsert);
+            var isCheckData = await _bookmarkCourseRepository.GetObjectAsync(x => x.IdCourse == model.IdCourse && x.IdStudent == model.IdStudent);
+            if (isCheckData == null)
+            {
+                return await _bookmarkCourseRepository.AddAsync(dataInsert);
+            }
+            else
+            {
+                return await _bookmarkCourseRepository.DeleteByKey(isCheckData.Id);
+            }
         }
 
-        public async Task<bool> UpdateStatusStudentBookmarkCourse(int id, BookmarkCourseModel model)
+        public async Task<bool> UpdateStatusStudentBookmarkCourse(long id, BookmarkCourseModel model)
         {
             var getData = await _bookmarkCourseRepository.GetByIdAsync(id) ?? new BookmarkCourseEntities();
             getData.Status = model.Status;
             return await _bookmarkCourseRepository.UpdateStatusAsync(getData);
         }
 
-        public async Task<List<BookmarkCourseModel>> GetListStudentBookmarkCourse(int idUser)
+        public async Task<List<CourseModel>> GetListStudentBookmarkCourse(long idUser)
         {
             var getData = await _bookmarkCourseRepository.GetAsync(x => x.IdStudent == idUser);
-            return _mapper.Map<List<BookmarkCourseModel>>(getData);
+            var listIdOfCoureBookmark = getData.DistinctBy(x => x.IdCourse).Select(x => x.IdCourse).ToList();
+
+            var getDataOfCourse = await _courseRepository.GetAsync(x => listIdOfCoureBookmark.Contains(x.Id));
+            var getCategory = await _categoryRepository.GetAllAsync();
+            var resultMapping = _mapper.Map<List<CourseModel>>(getDataOfCourse);
+
+            foreach (var item in resultMapping)
+            {
+                var isPurchaseCourseDetails = await _purcharseCourseDetailsRepository.GetAsync(x => x.IdCourse == item.Id && x.IdStudent == idUser);
+                var getDataOfVoteStar = await _courseEvaluationRepository.GetAsync(x => x.IdCourse == item.Id);
+                var getVoteData = HelperFunction.CalculatorToTalStartOfCourse(getDataOfVoteStar.ToList());
+                item.TotalVoteOfCourse = getDataOfVoteStar.Count();
+                item.Vote1Star = getVoteData.Item1;
+                item.Vote2Star = getVoteData.Item2;
+                item.Vote3Star = getVoteData.Item3;
+                item.Vote4Star = getVoteData.Item4;
+                item.Vote5Star = getVoteData.Item5;
+                item.AverageScore = getVoteData.Item6;
+                item.CategoryName = getCategory.Where(x => x.Id == item.IdCategory).FirstOrDefault()?.Name;
+                item.UserName = (await _userRepository.GetByIdAsync(idUser))?.Name;
+                item.ProcessCourseName = ((ProcessVideo)item.ProcessCourse).GetEnumDescription();
+                item.IsPurchase = isPurchaseCourseDetails.Any();
+                item.IsBookMark = true;
+            }
+            return resultMapping;
         }
 
-        public async Task<bool> DeleteStudentBookmarkCourse(int id)
+        public async Task<bool> DeleteStudentBookmarkCourse(long id)
         {
             return await _bookmarkCourseRepository.DeleteByKey(id);
+        }
+
+        public async Task<List<string?>> GetListUserNameRegisterForCourse(long idCourse)
+        {
+            var getListDataStudentPurchase = await _purcharseCourseDetailsRepository.GetAsync(x => x.IdCourse == idCourse);
+            List<long> listIdStudent = getListDataStudentPurchase.Select(x => x.IdStudent).ToList();
+            return (await _userRepository.GetAsync(x => listIdStudent.Contains(x.Id))).Select(x => x.Name).ToList();
         }
     }
 }

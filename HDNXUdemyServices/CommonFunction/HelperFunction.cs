@@ -1,11 +1,12 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using HDNXUdemyData.Entities;
 using HDNXUdemyModel.Base;
 using HDNXUdemyModel.Constant;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.IdentityModel.Tokens;
-using NetTopologySuite.Noding;
+using NetTopologySuite.Index.HPRtree;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
@@ -197,15 +198,57 @@ namespace HDNXUdemyServices.CommonFunction
             return resultDelete.StatusCode == HttpStatusCode.OK;
         }
 
-        public static decimal CalculatorToTalStartOfCourse(int vote1Star, int vote2Star, int vote3Star, int vote4Star, int vote5Star)
+        public static (int, int, int, int, int, decimal) CalculatorToTalStartOfCourse(List<CourseEvaluationEntities>? model)
         {
-            decimal totalVoteOfCourse = vote1Star + vote2Star + vote3Star + vote4Star + vote5Star;
-            decimal totalVoteWithStart = (vote1Star * 1) + (vote2Star * 2) + (vote3Star * 3) + (vote4Star * 4) + (vote5Star * 5);
-            if(totalVoteOfCourse == 0)
+            var getDataOfVoteStar = model?.OrderBy(x => x.VoteStartNumber).GroupBy(x => x.VoteStartNumber);
+            decimal totalVotes = 0;
+            decimal totalScore = 0;
+            int vote1Star = 0;
+            int vote2Star = 0;
+            int vote3Star = 0;
+            int vote4Star = 0;
+            int vote5Star = 0;
+            if (getDataOfVoteStar != null)
             {
-                return 0;
+                foreach (var group in getDataOfVoteStar)
+                {
+                    switch (group.Key)
+                    {
+                        case 1:
+                            vote1Star = group.ToList().Count;
+                            break;
+
+                        case 2:
+                            vote2Star = group.ToList().Count;
+                            break;
+
+                        case 3:
+                            vote3Star = group.ToList().Count;
+                            break;
+
+                        case 4:
+                            vote4Star = group.ToList().Count;
+                            break;
+
+                        case 5:
+                            vote5Star = group.ToList().Count;
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    totalVotes += vote1Star + vote2Star + vote3Star + vote4Star + vote5Star;
+                    totalScore += vote1Star * 1 + vote2Star * 2 + vote3Star * 3 + vote4Star * 4 + vote5Star * 5;
+                }
             }
-            return totalVoteWithStart / totalVoteOfCourse;
+
+            decimal averageScore = 0;
+            if(totalScore != 0)
+            {
+                averageScore = totalScore / totalVotes;
+            }
+            return (vote1Star, vote2Star, vote3Star, vote4Star, vote5Star, averageScore);
         }
     }
 }

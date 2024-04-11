@@ -22,13 +22,12 @@ namespace HDNXUdemyModel.Model
 
         public bool? IsDiscount { get; set; }
 
-        public int? PercentDiscount { get; set; }
+        public int? PriceOfDiscount { get; set; }
 
         public bool? IsFree { get; set; }
 
         public int? TypeOfCourse { get; set; } // Khoá bình thường or tranning cùng giáo viên
         public string? Introduce { get; set; }
-
         public int? Vote5Star { get; set; }
 
         public int? Vote4Star { get; set; }
@@ -37,7 +36,7 @@ namespace HDNXUdemyModel.Model
 
         public int? Vote2Star { get; set; }
         public int? Vote1Star { get; set; }
-        public int? IdCategory { get; set; }
+        public long? IdCategory { get; set; }
 
         public string? CategoryName { get; set; }
 
@@ -56,8 +55,16 @@ namespace HDNXUdemyModel.Model
 
         public decimal? TotalVoteOfCourse { get; set; }
 
+        public decimal? AverageScore { get; set; }
+
         public int? ProcessCourse { get; set; }
 
         public string? ProcessCourseName { get; set; }
+
+        public bool? IsBookMark { get; set; }
+
+        public bool IsPurchase { get; set; }
+
+        public decimal? AmountOfTheCourse { get; set; }
     }
 }

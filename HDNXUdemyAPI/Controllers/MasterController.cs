@@ -24,6 +24,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <summary>
         /// MasterController
         /// </summary>
+        /// <param name="sendEmailServices"></param>
         /// <param name="masterDataServices"></param>
         /// <exception cref="ProjectException"></exception>
         public MasterController(IMasterDataServices masterDataServices, ISendEmailSMSServices sendEmailServices)
@@ -60,7 +61,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("category/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateStatusCategory(int id, CategoryModel model)
+        public async Task<RepositoryModel<bool>> UpdateStatusCategory(long id, CategoryModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -81,7 +82,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut("category/delete/{id}")]
-        public async Task<RepositoryModel<bool>> DeleteCategory(int id)
+        public async Task<RepositoryModel<bool>> DeleteCategory(long id)
         {
             RepositoryModel<bool> result = new()
             {
@@ -99,7 +100,6 @@ namespace HDNXUdemyAPI.Controllers
         /// <summary>
         /// UpdateInformationCategory
         /// </summary>
-        /// <param name="id"></param>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("category")]
@@ -114,7 +114,7 @@ namespace HDNXUdemyAPI.Controllers
                 StatusCode = (int)HttpStatusCode.Created
             };
 
-            result.Data = await _masterDataServices.UpdateInformationCategory((int)model.Id, model);
+            result.Data = await _masterDataServices.UpdateInformationCategory(model.Id ?? 0, model);
             return result;
         }
 
@@ -166,7 +166,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("banner/status/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateStatusBanner(int id, BannerModel model)
+        public async Task<RepositoryModel<bool>> UpdateStatusBanner(long id, BannerModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -188,7 +188,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("banner/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateInformationBanner(int id, BannerModel model)
+        public async Task<RepositoryModel<bool>> UpdateInformationBanner(long id, BannerModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -251,7 +251,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("banking-information/status/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateStatusInformationManualBanking(int id, InformationManualBankingModel model)
+        public async Task<RepositoryModel<bool>> UpdateStatusInformationManualBanking(long id, InformationManualBankingModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -273,7 +273,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("banking-information/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateInformationManualBanking(int id, InformationManualBankingModel model)
+        public async Task<RepositoryModel<bool>> UpdateInformationManualBanking(long id, InformationManualBankingModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -291,21 +291,20 @@ namespace HDNXUdemyAPI.Controllers
         /// <summary>
         /// GetListInformationManualBanking
         /// </summary>
-        /// <param name="idUser"></param>
         /// <returns></returns>
         [HttpGet("banking-information")]
-        public async Task<RepositoryModel<List<InformationManualBankingModel>>> GetListInformationManualBanking(int idUser)
+        public async Task<RepositoryModel<InformationManualBankingModel>> GetListInformationManualBanking()
         {
-            RepositoryModel<List<InformationManualBankingModel>> result = new()
+            RepositoryModel<InformationManualBankingModel> result = new()
             {
                 PartnerCode = Messenger.SuccessFull,
                 RetCode = ERetCode.Successfull,
-                Data = new List<InformationManualBankingModel>(),
+                Data = new InformationManualBankingModel(),
                 SystemMessage = string.Empty,
                 StatusCode = (int)HttpStatusCode.Created
             };
 
-            result.Data = await _masterDataServices.GetListInformationManualBanking();
+            result.Data = await _masterDataServices.GetInformationManualBanking();
             return result;
         }
 
@@ -337,7 +336,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("sub-category/status/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateStatusSubCategory(int id, SubCategoryModel model)
+        public async Task<RepositoryModel<bool>> UpdateStatusSubCategory(long id, SubCategoryModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -359,7 +358,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("sub-category/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateInformationSubCategory(int id, SubCategoryModel model)
+        public async Task<RepositoryModel<bool>> UpdateInformationSubCategory(long id, SubCategoryModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -400,7 +399,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("sub-category/{id}")]
-        public async Task<RepositoryModel<SubCategoryModel>> GetSubCategory(int id)
+        public async Task<RepositoryModel<SubCategoryModel>> GetSubCategory(long id)
         {
             RepositoryModel<SubCategoryModel> result = new()
             {
@@ -483,7 +482,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("config-system/status/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateStatusConfigSystem(int id, SystemConfigModel model)
+        public async Task<RepositoryModel<bool>> UpdateStatusConfigSystem(long id, SystemConfigModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -505,7 +504,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("config-system/{id}")]
-        public async Task<RepositoryModel<bool>> UpdateInformationConfigSystem(int id, SystemConfigModel model)
+        public async Task<RepositoryModel<bool>> UpdateInformationConfigSystem(long id, SystemConfigModel model)
         {
             RepositoryModel<bool> result = new()
             {
@@ -546,7 +545,7 @@ namespace HDNXUdemyAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("config-system/{id}")]
-        public async Task<RepositoryModel<SystemConfigModel>> GetConfigSystem(int id)
+        public async Task<RepositoryModel<SystemConfigModel>> GetConfigSystem(long id)
         {
             RepositoryModel<SystemConfigModel> result = new()
             {

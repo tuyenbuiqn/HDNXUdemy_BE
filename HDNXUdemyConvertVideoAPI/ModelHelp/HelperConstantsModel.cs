@@ -51,6 +51,7 @@ namespace HDNXUdemyConvertVideoAPI.ModelHelp
             ProjectConfig.NumberGeneratePassword = appConfig.GetValue<int>("NumberGeneratePassword");
             ProjectConfig.ApiKeyYoutubeApi = appConfig.GetValue<string>("ApiKeyYoutubeApi");
             ProjectConfig.NumberLastPost = appConfig.GetValue<int>("NumberLastPost");
+            ProjectConfig.DiskBaseForVideo = appConfig.GetValue<string>("DiskBaseForVideo");
 
             ProjectConfig.SenderEmail = emailConfig.GetValue<string>("SenderEmail");
             ProjectConfig.DisplayName = emailConfig.GetValue<string>("DisplayName");

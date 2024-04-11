@@ -100,7 +100,7 @@ namespace HDNXUdemyConvertVideoAPI.ProjectExtensisons
                 {
                     options.SwaggerDoc(desc.GroupName, new Microsoft.OpenApi.Models.OpenApiInfo
                     {
-                        Title = "Audio Story Project",
+                        Title = "Elearning Convert Video",
                         Version = desc.ApiVersion.ToString(),
                     });
                 }

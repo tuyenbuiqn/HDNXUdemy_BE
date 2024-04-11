@@ -16,5 +16,7 @@
         public const string UploadVideoToClound = "api/v{version:apiVersion}/upload-video-to-server";
         public const string GetVideoStreamFile = "api/v{version:apiVersion}/get-video-stream";
         public const string Home = "api/v{version:apiVersion}/home";
+        public const string WebHook = "api/v{version:apiVersion}/webhook";
+        public const string Promotion = "api/v{version:apiVersion}/promotion";
     }
 }

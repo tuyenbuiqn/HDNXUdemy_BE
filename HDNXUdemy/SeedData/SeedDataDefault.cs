@@ -11,9 +11,9 @@ namespace HDNXUdemyData.SeedData
         {
             LocalDateTime dateTime = LocalDateTime.FromDateTime(DateTime.UtcNow);
             modelBuilder.Entity<CategoryEntities>().HasData(
-                new CategoryEntities { Id = 1, Name = "Thiết kế cơ khí", CreateBy = 1, CreateDate = dateTime, Status = (int)EStatus.Active, UpdateBy = 1, UpdateDate = dateTime },
-                new CategoryEntities { Id = 2, Name = "Lập trình CNC", CreateBy = 1, CreateDate = dateTime, Status = (int)EStatus.Active, UpdateBy = 1, UpdateDate = dateTime },
-                new CategoryEntities { Id = 3, Name = "Vận hành máy CNC", CreateBy = 1, CreateDate = dateTime, Status = (int)EStatus.Active, UpdateBy = 1, UpdateDate = dateTime }
+                new CategoryEntities { Id = 1, Name = "Công nghệ thông tin", CreateBy = 1, CreateDate = dateTime, Status = (int)EStatus.Active, UpdateBy = 1, UpdateDate = dateTime },
+                new CategoryEntities { Id = 2, Name = "Chat GPT", CreateBy = 1, CreateDate = dateTime, Status = (int)EStatus.Active, UpdateBy = 1, UpdateDate = dateTime },
+                new CategoryEntities { Id = 3, Name = "Khóa học cuộc sống", CreateBy = 1, CreateDate = dateTime, Status = (int)EStatus.Active, UpdateBy = 1, UpdateDate = dateTime }
     );
         }
     }

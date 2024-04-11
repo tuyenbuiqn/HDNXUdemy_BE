@@ -6,60 +6,74 @@ namespace HDNXUdemyServices.IServices
 {
     public interface ICourseServices
     {
-        Task<bool> CreateCourse(CourseModel model);
+        Task<CourseModel> CreateCourse(CourseModel model);
 
-        Task<bool> UpdateStatusCourse(int id, CourseModel model);
+        Task<bool> UpdateStatusCourse(long id, int status, int processCourse);
 
-        Task<bool> UpdateInformationCourse(int id, CourseModel model);
+        Task<bool> UpdateInformationCourse(long id, CourseModel model);
 
         Task<List<StudentProcessModel>> GetListStudentProcess();
 
-        Task<StudentProcessModel> GetStudentProcess(int id);
+        Task<StudentProcessModel> GetStudentProcess(long id);
 
-        Task<bool> CreateCommentCourse(CourseCommentModel model);
+        Task<bool> AddCommentOfStudentForCourse(CourseEvaluationModel model);
 
-        Task<bool> UpdateStatusCommentCourse(int id, CourseCommentModel model);
+        Task<List<CourseEvaluationModel>> GetListCoursEvaluation(long idCourse);
 
-        Task<bool> UpdateInformationCommentCourse(int id, CourseCommentModel model);
+        Task<bool> UpdateStatusCommentCourse(long id, CourseEvaluationModel model);
 
-        Task<List<CourseCommentModel>> GetListCommentCourse(int idCourse);
+        Task<bool> UpdateInformationCommentCourse(long id, CourseEvaluationModel model);
 
-        Task<CourseCommentModel> GetCommentCourse(int id);
+        Task<CourseEvaluationModel> GetCommentCourse(long id);
 
         Task<bool> CreateContentCourse(ContentCourseModel model);
 
-        Task<bool> UpdateStatusContentCourse(int id, ContentCourseModel model);
+        Task<bool> UpdateStatusContentCourse(long id, ContentCourseModel model);
 
-        Task<bool> UpdateInformationContentCourse(int id, ContentCourseModel model);
+        Task<bool> UpdateInformationContentCourse(long id, ContentCourseModel model);
 
-        Task<List<ListContentWithDetailCourse>> GetListContentCourse(int idCourse);
+        Task<List<ListContentWithDetailCourse>> GetListContentCourse(long idCourse);
 
-        Task<ContentCourseModel> GetContentCourse(int id);
+        Task<ContentCourseModel> GetContentCourse(long id);
 
         Task<bool> CreateContentCourseDetails(ContentCourseDetailModel model);
 
-        Task<bool> UpdateStatusContentCourseDetails(int id, ContentCourseDetailModel model);
+        Task<bool> UpdateStatusContentCourseDetails(long id, ContentCourseDetailModel model);
 
-        Task<bool> UpdateInformationContentCourseDetails(int id, ContentCourseDetailModel model);
+        Task<bool> UpdateInformationContentCourseDetails(long id, ContentCourseDetailModel model);
 
-        Task<List<ContentCourseDetailModel>> GetListContentCourseDetails(int idContent);
+        Task<List<ContentCourseDetailModel>> GetListContentCourseDetails(long idContent);
 
-        Task<ContentCourseDetailModel> GetContentCourseDetails(int id, HttpRequest request);
+        Task<ContentCourseDetailModel> GetContentCourseDetails(long id, HttpRequest request);
 
-        Task<bool> CreateCommentChapter(ChapterCommentModel model);
+        Task<bool> CreateTheadQuestionCourse(TheadQuestionCourseModel model);
 
-        Task<bool> UpdateStatusCommentChapter(int id, ChapterCommentModel model);
+        Task<bool> UpdateStatusTheadQuestionCourse(long id, TheadQuestionCourseModel model);
 
-        Task<bool> UpdateInformationCommentChapter(int id, ChapterCommentModel model);
+        Task<bool> UpdateInformationTheadQuestionCourse(long id, TheadQuestionCourseModel model);
 
-        Task<List<ChapterCommentModel>> GetListCommentChapter(int idCourse);
+        Task<List<TheadQuestionCourseModel>> GetListTheadQuestionCourse(long idCourse);
 
-        Task<ChapterCommentModel> GetCommentChapter(int id);
+        Task<TheadQuestionCourseModel> GetTheadQuestionCourse(long id);
 
         Task<List<CourseModel>> GetListCourseForAdmin();
 
-        Task<GetCourseWithDetailsContent> GetDetailCourse(int id);
+        Task<GetCourseWithDetailsContent> GetDetailCourse(long id, bool isAdmin);
 
-        Task<List<CourseModel>> GetListCourseAsCategory(int idCategory);
+        Task<List<CourseModel>> GetListCourseAsCategory(long idCategory);
+
+        Task<List<CourseModel>> GetListCourseOfStudent(long idStudent);
+
+        Task<bool> LikeForCommentCourse(long id);
+
+        Task<bool> DisLikeForCommentCourse(long id);
+
+        Task<bool> CreateDetailsTheadQuestionCourse(DetailTheadQuestionCourseModel model);
+
+        Task<bool> UpdateStatusDetailsTheadQuestionCourse(long id, DetailTheadQuestionCourseModel model);
+
+        Task<bool> UpdateInformationDetailsTheadQuestionCourse(long id, DetailTheadQuestionCourseModel model);
+
+        Task<List<DetailTheadQuestionCourseModel>> GetListDetailsTheadQuestionCourse(long idThear);
     }
 }

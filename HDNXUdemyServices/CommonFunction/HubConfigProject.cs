@@ -37,7 +37,7 @@ namespace HDNXUdemyServices.CommonFunction
                         Value = Context.ConnectionId
                     };
                     var getDataCheckExits = _systemConfigRepository.GetObject(x => x.KeyConfig == dataInsert.KeyConfig);
-                    if (getDataCheckExits.Id != 0)
+                    if (getDataCheckExits != null)
                     {
                         getDataCheckExits.Value = dataInsert.Value;
                         _systemConfigRepository.Update(getDataCheckExits);

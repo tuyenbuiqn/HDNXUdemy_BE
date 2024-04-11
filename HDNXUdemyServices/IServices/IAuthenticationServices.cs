@@ -16,6 +16,6 @@ namespace HDNXUdemyServices.IServices
 
         Task<ResponeLogin> GeneralToken(string email, HttpContext httpContext);
 
-        Task<bool> IsActiveAccountAfterRegister(string email, int id);
+        Task<bool> IsActiveAccountAfterRegister(string email, long id);
     }
 }

@@ -4,7 +4,7 @@ namespace DNXUdemyData.Entities
 {
     public class ContentCourseDetailEntities : BaseEntities
     {
-        public int IdContent { get; set; }
+        public long IdContent { get; set; }
 
         public string? NameSubContent { get; set; }
 
