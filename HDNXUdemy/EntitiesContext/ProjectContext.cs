@@ -99,7 +99,6 @@ namespace HDNXUdemyData.EntitiesContext
                         itemBase.CreateDate = itemBase.UpdateDate = dateNow;
                         itemBase.CreateBy = idCurrentUser;
                         itemBase.UpdateBy = idCurrentUser;
-                        itemBase.Status = (int)EStatus.Active;
                     }
                 }
                 else if (entry.State == EntityState.Modified)
@@ -143,7 +142,6 @@ namespace HDNXUdemyData.EntitiesContext
                         itemBase.CreateDate = itemBase.UpdateDate = dateNow;
                         itemBase.CreateBy = idCurrentUser;
                         itemBase.UpdateBy = idCurrentUser;
-                        itemBase.Status = (int)EStatus.Active;
                     }
                 }
                 else if (entry.State == EntityState.Modified)

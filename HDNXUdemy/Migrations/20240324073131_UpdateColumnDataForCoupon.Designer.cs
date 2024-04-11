@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using HDNXUdemyData.EntitiesContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NodaTime;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -13,9 +14,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HDNXUdemyData.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20240324073131_UpdateColumnDataForCoupon")]
+    partial class UpdateColumnDataForCoupon
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,7 +64,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<string>("NameSubContent")
                         .HasColumnType("text");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -110,7 +113,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<string>("PublicId")
                         .HasColumnType("text");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -153,7 +156,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<long>("IdStudent")
                         .HasColumnType("bigint");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -196,7 +199,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<string>("PublicId")
                         .HasColumnType("text");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -217,31 +220,31 @@ namespace HDNXUdemyData.Migrations
                         {
                             Id = 1L,
                             CreateBy = 1L,
-                            CreateDate = new NodaTime.LocalDateTime(2024, 3, 26, 11, 46, 13).PlusNanoseconds(508208800L),
+                            CreateDate = new NodaTime.LocalDateTime(2024, 3, 24, 7, 31, 31).PlusNanoseconds(777831500L),
                             Name = "Công nghệ thông tin",
                             Status = 0,
                             UpdateBy = 1L,
-                            UpdateDate = new NodaTime.LocalDateTime(2024, 3, 26, 11, 46, 13).PlusNanoseconds(508208800L)
+                            UpdateDate = new NodaTime.LocalDateTime(2024, 3, 24, 7, 31, 31).PlusNanoseconds(777831500L)
                         },
                         new
                         {
                             Id = 2L,
                             CreateBy = 1L,
-                            CreateDate = new NodaTime.LocalDateTime(2024, 3, 26, 11, 46, 13).PlusNanoseconds(508208800L),
+                            CreateDate = new NodaTime.LocalDateTime(2024, 3, 24, 7, 31, 31).PlusNanoseconds(777831500L),
                             Name = "Chat GPT",
                             Status = 0,
                             UpdateBy = 1L,
-                            UpdateDate = new NodaTime.LocalDateTime(2024, 3, 26, 11, 46, 13).PlusNanoseconds(508208800L)
+                            UpdateDate = new NodaTime.LocalDateTime(2024, 3, 24, 7, 31, 31).PlusNanoseconds(777831500L)
                         },
                         new
                         {
                             Id = 3L,
                             CreateBy = 1L,
-                            CreateDate = new NodaTime.LocalDateTime(2024, 3, 26, 11, 46, 13).PlusNanoseconds(508208800L),
+                            CreateDate = new NodaTime.LocalDateTime(2024, 3, 24, 7, 31, 31).PlusNanoseconds(777831500L),
                             Name = "Khóa học cuộc sống",
                             Status = 0,
                             UpdateBy = 1L,
-                            UpdateDate = new NodaTime.LocalDateTime(2024, 3, 26, 11, 46, 13).PlusNanoseconds(508208800L)
+                            UpdateDate = new NodaTime.LocalDateTime(2024, 3, 24, 7, 31, 31).PlusNanoseconds(777831500L)
                         });
                 });
 
@@ -268,7 +271,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -344,7 +347,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<LocalDateTime?>("StartDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -438,7 +441,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<string>("ShortDescription")
                         .HasColumnType("text");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -499,7 +502,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<int>("Like")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -551,7 +554,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<int>("Like")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -612,7 +615,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<string>("KeyOfFile")
                         .HasColumnType("text");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -658,7 +661,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<string>("NumberBanking")
                         .HasColumnType("text");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -707,7 +710,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<string>("ShortComment")
                         .HasColumnType("text");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -753,7 +756,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<string>("PublicId")
                         .HasColumnType("text");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -808,7 +811,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<string>("Object")
                         .HasColumnType("text");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -863,7 +866,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<decimal?>("PriceOfDiscount")
                         .HasColumnType("numeric");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -927,7 +930,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<LocalDateTime?>("PurchaseDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -973,7 +976,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<int>("NumberContentOfCourse")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -1019,7 +1022,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<long>("IdStudent")
                         .HasColumnType("bigint");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -1062,7 +1065,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -1099,7 +1102,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<string>("KeyConfig")
                         .HasColumnType("text");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -1151,7 +1154,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<int>("Like")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 
@@ -1215,7 +1218,7 @@ namespace HDNXUdemyData.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("Status")
+                    b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("Status");
 

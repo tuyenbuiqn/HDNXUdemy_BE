@@ -1,9 +1,11 @@
 ﻿using HDNXUdemyModel.Base;
+using NodaTime;
 
-namespace HDNXUdemyData.Entities
+namespace HDNXUdemyData.Model
 {
     public class CouponModel : BaseModel
     {
+        public string? NameOfCoupon { get; set; }
         public string? StripeCouponId { get; set; }
 
         public string? Object { get; set; }
@@ -33,5 +35,9 @@ namespace HDNXUdemyData.Entities
         public bool? Valid { get; set; }
 
         public DateTime? Created { get; set; }
+
+        public LocalDateTime? StartDate { get; set; }
+
+        public LocalDateTime? EndDate { get; set; }
     }
 }

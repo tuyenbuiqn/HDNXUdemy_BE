@@ -1,7 +1,10 @@
-﻿namespace HDNXUdemyData.Entities
+﻿using NodaTime;
+
+namespace HDNXUdemyData.Entities
 {
     public class CouponEntities : BaseEntities
     {
+        public string? NameOfCoupon { get; set; }
         public string? StripeCouponId { get; set; }
 
         public string? Object { get; set; }
@@ -29,5 +32,9 @@
         public decimal? TimesRedeemed { get; set; }
 
         public bool? Valid { get; set; }
+
+        public LocalDateTime? StartDate { get; set; }
+
+        public LocalDateTime? EndDate { get; set; }
     }
 }

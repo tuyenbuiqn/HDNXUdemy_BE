@@ -100,7 +100,7 @@ namespace HDNXUdemyAPI.ProjectExtensisons
                 {
                     options.SwaggerDoc(desc.GroupName, new Microsoft.OpenApi.Models.OpenApiInfo
                     {
-                        Title = "Audio Story Project",
+                        Title = "Elearning API",
                         Version = desc.ApiVersion.ToString(),
                     });
                 }
