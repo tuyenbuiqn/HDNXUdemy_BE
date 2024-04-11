@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
 using HDNXUdemyData.Entities;
 using HDNXUdemyData.IRepository;
+using HDNXUdemyData.Model;
 using HDNXUdemyModel.Base;
 using HDNXUdemyModel.Constant;
 using HDNXUdemyModel.Model;
+using HDNXUdemyModel.RequestModel;
 using HDNXUdemyModel.ResponModel;
 using HDNXUdemyModel.SystemExceptions;
 using HDNXUdemyServices.CommonFunction;
 using HDNXUdemyServices.IServices;
 using Microsoft.Extensions.Caching.Distributed;
+using NodaTime;
 using Stripe;
 using Stripe.Checkout;
 
@@ -104,20 +107,30 @@ namespace HDNXUdemyServices.Services
             }
         }
 
-        public async Task<bool> CreateCouponForPromotion(decimal percentOff, string? currency = "USD", string? typeDuration = "forever")
+        public async Task<bool> CreateCouponForPromotion(CouponPromotionCode model)
         {
             var options = new CouponCreateOptions
             {
-                Duration = typeDuration,
-                PercentOff = percentOff,
-                Currency = currency,
+                Duration = model.TypeDuration,
+                PercentOff = model.PercentOff,
+                Currency = model.Currency,
             };
             try
             {
-                var service = new CouponService();
-                var stripeCreateCoupon = await service.CreateAsync(options);
-                var mapperStripeToModel = _mapper.Map<CouponModel>(stripeCreateCoupon);
-                var dataInsert = _mapper.Map<CouponEntities>(mapperStripeToModel);
+                var dataInsert = new CouponEntities();
+                if (model.Status == (int)EStatus.Active)
+                {
+                    var service = new CouponService();
+                    var stripeCreateCoupon = await service.CreateAsync(options);
+                    var mapperStripeToModel = _mapper.Map<CouponModel>(stripeCreateCoupon);
+                    mapperStripeToModel.NameOfCoupon = model.NameOfCoupon;
+                    mapperStripeToModel.StartDate = LocalDateTime.FromDateTime(model.StartDate ?? DateTime.UtcNow);
+                    mapperStripeToModel.EndDate = LocalDateTime.FromDateTime(model.EndDate ?? DateTime.UtcNow);
+                    mapperStripeToModel.Status = model.Status;
+                    dataInsert = _mapper.Map<CouponEntities>(MappingCouponModel(mapperStripeToModel, model));
+                }
+                dataInsert = _mapper.Map<CouponEntities>(MappingCouponModel(new CouponModel(), model));
+
                 return await _couponRepository.AddAsync(dataInsert);
             }
             catch (StripeException ex)
@@ -158,6 +171,80 @@ namespace HDNXUdemyServices.Services
             {
                 throw new ProjectException(ex.InnerException?.Message ?? string.Empty, ex);
             }
+        }
+
+        public async Task<PagedResult<CouponModel>> GetListCouponActiveOnSystem(int pageIndex, int pageSize)
+        {
+            var getDataFromAPI = (await _couponRepository.GetAsync(x => x.Status != (int)EStatus.Inactive))
+                .GetPagingPaged(pageIndex, pageSize, null);
+            return _mapper.Map<PagedResult<CouponModel>>(getDataFromAPI);
+        }
+
+        public async Task<bool> UpdateCouponPromotionCode(CouponPromotionCode model)
+        {
+            var entitiesCoupon = await _couponRepository.GetByIdAsync(model.Id ?? 0);
+            if (entitiesCoupon == null) { return false; }
+            entitiesCoupon.StartDate = LocalDateTime.FromDateTime(model.StartDate ?? DateTime.UtcNow);
+            entitiesCoupon.EndDate = LocalDateTime.FromDateTime(model.EndDate ?? DateTime.UtcNow);
+            entitiesCoupon.Status = model.Status;
+            entitiesCoupon.NameOfCoupon = model.NameOfCoupon;
+            entitiesCoupon.PercentOff = model.PercentOff;
+
+            if (model.Status == (int)EStatus.Active && entitiesCoupon.StripeCouponId == null)
+            {
+                return await ActiveCouponPromotion(entitiesCoupon);
+            }
+            else
+            {
+                return await _couponRepository.UpdateAsync(entitiesCoupon);
+            }
+        }
+
+        public async Task<PagedResult<PromotionCodeModel>> GetListPromotions(int pageIndex, int pageSize)
+        {
+            var getDataFromAPI = (await _promotionCodeRepository.GetAsync(x => x.Status != (int)EStatus.Inactive))
+                .GetPagingPaged(pageIndex, pageSize, null);
+            return _mapper.Map<PagedResult<PromotionCodeModel>>(getDataFromAPI);
+
+        }
+
+        private async Task<bool> ActiveCouponPromotion(CouponEntities entities)
+        {
+            try
+            {
+                var options = new CouponCreateOptions
+                {
+                    Duration = entities.Duration,
+                    PercentOff = entities?.PercentOff,
+                    Currency = entities?.Currency
+                };
+                var service = new CouponService();
+                var stripeCreateCoupon = await service.CreateAsync(options);
+                var mapperStripeToModel = _mapper.Map<CouponEntities>(stripeCreateCoupon);
+                mapperStripeToModel.Status = (int)EStatus.Active;
+                mapperStripeToModel.Id = entities.Id;
+                mapperStripeToModel.CreateDate = entities.CreateDate;
+                mapperStripeToModel.NameOfCoupon = entities.NameOfCoupon;
+                mapperStripeToModel.StartDate = entities.StartDate;
+                mapperStripeToModel.EndDate = entities.EndDate;
+                return await _couponRepository.UpdateAsync(mapperStripeToModel);
+            }
+            catch (StripeException ex)
+            {
+                throw new ProjectException(ex.InnerException?.Message ?? string.Empty, ex);
+            }
+        }
+
+        private CouponModel MappingCouponModel(CouponModel modelReturn,  CouponPromotionCode model)
+        {
+            modelReturn.NameOfCoupon = model.NameOfCoupon;
+            modelReturn.Duration = model.TypeDuration;
+            modelReturn.Currency = model.Currency;
+            modelReturn.PercentOff = model.PercentOff;
+            modelReturn.StartDate = LocalDateTime.FromDateTime(model.StartDate ?? DateTime.UtcNow);
+            modelReturn.EndDate = LocalDateTime.FromDateTime(model.EndDate ?? DateTime.UtcNow);
+            modelReturn.Status = model.Status;
+            return modelReturn;
         }
     }
 }

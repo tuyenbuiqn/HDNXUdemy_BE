@@ -1,4 +1,6 @@
-﻿using NodaTime;
+﻿using HDNXUdemyModel.Constant;
+using NodaTime;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,6 +26,7 @@ namespace HDNXUdemyData.Entities
         public long UpdateBy { get; set; }
 
         [Column("Status")]
-        public int Status { get; set; }
+        [DefaultValue((int)EStatus.Active)]
+        public int? Status { get; set; }
     }
 }

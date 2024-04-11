@@ -337,12 +337,12 @@ namespace HDNXUdemyData.GenericRepository
 
         public bool Update(T pObj)
         {
-            return UpdateWithTransaction(pObj, "CreateDate", "CreateBy", "Status");
+            return UpdateWithTransaction(pObj, "CreateDate", "CreateBy");
         }
 
         public async Task<bool> UpdateAsync(T pObj)
         {
-            return await UpdateWithTransactionAsync(pObj, "CreateDate", "CreateBy", "Status");
+            return await UpdateWithTransactionAsync(pObj, "CreateDate", "CreateBy");
         }
 
         public bool UpdateStatus(T pObj)

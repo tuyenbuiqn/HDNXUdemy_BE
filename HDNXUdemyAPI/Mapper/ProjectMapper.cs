@@ -54,11 +54,19 @@ namespace HDNXUdemyAPI.Mapper
             CreateMap<PurcharseCourseDetailsEntities, PurcharseCourseDetailsModel>().ReverseMap();
             CreateMap<PagedResult<PurcharseCourseEntities>, PagedResult<PurcharseCourseModel>>().ReverseMap();
             CreateMap<Coupon, CouponModel>()
-                .ForMember(dest => dest.StripeCouponId, opt => opt.MapFrom(x => x.Id));
+                .ForMember(dest => dest.StripeCouponId, opt => opt.MapFrom(x => x.Id))
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+            CreateMap<Coupon, CouponEntities>()
+                .ForMember(dest => dest.StripeCouponId, opt => opt.MapFrom(x => x.Id))
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<CouponEntities, CouponModel>().ReverseMap();
             CreateMap<PromotionCode, PromotionCodeModel>()
                 .ForMember(dest => dest.StripePromotionCodeId, opt => opt.MapFrom(x => x.Id));
             CreateMap<PromotionCodeEntities, PromotionCodeModel>().ReverseMap();
+            CreateMap<PagedResult<CouponEntities>, PagedResult<CouponModel>>().ReverseMap();
+            CreateMap<CouponModel, Coupon>().ForMember(dest => dest.Id, opt => opt.Ignore());
+            CreateMap<CouponEntities, Coupon>().ForMember(dest => dest.Id, opt => opt.Ignore());
+            CreateMap<PagedResult<PromotionCodeEntities>, PagedResult<PromotionCodeModel>>().ReverseMap();
         }
     }
 }
